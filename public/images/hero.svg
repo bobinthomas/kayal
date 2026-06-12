@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Placeholder hero image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1E4D2B"/>
+      <stop offset="1" stop-color="#14331E"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a6b3d"/>
+      <stop offset="1" stop-color="#14331E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1280" cy="200" r="110" fill="#E9B44C" opacity="0.85"/>
+  <g opacity="0.5" fill="none" stroke="#E9B44C" stroke-width="3">
+    <path d="M0 640c100-20 200-20 300 0s200 20 300 0 200-20 300 0 200 20 300 0 200-20 300 0 200 20 300 0"/>
+    <path d="M0 700c100-16 200-16 300 0s200 16 300 0 200-16 300 0 200 16 300 0 200-16 300 0 200 16 300 0" opacity="0.6"/>
+    <path d="M0 760c100-12 200-12 300 0s200 12 300 0 200-12 300 0 200 12 300 0 200-12 300 0 200 12 300 0" opacity="0.35"/>
+  </g>
+  <rect y="620" width="1600" height="280" fill="url(#water)" opacity="0.45"/>
+  <g transform="translate(420 380)">
+    <path d="M0 160 Q 380 240 760 160 L 700 120 L 60 120 Z" fill="#B5532A"/>
+    <path d="M120 120 Q 380 -60 640 120 Z" fill="#FAF5EC" opacity="0.92"/>
+    <path d="M180 120 Q 380 -20 580 120 Z" fill="#14331E" opacity="0.25"/>
+  </g>
+  <text x="800" y="850" font-family="Georgia, serif" font-size="34" fill="#FAF5EC" text-anchor="middle" opacity="0.8">Photography coming soon - kettuvallam on the kayal</text>
+</svg>

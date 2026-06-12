@@ -1,0 +1,30 @@
+# Legacy WordPress URL redirects → preserve SEO equity (PRD §8.3)
+/kayalfoods / 301
+/menu-all /menu/ 301
+/starters /menu/#starters-veg 301
+/maincourse-vegetarian /menu/#mains-veg 301
+/main-course-from-the-ocean /menu/#ocean 301
+/main-course-meat-and-poultry /menu/#meat 301
+/rice-and-breads /menu/#rice-breads 301
+/beverages /menu/#sides-desserts 301
+/drinks-beverages /menu/#drinks 301
+/specials-old /specials/ 301
+/about-us /about/ 301
+/contact-us /contact/ 301
+/catering-menu /catering/ 301
+/book /contact/ 301
+
+# Dead WooCommerce machinery → home
+/shop/* / 301
+/shop / 301
+/cart/* / 301
+/cart / 301
+/my-account/* / 301
+/my-account / 301
+/wishlist/* / 301
+/wishlist / 301
+/order-tracking/* / 301
+/order-tracking / 301
+/quote-request/* / 301
+/quote-request / 301
+/thank-you / 301

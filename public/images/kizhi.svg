@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450" role="img" aria-label="Placeholder photo of kizhi porotta banana-leaf parcel">
+  <rect width="600" height="450" fill="#1E4D2B"/>
+  <g transform="translate(300 250)">
+    <path d="M-150 60 Q 0 130 150 60 Q 120 -90 0 -110 Q -120 -90 -150 60 Z" fill="#2f6b3f"/>
+    <path d="M-120 50 Q 0 110 120 50 Q 100 -70 0 -88 Q -100 -70 -120 50 Z" fill="#3d7d4c"/>
+    <path d="M-18 -110 Q 0 -160 18 -110 Q 8 -96 0 -96 Q -8 -96 -18 -110 Z" fill="#E9B44C"/>
+    <path d="M0 -110 L0 -150" stroke="#E9B44C" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="410" font-family="Georgia, serif" font-size="22" fill="#FAF5EC" text-anchor="middle" opacity="0.75">Dish photo to come</text>
+</svg>

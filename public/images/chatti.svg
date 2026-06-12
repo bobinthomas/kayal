@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450" role="img" aria-label="Placeholder photo of chatti choru in a clay pot">
+  <rect width="600" height="450" fill="#14331E"/>
+  <ellipse cx="300" cy="260" rx="210" ry="90" fill="#B5532A"/>
+  <ellipse cx="300" cy="230" rx="190" ry="70" fill="#8a3c1d"/>
+  <ellipse cx="300" cy="225" rx="170" ry="58" fill="#FAF5EC"/>
+  <circle cx="240" cy="215" r="26" fill="#E9B44C"/>
+  <circle cx="330" cy="235" r="22" fill="#D7263D" opacity="0.85"/>
+  <circle cx="370" cy="205" r="18" fill="#6FA84B"/>
+  <text x="300" y="410" font-family="Georgia, serif" font-size="22" fill="#FAF5EC" text-anchor="middle" opacity="0.75">Dish photo to come</text>
+</svg>
