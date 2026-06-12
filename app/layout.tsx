@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope, Noto_Sans_Malayalam } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BookingBanner from "@/components/BookingBanner";
-import MobileActionBar from "@/components/MobileActionBar";
-import MotionShell from "@/components/motion/MotionShell";
+import SiteChrome from "@/components/SiteChrome";
 import JsonLd from "@/components/JsonLd";
 import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
@@ -67,14 +63,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <JsonLd data={buildRestaurantSchema()} />
-        <MotionShell />
-        <Header />
-        <main id="main" className="flex-1 pb-20 md:pb-0">
-          {children}
-        </main>
-        <Footer />
-        <BookingBanner />
-        <MobileActionBar />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

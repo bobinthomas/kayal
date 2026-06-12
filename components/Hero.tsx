@@ -3,31 +3,21 @@
 import Link from "next/link";
 import { restaurant } from "@/data/restaurant";
 import { track } from "@/lib/analytics";
-import BackwaterAmbience from "@/components/BackwaterAmbience";
-import HeroCarousel from "@/components/HeroCarousel";
+import BoomerangVideoBg from "@/components/motion/BoomerangVideoBg";
 import Parallax from "@/components/motion/Parallax";
+import { HERO_VIDEO } from "@/data/landing";
 import SplitLines from "@/components/motion/SplitLines";
-import MistClouds from "@/components/motion/MistClouds";
 
 export default function Hero() {
   return (
     <section className="relative isolate min-h-[100svh] overflow-hidden bg-banana-dark text-cream">
       {/* Background — parallax depth layers */}
-      <Parallax speed={0.35} className="absolute inset-0 -top-[10%] h-[120%]">
-        <div className="hero-ken-burns absolute inset-0">
-          <HeroCarousel />
-        </div>
-      </Parallax>
-
-      <Parallax speed={0.15} className="absolute inset-0">
-        <BackwaterAmbience />
-        <MistClouds />
-      </Parallax>
-
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-banana-dark/30 via-banana-dark/50 to-banana-dark"
-      />
+      <div className="absolute inset-0">
+        <BoomerangVideoBg
+          src={HERO_VIDEO}
+          className="absolute inset-0 h-full w-full"
+        />
+      </div>
 
       <Parallax speed={-0.08} className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-4 pb-20 pt-32 sm:px-6 sm:pb-24">
         <div
