@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { legacySite } from "@/data/legacy-site";
 import { restaurant } from "@/data/restaurant";
 import HoursTable from "@/components/HoursTable";
 
@@ -8,8 +10,14 @@ export default function Footer() {
       <div className="gold-rule" />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
-          <p className="font-display text-2xl font-semibold">Kayal Foods</p>
-          <p className="mt-1 text-sm italic text-turmeric">{restaurant.tagline}</p>
+          <Image
+            src={legacySite.assets.logo}
+            alt="Kayal Foods"
+            width={160}
+            height={52}
+            className="h-12 w-auto"
+          />
+          <p className="mt-2 text-sm italic text-turmeric">{restaurant.tagline}</p>
           <address className="mt-4 text-sm not-italic leading-relaxed text-cream/85">
             {restaurant.address.full}
             <br />

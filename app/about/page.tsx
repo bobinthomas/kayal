@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import RippleDivider from "@/components/RippleDivider";
 import JsonLd from "@/components/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { legacyPhoto } from "@/data/legacy-site";
 import { kizhiPorottaStory, chattiChoruStory, aboutParagraph } from "@/data/copy";
 
 export const metadata: Metadata = {
@@ -26,11 +27,11 @@ export default function AboutPage() {
       />
       <div className="relative isolate overflow-hidden bg-banana-dark text-cream">
         <Image
-          src="/images/backwater.svg"
+          src={legacyPhoto(3).src}
           alt=""
           fill
           priority
-          className="object-cover opacity-40"
+          className="object-cover opacity-45"
           sizes="100vw"
         />
         <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6">
@@ -77,11 +78,11 @@ export default function AboutPage() {
           </Reveal>
           <Reveal>
             <Image
-              src="/images/kizhi.svg"
-              alt="Kizhi porotta — a banana-leaf parcel tied with a knot on top"
+              src={legacyPhoto(1).src}
+              alt={legacyPhoto(1).alt}
               width={600}
               height={450}
-              className="w-full rounded-3xl ring-1 ring-turmeric/30"
+              className="aspect-[4/3] w-full rounded-3xl object-cover ring-1 ring-turmeric/30"
             />
           </Reveal>
         </div>
@@ -101,11 +102,11 @@ export default function AboutPage() {
           </Reveal>
           <Reveal className="md:order-1">
             <Image
-              src="/images/chatti.svg"
-              alt="Chatti choru — rice and curries in a wide earthen pot"
+              src={legacyPhoto(0).src}
+              alt={legacyPhoto(0).alt}
               width={600}
               height={450}
-              className="w-full rounded-3xl ring-1 ring-clay/30"
+              className="aspect-[4/3] w-full rounded-3xl object-cover ring-1 ring-clay/30"
             />
           </Reveal>
         </div>

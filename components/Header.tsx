@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { legacySite } from "@/data/legacy-site";
 import { restaurant } from "@/data/restaurant";
 import { track } from "@/lib/analytics";
 import { useScrolled } from "@/lib/useScrolled";
@@ -27,14 +29,17 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
         <Link
           href="/"
-          className="group font-display text-[1.65rem] font-semibold tracking-tight text-cream transition-opacity hover:opacity-90"
+          className="group block shrink-0 transition-opacity hover:opacity-90"
           onClick={() => setOpen(false)}
-          style={{ fontVariationSettings: '"WONK" 1.1' }}
         >
-          Kayal
-          <span className="ml-2 align-middle text-[10px] font-sans font-semibold uppercase tracking-[0.28em] text-turmeric/90 transition-colors group-hover:text-turmeric">
-            Foods
-          </span>
+          <Image
+            src={legacySite.assets.logo}
+            alt="Kayal Foods"
+            width={140}
+            height={48}
+            priority
+            className="h-10 w-auto sm:h-11"
+          />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">

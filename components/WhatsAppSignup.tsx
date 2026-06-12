@@ -2,11 +2,14 @@
 
 import { restaurant } from "@/data/restaurant";
 import { track } from "@/lib/analytics";
+import SectionScene from "@/components/motion/SectionScene";
 
 export default function WhatsAppSignup() {
   return (
-    <section
+    <SectionScene
+      id="whatsapp-block"
       aria-labelledby="whatsapp-heading"
+      intensity="subtle"
       className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28"
     >
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-curryleaf/20 via-cream to-turmeric/10 p-8 ring-1 ring-turmeric/25 sm:p-12 md:flex md:items-center md:justify-between md:gap-10">
@@ -44,6 +47,6 @@ export default function WhatsAppSignup() {
           Join the offers group
         </a>
       </div>
-    </section>
+    </SectionScene>
   );
 }

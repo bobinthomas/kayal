@@ -1,4 +1,6 @@
 # Legacy WordPress URL redirects → preserve SEO equity (PRD §8.3)
+/2026 / 301
+/2026/* / 301
 /kayalfoods / 301
 /menu-all /menu/ 301
 /starters /menu/#starters-veg 301

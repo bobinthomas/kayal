@@ -1,36 +1,35 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { restaurant } from "@/data/restaurant";
 import { track } from "@/lib/analytics";
 import BackwaterAmbience from "@/components/BackwaterAmbience";
+import HeroCarousel from "@/components/HeroCarousel";
+import Parallax from "@/components/motion/Parallax";
+import SplitLines from "@/components/motion/SplitLines";
+import MistClouds from "@/components/motion/MistClouds";
 
 export default function Hero() {
   return (
     <section className="relative isolate min-h-[100svh] overflow-hidden bg-banana-dark text-cream">
-      {/* Background — slow Ken Burns drift */}
-      <div className="hero-ken-burns absolute inset-0">
-        <Image
-          src="/images/hero.svg"
-          alt=""
-          fill
-          priority
-          className="object-cover opacity-50"
-          sizes="100vw"
-        />
-      </div>
+      {/* Background — parallax depth layers */}
+      <Parallax speed={0.35} className="absolute inset-0 -top-[10%] h-[120%]">
+        <div className="hero-ken-burns absolute inset-0">
+          <HeroCarousel />
+        </div>
+      </Parallax>
 
-      {/* Layered lagoon ambience */}
-      <BackwaterAmbience />
+      <Parallax speed={0.15} className="absolute inset-0">
+        <BackwaterAmbience />
+        <MistClouds />
+      </Parallax>
 
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-b from-banana-dark/30 via-banana-dark/50 to-banana-dark"
       />
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-4 pb-20 pt-32 sm:px-6 sm:pb-24">
-        {/* Gold ornamental line */}
+      <Parallax speed={-0.08} className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-4 pb-20 pt-32 sm:px-6 sm:pb-24">
         <div
           className="hero-gold-line mb-8 h-px w-16 bg-gradient-to-r from-turmeric to-transparent sm:w-24"
           aria-hidden="true"
@@ -40,13 +39,17 @@ export default function Hero() {
           Authentic naadan cooking · Moorebank
         </p>
 
-        <h1
-          className="hero-enter hero-enter-2 mt-4 max-w-4xl font-display text-[clamp(2.75rem,8vw,5.5rem)] font-semibold leading-[1.02] tracking-tight"
-          style={{ fontVariationSettings: '"SOFT" 60, "WONK" 1.2, "opsz" 72' }}
-        >
-          Kerala&apos;s village table,{" "}
-          <span className="italic text-turmeric">in Sydney.</span>
-        </h1>
+        <SplitLines
+          as="h1"
+          className="hero-enter-2 mt-4 max-w-4xl font-display text-[clamp(2.75rem,8vw,5.5rem)] font-semibold leading-[1.02] tracking-tight"
+          lines={[
+            { text: "Kerala's village table," },
+            {
+              text: "in Sydney.",
+              className: "italic text-turmeric",
+            },
+          ]}
+        />
 
         <p className="hero-enter hero-enter-3 mt-6 max-w-lg text-lg leading-relaxed text-cream/80 sm:text-xl">
           Chatti choru in earthen pots. Porotta parcels in charred banana leaf.
@@ -83,9 +86,8 @@ export default function Hero() {
             {restaurant.phone.display}
           </a>
         </p>
-      </div>
+      </Parallax>
 
-      {/* Scroll hint */}
       <div
         className="scroll-hint absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
         aria-hidden="true"

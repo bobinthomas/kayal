@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 /* ---------- Kayal design tokens (PRD §5.1) ---------- */
 :root {
@@ -32,6 +33,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 7.5rem;
+}
+html.lenis {
+  scroll-behavior: auto !important;
+}
+html.lenis body {
+  height: auto;
+}
+body.curtain-active {
+  overflow: hidden;
 }
 
 body {
@@ -468,6 +478,138 @@ h3,
   transform: translate(6px, -6px);
 }
 
+/* ---------- Split line reveal (Mr. Pops-style editorial type) ---------- */
+.split-line-inner {
+  opacity: 0;
+  transform: translateY(110%);
+  transition:
+    transform 0.9s var(--ease-out-expo),
+    opacity 0.7s var(--ease-out-expo);
+}
+.split-line-inner.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Load curtain ---------- */
+@keyframes curtain-exit {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.load-curtain {
+  animation: curtain-enter 0.5s var(--ease-out-expo) both;
+}
+.load-curtain-exit {
+  animation: curtain-exit 0.7s var(--ease-out-expo) forwards;
+}
+@keyframes curtain-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.load-curtain-counter {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Mist blobs — idle drift + scroll parallax ---------- */
+@keyframes mist-idle {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(24px) translateY(-12px);
+  }
+}
+.mist-blob {
+  animation: mist-idle 14s ease-in-out infinite;
+}
+.mist-blob:nth-child(2) {
+  animation-duration: 18s;
+  animation-delay: -4s;
+}
+.mist-blob:nth-child(3) {
+  animation-duration: 22s;
+  animation-delay: -8s;
+}
+
+/* ---------- Section scenes (Mr. Pops scroll-linked sections) ---------- */
+.section-scene {
+  --section-enter: 1;
+  --section-progress: 0;
+  --section-visibility: 1;
+}
+.section-scene-inner {
+  will-change: transform, opacity;
+  transform-origin: center top;
+}
+.section-stagger-card {
+  opacity: calc(0.25 + var(--section-enter) * 0.75);
+  transform: translate3d(0, calc((1 - var(--section-enter)) * 56px), 0);
+}
+.section-stagger-card:nth-child(2) {
+  transform: translate3d(0, calc((1 - var(--section-enter)) * 44px), 0);
+}
+.section-stagger-card:nth-child(3) {
+  transform: translate3d(0, calc((1 - var(--section-enter)) * 32px), 0);
+}
+.section-stagger-card:nth-child(4) {
+  transform: translate3d(0, calc((1 - var(--section-enter)) * 24px), 0);
+}
+
+/* CSS scroll-driven fallback where supported */
+@supports (animation-timeline: view()) {
+  .section-scene-css {
+    animation: section-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 35%;
+  }
+  @keyframes section-rise {
+    from {
+      opacity: 0;
+      transform: translateY(12vh) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* ---------- Horizontal scroll gallery ---------- */
+.scroll-gallery-track {
+  will-change: transform;
+}
+.scroll-gallery-card {
+  transition:
+    transform 0.5s var(--ease-out-expo),
+    box-shadow 0.5s var(--ease-out-expo);
+}
+.scroll-gallery-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 28px 56px -20px rgba(20, 51, 30, 0.35);
+}
+
+/* ---------- Booking banner (legacy site sticky bar) ---------- */
+.booking-banner {
+  animation: banner-rise 0.55s var(--ease-out-expo) both;
+}
+@keyframes banner-rise {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---------- Review quote luxury ---------- */
 .review-card {
   position: relative;
@@ -497,10 +639,40 @@ h3,
   .scroll-hint,
   .ripple-layer,
   .mote,
-  .marquee-row {
+  .marquee-row,
+  .mist-blob,
+  .load-curtain {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+  .load-curtain { display: none !important; }
+  .split-line-inner {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .scroll-gallery-track {
+    transform: none !important;
+    flex-wrap: wrap;
+    width: auto;
+  }
+  .scroll-gallery-pin {
+    height: auto !important;
+  }
+  .scroll-gallery-pin .sticky {
+    position: relative !important;
+    height: auto !important;
+  }
+  .section-scene-inner,
+  .section-stagger-card,
+  [data-scene-layer],
+  [data-parallax-layer] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .booking-banner {
+    animation: none;
   }
   .hero-enter { opacity: 1; }
   .hero-gold-line { transform: scaleX(1); }
