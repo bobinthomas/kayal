@@ -68,23 +68,20 @@ export function buildMenuSchema() {
     hasMenuSection: menuSections.map((section) => ({
       "@type": "MenuSection",
       name: section.title,
-      ...(section.note ? { description: section.note } : {}),
+      description: section.blurb,
       hasMenuItem: section.items.map((item) => ({
         "@type": "MenuItem",
-        name: item.qtyNote ? `${item.name} ${item.qtyNote}` : item.name,
-        ...(item.description ? { description: item.description } : {}),
-        offers: item.variants?.length
-          ? item.variants.map((v) => ({
-              "@type": "Offer",
-              name: v.label,
-              price: v.price.toFixed(2),
-              priceCurrency: "AUD",
-            }))
-          : {
-              "@type": "Offer",
-              price: item.price.toFixed(2),
-              priceCurrency: "AUD",
-            },
+        name: item.name,
+        ...(item.desc ? { description: item.desc } : {}),
+        ...(item.price != null
+          ? {
+              offers: {
+                "@type": "Offer",
+                price: item.price.toFixed(2),
+                priceCurrency: "AUD",
+              },
+            }
+          : {}),
       })),
     })),
   };

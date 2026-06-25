@@ -1,93 +1,147 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { Leaf } from "lucide-react";
+import { useEffect, useSyncExternalStore } from "react";
 import { restaurant } from "@/data/restaurant";
+import { legacyPhoto } from "@/data/legacy-site";
+import { HERO_VIDEO } from "@/data/landing";
 import { track } from "@/lib/analytics";
 import BoomerangVideoBg from "@/components/motion/BoomerangVideoBg";
-import Parallax from "@/components/motion/Parallax";
-import { HERO_VIDEO } from "@/data/landing";
-import SplitLines from "@/components/motion/SplitLines";
+
+const headlineLines = ["Kerala's village", "table, crafted", "for Sydney."];
+
+const trustItems = ["Woodfire Kitchen", "Fresh Spices", "Moorebank"];
+
+function subscribeReducedMotion(cb: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+}
+function getReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+function getServerReducedMotion() {
+  return false;
+}
 
 export default function Hero() {
+  const reduced = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    getServerReducedMotion,
+  );
+
+  useEffect(() => {
+    const el = document.querySelector(".home-cafe-hero");
+    if (!el) return;
+    if (reduced) {
+      el.classList.add("is-ready");
+      return;
+    }
+    const id = requestAnimationFrame(() => el.classList.add("is-ready"));
+    return () => cancelAnimationFrame(id);
+  }, [reduced]);
+
+  const floatA = legacyPhoto(4);
+  const floatB = legacyPhoto(5);
+
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden bg-banana-dark text-cream">
-      {/* Background — parallax depth layers */}
-      <div className="absolute inset-0">
-        <BoomerangVideoBg
-          src={HERO_VIDEO}
-          className="absolute inset-0 h-full w-full"
-        />
+    <section className="home-cafe-hero" aria-label="Welcome">
+      <div className="home-cafe-hero-botanical" aria-hidden="true">
+        <svg className="home-cafe-hero-botanical-a" viewBox="0 0 200 320" fill="none">
+          <path
+            d="M100 20c-40 60-70 120-70 180 0 35 20 60 50 70"
+            stroke="currentColor"
+            strokeWidth="1.2"
+          />
+        </svg>
       </div>
+      <div className="home-cafe-hero-grain" aria-hidden="true" />
 
-      <Parallax speed={-0.08} className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-4 pb-20 pt-32 sm:px-6 sm:pb-24">
-        <div
-          className="hero-gold-line mb-8 h-px w-16 bg-gradient-to-r from-turmeric to-transparent sm:w-24"
-          aria-hidden="true"
-        />
+      <div className="home-cafe-hero-grid">
+        <div className="home-cafe-hero-copy">
+          <p className="home-cafe-hero-eyebrow">
+            Authentic naadan cooking · Moorebank
+          </p>
 
-        <p className="hero-enter hero-enter-1 text-[11px] font-semibold uppercase tracking-[0.4em] text-turmeric/90">
-          Authentic naadan cooking · Moorebank
-        </p>
+          <h1 className="home-cafe-hero-title">
+            {headlineLines.map((line, i) => (
+              <span key={line} className="home-cafe-hero-line-mask">
+                <span
+                  className="home-cafe-hero-line"
+                  style={{ animationDelay: `${320 + i * 110}ms` }}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
+          </h1>
 
-        <SplitLines
-          as="h1"
-          className="hero-enter-2 mt-4 max-w-4xl font-display text-[clamp(2.75rem,8vw,5.5rem)] font-semibold leading-[1.02] tracking-tight"
-          lines={[
-            { text: "Kerala's village table," },
-            {
-              text: "in Sydney.",
-              className: "italic text-turmeric",
-            },
-          ]}
-        />
+          <p className="home-cafe-hero-lede">
+            Chatti choru in earthen pots. Porotta parcels in charred banana leaf.
+            Toddy, game meats and the recipes the village never wrote down.
+          </p>
 
-        <p className="hero-enter hero-enter-3 mt-6 max-w-lg text-lg leading-relaxed text-cream/80 sm:text-xl">
-          Chatti choru in earthen pots. Porotta parcels in charred banana leaf.
-          Toddy, game meats and the recipes the village never wrote down.
-        </p>
+          <div className="home-cafe-hero-actions">
+            <a
+              href={`tel:${restaurant.phone.tel}`}
+              onClick={() => track("call_tap", { placement: "hero" })}
+              className="home-cafe-btn home-cafe-btn--primary u-focus"
+            >
+              Book a Table
+            </a>
+            <Link
+              href="/menu/"
+              onClick={() => track("menu_view", { placement: "hero" })}
+              className="home-cafe-btn home-cafe-btn--outline u-focus"
+            >
+              See the Menu
+            </Link>
+          </div>
 
-        <div className="hero-enter hero-enter-4 mt-10 flex flex-wrap items-center gap-4">
-          <a
-            href={`tel:${restaurant.phone.tel}`}
-            onClick={() => track("call_tap", { placement: "hero" })}
-            className="btn-luxury inline-flex min-h-12 items-center rounded-full bg-clay px-9 text-sm font-semibold tracking-wide text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turmeric"
-          >
-            Book a Table
-          </a>
-          <Link
-            href="/menu"
-            onClick={() => track("menu_view", { placement: "hero" })}
-            className="btn-ghost-luxury inline-flex min-h-12 items-center rounded-full border border-cream/40 px-9 text-sm font-semibold tracking-wide text-cream"
-          >
-            See the Menu
-          </Link>
+          <ul className="home-cafe-hero-trust" aria-label="Highlights">
+            {trustItems.map((item, i) => (
+              <li key={item} className="home-cafe-hero-trust-item">
+                <Leaf className="home-cafe-hero-trust-icon" aria-hidden="true" strokeWidth={1.5} />
+                <span>{item}</span>
+                {i < trustItems.length - 1 && (
+                  <span className="home-cafe-hero-trust-dot" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <p className="hero-enter hero-enter-5 mt-6 text-sm text-cream/60">
-          Bookings{" "}
-          <span className="mx-1 text-turmeric/50" aria-hidden="true">
-            ·
-          </span>{" "}
-          <a
-            href={`tel:${restaurant.phone.tel}`}
-            onClick={() => track("call_tap", { placement: "hero_phone" })}
-            className="font-semibold text-turmeric underline-offset-4 transition-colors hover:text-cream hover:underline"
-          >
-            {restaurant.phone.display}
-          </a>
-        </p>
-      </Parallax>
-
-      <div
-        className="scroll-hint absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
-        aria-hidden="true"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em] text-cream/40">
-          Scroll
-        </span>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-turmeric/60">
-          <path d="M10 4v10M5 11l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <div className="home-cafe-hero-visual" aria-hidden="true">
+          <div className="home-cafe-hero-visual-main">
+            <BoomerangVideoBg
+              src={HERO_VIDEO}
+              className="home-cafe-hero-video absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+          <div className="home-cafe-hero-float home-cafe-hero-float--1">
+            <Image
+              src={floatA.src}
+              alt=""
+              width={280}
+              height={320}
+              className="home-cafe-hero-img"
+            />
+          </div>
+          <div className="home-cafe-hero-float home-cafe-hero-float--2">
+            <Image
+              src={floatB.src}
+              alt=""
+              width={260}
+              height={300}
+              className="home-cafe-hero-img"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

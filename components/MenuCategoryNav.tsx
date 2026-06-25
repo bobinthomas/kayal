@@ -1,23 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
+import { Plus } from "lucide-react";
 import { menuSections } from "@/data/menu";
+import { menuNavLabels } from "@/data/menu-meta";
+import { scrollToSection } from "@/lib/scrollToSection";
 
-const shortLabels: Record<string, string> = {
-  "starters-veg": "Starters – Veg",
-  "starters-nonveg": "Starters – Non-Veg",
-  "mains-veg": "Mains – Vegetarian",
-  ocean: "From the Ocean",
-  meat: "Meat & Poultry",
-  "rice-breads": "Rice & Breads",
-  "sides-desserts": "Sides & Desserts",
-  drinks: "Drinks",
-  specials: "Specials",
-};
-
-/** Sticky in-page category nav with scroll-spy; horizontal scroll on mobile. */
 export default function MenuCategoryNav() {
-  const [active, setActive] = useState<string>(menuSections[0].id);
+  const [active, setActive] = useState(menuSections[0].id);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,7 +18,7 @@ export default function MenuCategoryNav() {
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible[0]) setActive(visible[0].target.id);
       },
-      { rootMargin: "-30% 0px -60% 0px" },
+      { rootMargin: "-32% 0px -58% 0px" },
     );
     for (const section of menuSections) {
       const el = document.getElementById(section.id);
@@ -36,28 +27,68 @@ export default function MenuCategoryNav() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash || !menuSections.some((s) => s.id === hash)) return;
+    const id = requestAnimationFrame(() => scrollToSection(hash));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const goTo = (id: string, event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setMobileOpen(false);
+    setActive(id);
+    scrollToSection(id);
+    window.history.replaceState(null, "", `#${id}`);
+  };
+
   return (
-    <nav
-      aria-label="Menu sections"
-      className="no-print sticky top-[60px] z-40 -mx-4 border-b border-leaf/10 bg-cream/95 px-4 backdrop-blur sm:-mx-6 sm:px-6"
-    >
-      <ul className="flex gap-1 overflow-x-auto py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {menuSections.map((section) => (
-          <li key={section.id} className="shrink-0">
-            <a
-              href={`#${section.id}`}
-              aria-current={active === section.id ? "true" : undefined}
-              className={`inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-colors ${
-                active === section.id
-                  ? "bg-leaf text-cream"
-                  : "text-leaf hover:bg-leaf/10"
-              }`}
-            >
-              {shortLabels[section.id] ?? section.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div className="menu-category-shell no-print">
+      <div className="menu-category-inner">
+        <div className="menu-category-mobile-bar lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileOpen((o) => !o)}
+            className="menu-category-toggle u-focus"
+            aria-expanded={mobileOpen}
+            aria-controls="menu-category-list"
+          >
+            Categories
+            <Plus
+              className={`menu-category-plus ${mobileOpen ? "is-open" : ""}`}
+              aria-hidden="true"
+            />
+          </button>
+          <span className="menu-category-active-label">
+            {menuNavLabels[active] ?? "Menu"}
+          </span>
+        </div>
+
+        <nav
+          id="menu-category-list"
+          aria-label="Menu categories"
+          className={`menu-category-nav ${mobileOpen ? "is-open" : ""}`}
+        >
+          <ul className="menu-category-list">
+            {menuSections.map((section) => {
+              const label = menuNavLabels[section.id] ?? section.title;
+              const isActive = active === section.id;
+              return (
+                <li key={section.id}>
+                  <a
+                    href={`#${section.id}`}
+                    onClick={(event) => goTo(section.id, event)}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`menu-category-link u-focus ${isActive ? "is-active" : ""}`}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+    </div>
   );
 }

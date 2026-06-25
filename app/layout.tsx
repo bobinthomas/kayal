@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope, Noto_Sans_Malayalam } from "next/font/google";
+import { Cormorant_Garamond, Fraunces, Inter, Manrope, Noto_Sans_Malayalam } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import JsonLd from "@/components/JsonLd";
@@ -7,6 +7,19 @@ import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
 
 // Self-hosted via next/font — zero external font requests, zero layout shift.
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
@@ -56,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${inter.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-cream text-ink">
         <a href="#main" className="skip-link">

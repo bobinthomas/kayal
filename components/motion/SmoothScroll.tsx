@@ -24,10 +24,12 @@ export default function SmoothScroll() {
     frame = requestAnimationFrame(raf);
 
     // Expose for scroll-linked components (horizontal gallery, parallax).
+    window.__kayalLenis = lenis;
     window.dispatchEvent(new CustomEvent("kayal:lenis-ready", { detail: { lenis } }));
 
     return () => {
       cancelAnimationFrame(frame);
+      delete window.__kayalLenis;
       lenis.destroy();
     };
   }, []);

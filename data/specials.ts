@@ -1,26 +1,29 @@
 import { menuSections, type MenuItem } from "./menu";
 
-/** All availability-based specials (the "Our Specials" menu section). */
-export const specials: MenuItem[] =
-  menuSections.find((s) => s.id === "specials")?.items ?? [];
+const allItems = menuSections.flatMap((section) => section.items);
 
-/** Game & wild-meat specials — get bold treatment on /specials. */
-export const gameSpecials: MenuItem[] = specials.filter((i) =>
-  i.tags?.includes("game"),
+/** Availability-based specials across the menu. */
+export const specials: MenuItem[] = allItems.filter((item) =>
+  item.tags?.includes("availability"),
+);
+
+/** Spicy availability items — bold treatment on /specials. */
+export const gameSpecials: MenuItem[] = specials.filter((item) =>
+  item.tags?.includes("spicy"),
 );
 
 export const nonGameSpecials: MenuItem[] = specials.filter(
-  (i) => !i.tags?.includes("game"),
+  (item) => !item.tags?.includes("spicy"),
 );
 
 /** Top picks for the home-page specials strip. */
 export const featuredSpecialIds = [
-  "chattichoru",
   "kizhi-porotta",
   "meen-pollichathu",
-  "muyal-piralan",
+  "fish-tikka",
+  "thalassery-biryani",
 ] as const;
 
 export const featuredSpecials: MenuItem[] = featuredSpecialIds
-  .map((id) => specials.find((s) => s.id === id))
+  .map((id) => allItems.find((item) => item.id === id))
   .filter((s): s is MenuItem => Boolean(s));

@@ -20,31 +20,24 @@ export default function SpecialCard({
             style={{ fontVariationSettings: '"WONK" 0.6' }}
           >
             {item.name}
-            {item.qtyNote && (
-              <span
-                className={`ml-1.5 block font-sans text-xs font-normal sm:inline ${
-                  bold ? "text-cream/50" : "text-ink/50"
-                }`}
-              >
-                {item.qtyNote}
-              </span>
-            )}
           </h3>
-          <p
-            className={`price-underline shrink-0 font-display text-xl font-bold tabular-nums ${
-              bold ? "text-turmeric" : "text-clay"
-            }`}
-          >
-            {formatPrice(item.price)}
-          </p>
+          {item.price != null && (
+            <p
+              className={`price-underline shrink-0 font-display text-xl font-bold tabular-nums ${
+                bold ? "text-turmeric" : "text-clay"
+              }`}
+            >
+              {formatPrice(item.price)}
+            </p>
+          )}
         </div>
-        {item.description && (
+        {item.desc && (
           <p
             className={`mt-3 text-sm leading-relaxed ${
               bold ? "text-cream/75" : "text-ink/65"
             }`}
           >
-            {item.description}
+            {item.desc}
           </p>
         )}
         <p className="mt-auto flex flex-wrap gap-1.5 pt-5">
@@ -53,20 +46,22 @@ export default function SpecialCard({
               Signature
             </span>
           )}
-          {item.tags?.includes("game") && (
+          {item.tags?.includes("spicy") && (
             <span className="rounded-full bg-chilli px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cream">
-              Game meat
+              Spicy
             </span>
           )}
-          <span
-            className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-              bold
-                ? "border border-turmeric/40 text-turmeric/90"
-                : "border border-clay/30 text-clay"
-            }`}
-          >
-            As per availability
-          </span>
+          {item.tags?.includes("availability") && (
+            <span
+              className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                bold
+                  ? "border border-turmeric/40 text-turmeric/90"
+                  : "border border-clay/30 text-clay"
+              }`}
+            >
+              As per availability
+            </span>
+          )}
         </p>
       </div>
     </article>

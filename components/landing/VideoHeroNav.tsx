@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Menu, UserPlus, X } from "lucide-react";
 import { legacySite } from "@/data/legacy-site";
 import { restaurant } from "@/data/restaurant";
@@ -29,6 +30,15 @@ export default function VideoHeroNav({
 }: Props) {
   const pathname = usePathname();
   const isHome = pathname === "/" || pathname === "";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) return;
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
   const linkClass = (href: string) => {
     const active =
@@ -36,6 +46,9 @@ export default function VideoHeroNav({
       (pathname === href ||
         pathname === href.replace(/\/$/, "") ||
         (href !== "/" && pathname?.startsWith(href)));
+    if (isHome) {
+      return `site-nav-link ${active ? "is-active" : ""}`;
+    }
     return `px-3 py-2 text-sm transition-colors ${
       active
         ? "font-semibold text-leaf"
@@ -43,15 +56,152 @@ export default function VideoHeroNav({
     }`;
   };
 
+  if (isHome) {
+    return (
+      <>
+        <header
+          className={`site-nav site-nav--home ${scrolled ? "site-nav--solid" : ""}`}
+        >
+          <nav aria-label="Main" className="site-nav-inner">
+            <Link
+              href="/"
+              className="site-nav-logo"
+              onClick={onMenuClose}
+            >
+              <Image
+                src={legacySite.assets.logo}
+                alt="Kayal Foods"
+                width={130}
+                height={44}
+                priority
+                className="h-9 w-auto sm:h-10"
+              />
+            </Link>
+
+            <div className="site-nav-desktop">
+              {links.map((link) =>
+                isHash(link.href) ? (
+                  <a key={link.href} href={link.href} className={linkClass(link.href)}>
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.href} href={link.href} className={linkClass(link.href)}>
+                    {link.label}
+                  </Link>
+                ),
+              )}
+              <a
+                href={`tel:${restaurant.phone.tel}`}
+                onClick={() => track("call_tap", { placement: "site_nav" })}
+                className="home-cafe-btn home-cafe-btn--primary site-nav-cta"
+              >
+                Book a Table
+              </a>
+            </div>
+
+            <button
+              type="button"
+              onClick={onMenuToggle}
+              className="site-nav-menu-btn lg:hidden"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="site-mobile-nav"
+            >
+              <Menu
+                className={`absolute h-5 w-5 transition-all duration-300 ${
+                  menuOpen
+                    ? "scale-50 rotate-90 opacity-0"
+                    : "scale-100 rotate-0 opacity-100"
+                }`}
+              />
+              <X
+                className={`absolute h-5 w-5 transition-all duration-300 ${
+                  menuOpen
+                    ? "scale-100 rotate-0 opacity-100"
+                    : "scale-50 -rotate-90 opacity-0"
+                }`}
+              />
+            </button>
+          </nav>
+        </header>
+
+        <div
+          className={`fixed inset-0 z-40 transition-opacity duration-300 lg:hidden ${
+            menuOpen
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0"
+          }`}
+          onClick={onMenuClose}
+          role="presentation"
+        >
+          <div className="absolute inset-0 bg-banana-dark/40 backdrop-blur-sm" />
+        </div>
+
+        <nav
+          id="site-mobile-nav"
+          aria-label="Mobile"
+          className={`fixed bottom-0 right-0 top-0 z-40 w-[85%] max-w-sm bg-cream/95 shadow-2xl backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden ${
+            menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex h-full flex-col px-8 pb-8 pt-24">
+            <div className="flex flex-col gap-1">
+              {links.map((link, i) => {
+                const className = `border-b border-leaf/10 py-4 text-2xl font-semibold text-leaf transition-all duration-500 ${
+                  menuOpen
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-8 opacity-0"
+                }`;
+                const style = {
+                  transitionDelay: menuOpen ? `${150 + i * 70}ms` : "0ms",
+                };
+                return isHash(link.href) ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={onMenuClose}
+                    className={className}
+                    style={style}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={onMenuClose}
+                    className={className}
+                    style={style}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div
+              className={`mt-8 flex flex-col gap-4 transition-all duration-500 ${
+                menuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
+              }`}
+              style={{ transitionDelay: menuOpen ? "400ms" : "0ms" }}
+            >
+              <a
+                href={`tel:${restaurant.phone.tel}`}
+                onClick={() => track("call_tap", { placement: "mobile_drawer" })}
+                className="home-cafe-btn home-cafe-btn--primary"
+              >
+                Book a Table
+              </a>
+            </div>
+          </div>
+        </nav>
+      </>
+    );
+  }
+
   return (
     <>
-      <header
-        className={
-          isHome
-            ? "absolute left-0 right-0 top-0 z-50"
-            : "sticky top-0 z-50"
-        }
-      >
+      <header className="sticky top-0 z-50">
         <nav
           aria-label="Main"
           className="flex items-center justify-between px-4 py-4 sm:px-6 sm:py-6 md:px-10"
