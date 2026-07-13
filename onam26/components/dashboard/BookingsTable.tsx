@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { formatCents, formatEventDate } from "@/data/onam-event";
+import { formatCents, formatEventDate, formatTimeSlot } from "@/data/onam-event";
 import { updateBookingStatus, type Booking } from "@/lib/api";
 
 type StatusFilter = "all" | "pending" | "confirmed" | "declined";
@@ -76,7 +76,10 @@ export default function BookingsTable({
           <tbody>
             {filtered.map((b) => (
               <tr key={b.id} className="border-b border-leaf/10 last:border-0">
-                <td className="px-4 py-3">{formatEventDate(b.event_date)}</td>
+                <td className="px-4 py-3">
+                  {formatEventDate(b.event_date)}
+                  {b.time_slot && <span className="text-ink/60"> · {formatTimeSlot(b.time_slot)}</span>}
+                </td>
                 <td className="px-4 py-3">{b.service_type === "dine_in" ? "Dine-in" : "Takeaway"}</td>
                 <td className="px-4 py-3">
                   {b.service_type === "dine_in" ? `${b.guests} guests` : `${b.package_size} people`}

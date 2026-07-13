@@ -18,7 +18,9 @@ import {
   computePriceCents,
   formatCents,
   formatEventDate,
+  formatTimeSlot,
   isValidDateForService,
+  isValidDineInTimeSlot,
   onamEvent,
   packageSizes,
   type PackageSize,
@@ -54,6 +56,7 @@ type BookingPayload = {
   website?: string;
   serviceType?: ServiceType;
   eventDate?: string;
+  timeSlot?: string;
   guests?: number;
   packageSize?: PackageSize;
   paymentMethod?: PaymentMethod;
@@ -127,11 +130,16 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   let guests: number | null = null;
   let packageSize: PackageSize | null = null;
+  let timeSlot: string | null = null;
 
   if (serviceType === "dine_in") {
     guests = Number(payload.guests);
     if (!Number.isInteger(guests) || guests < 1) {
       return json({ ok: false, error: "Enter a valid number of guests." }, 400);
+    }
+    timeSlot = String(payload.timeSlot || "").trim();
+    if (!isValidDineInTimeSlot(timeSlot)) {
+      return json({ ok: false, error: "Invalid time slot." }, 400);
     }
   } else {
     const size = Number(payload.packageSize) as PackageSize;
@@ -176,9 +184,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   await env.DB.prepare(
     `INSERT INTO bookings
-      (id, created_at, updated_at, service_type, event_date, guests, package_size,
+      (id, created_at, updated_at, service_type, event_date, time_slot, guests, package_size,
        payment_method, price_total, customer_name, customer_phone, customer_email, notes, status)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
   )
     .bind(
       id,
@@ -186,6 +194,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       now,
       serviceType,
       eventDate,
+      timeSlot,
       guests,
       packageSize,
       paymentMethod,
@@ -199,7 +208,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   const summaryLines = [
     `Service: ${serviceType === "dine_in" ? "Dine-in" : "Takeaway"}`,
-    `Date: ${formatEventDate(eventDate)} (${onamEvent.timeWindow.open}–${onamEvent.timeWindow.close})`,
+    serviceType === "dine_in"
+      ? `Date: ${formatEventDate(eventDate)} at ${formatTimeSlot(timeSlot!)}`
+      : `Date: ${formatEventDate(eventDate)} (${onamEvent.timeWindow.open}–${onamEvent.timeWindow.close})`,
     serviceType === "dine_in" ? `Guests: ${guests}` : `Package: ${packageSize} people`,
     `Payment method: ${paymentMethod === "whatsapp_cash" ? "WhatsApp Members Cash" : "Card / Non-WhatsApp"}`,
     `Total: ${formatCents(priceTotal)}`,
@@ -207,6 +218,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     `Phone: ${phone}`,
     email && `Email: ${email}`,
     notes && `Notes: ${notes}`,
+    serviceType === "dine_in" && onamEvent.dineInFootnote,
   ].filter(Boolean) as string[];
 
   // Best-effort emails — booking is already saved regardless of delivery outcome.

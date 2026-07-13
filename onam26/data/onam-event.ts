@@ -19,22 +19,36 @@ export const onamEvent = {
   timeWindow: { open: "12:00", close: "15:00" },
 
   // 'YYYY-MM-DD'
-  dineInDates: ["2026-08-16", "2026-08-22", "2026-08-23", "2026-08-29", "2026-08-30"],
+  dineInDates: [
+    "2026-08-16",
+    "2026-08-22",
+    "2026-08-23",
+    "2026-08-26",
+    "2026-08-29",
+    "2026-08-30",
+  ],
   takeawayDates: [
     "2026-08-15",
     "2026-08-16",
     "2026-08-22",
     "2026-08-23",
+    "2026-08-26",
     "2026-08-29",
     "2026-08-30",
   ],
+
+  // 'HH:MM', 24-hour — dine-in only. Takeaway keeps the flyer's 12pm–3pm window.
+  dineInTimeSlots: ["11:00", "12:00", "13:00"],
+
+  dineInFootnote:
+    "Please note that for dine-in reservations, we can hold your table for up to 15 minutes past your scheduled time. After that, we may not be able to accommodate your booking. Your dine-in slot will be limited to one hour.",
 
   // All prices in cents.
   dineInPricePerHeadCents: 4000, // flat $40/head, regardless of payment method
 
   takeawayPackages: {
     2: { whatsapp_cash: 6000, card: 7500 },
-    4: { whatsapp_cash: 10000, card: 15000 },
+    4: { whatsapp_cash: 11000, card: 15000 },
     10: { whatsapp_cash: 25000, card: 30000 },
     20: { whatsapp_cash: 50000, card: 60000 },
   } as Record<PackageSize, Record<PaymentMethod, number>>,
@@ -51,6 +65,18 @@ export function datesForService(serviceType: ServiceType): string[] {
 
 export function isValidDateForService(serviceType: ServiceType, eventDate: string): boolean {
   return datesForService(serviceType).includes(eventDate);
+}
+
+export function isValidDineInTimeSlot(timeSlot: string): boolean {
+  return (onamEvent.dineInTimeSlots as readonly string[]).includes(timeSlot);
+}
+
+export function formatTimeSlot(timeSlot: string): string {
+  const [hourStr, minuteStr] = timeSlot.split(":");
+  const hour = Number(hourStr);
+  const period = hour >= 12 ? "pm" : "am";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  return minuteStr === "00" ? `${hour12}${period}` : `${hour12}:${minuteStr}${period}`;
 }
 
 export function formatEventDate(eventDate: string): string {

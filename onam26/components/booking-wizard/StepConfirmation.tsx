@@ -1,6 +1,12 @@
-import { onamEvent } from "@/data/onam-event";
+import { onamEvent, type ServiceType } from "@/data/onam-event";
 
-export default function StepConfirmation({ onReset }: { onReset: () => void }) {
+export default function StepConfirmation({
+  serviceType,
+  onReset,
+}: {
+  serviceType: ServiceType | null;
+  onReset: () => void;
+}) {
   const waMessage = encodeURIComponent(
     "Hi Kayal! I've just submitted an Onam Sadhya 2026 booking request.",
   );
@@ -12,6 +18,11 @@ export default function StepConfirmation({ onReset }: { onReset: () => void }) {
         Your Onam Sadhya 2026 booking request is pending review. We&apos;ll confirm by phone or
         WhatsApp shortly — no payment has been taken.
       </p>
+
+      {serviceType === "dine_in" && (
+        <p className="mt-4 text-sm text-ink/60">{onamEvent.dineInFootnote}</p>
+      )}
+
       <div className="mt-6 flex flex-wrap justify-center gap-3">
         <a
           href={`tel:${onamEvent.contact.phone.tel}`}

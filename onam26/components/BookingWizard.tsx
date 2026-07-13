@@ -4,17 +4,18 @@ import { useState } from "react";
 import { submitBooking } from "@/lib/api";
 import StepServiceType from "./booking-wizard/StepServiceType";
 import StepDate from "./booking-wizard/StepDate";
+import StepDineInTimeSlot from "./booking-wizard/StepDineInTimeSlot";
 import StepDineInGuests from "./booking-wizard/StepDineInGuests";
 import StepTakeawayPackage from "./booking-wizard/StepTakeawayPackage";
 import StepContactDetails from "./booking-wizard/StepContactDetails";
 import StepReview from "./booking-wizard/StepReview";
 import StepConfirmation from "./booking-wizard/StepConfirmation";
-import { initialWizardState, type Step, type WizardState } from "./booking-wizard/types";
+import { initialWizardState, stepsForService, type Step, type WizardState } from "./booking-wizard/types";
 
-const STEP_ORDER: Step[] = ["service", "date", "details", "contact", "review", "done"];
 const STEP_LABEL: Record<Step, string> = {
   service: "Service",
   date: "Date",
+  timeslot: "Time",
   details: "Package",
   contact: "Your details",
   review: "Review",
@@ -36,6 +37,7 @@ export default function BookingWizard() {
       website: state.website,
       serviceType: state.serviceType!,
       eventDate: state.eventDate!,
+      timeSlot: state.serviceType === "dine_in" ? state.timeSlot! : undefined,
       guests: state.serviceType === "dine_in" ? state.guests : undefined,
       packageSize: state.serviceType === "takeaway" ? state.packageSize! : undefined,
       paymentMethod: state.paymentMethod!,
@@ -58,7 +60,8 @@ export default function BookingWizard() {
     setStep("service");
   }
 
-  const stepIndex = STEP_ORDER.indexOf(step);
+  const order = stepsForService(state.serviceType);
+  const stepIndex = order.indexOf(step);
   const showProgress = step !== "done";
 
   return (
@@ -66,18 +69,18 @@ export default function BookingWizard() {
       {showProgress && (
         <div className="mb-8">
           <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">
-            Step {stepIndex + 1} of {STEP_ORDER.length - 1} — {STEP_LABEL[step]}
+            Step {stepIndex + 1} of {order.length - 1} — {STEP_LABEL[step]}
           </p>
           <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-leaf/10">
             <div
               className="h-full rounded-full bg-leaf transition-all"
-              style={{ width: `${((stepIndex + 1) / (STEP_ORDER.length - 1)) * 100}%` }}
+              style={{ width: `${((stepIndex + 1) / (order.length - 1)) * 100}%` }}
             />
           </div>
           {step !== "service" && (
             <button
               type="button"
-              onClick={() => setStep(STEP_ORDER[Math.max(0, stepIndex - 1)])}
+              onClick={() => setStep(order[Math.max(0, stepIndex - 1)])}
               className="mt-4 text-sm font-semibold text-leaf hover:underline"
             >
               ← Back
@@ -100,6 +103,16 @@ export default function BookingWizard() {
           serviceType={state.serviceType}
           onSelect={(eventDate) => {
             patch({ eventDate });
+            setStep(state.serviceType === "dine_in" ? "timeslot" : "details");
+          }}
+        />
+      )}
+
+      {step === "timeslot" && state.serviceType === "dine_in" && (
+        <StepDineInTimeSlot
+          timeSlot={state.timeSlot}
+          onSelect={(timeSlot) => {
+            patch({ timeSlot });
             setStep("details");
           }}
         />
@@ -138,7 +151,7 @@ export default function BookingWizard() {
         />
       )}
 
-      {step === "done" && <StepConfirmation onReset={reset} />}
+      {step === "done" && <StepConfirmation serviceType={state.serviceType} onReset={reset} />}
     </div>
   );
 }

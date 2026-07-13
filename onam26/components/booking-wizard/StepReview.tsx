@@ -2,8 +2,11 @@ import {
   computePriceCents,
   formatCents,
   formatEventDate,
+  formatTimeSlot,
 } from "@/data/onam-event";
 import type { WizardState } from "./types";
+
+type EditableStep = "service" | "date" | "timeslot" | "details" | "contact";
 
 export default function StepReview({
   state,
@@ -13,7 +16,7 @@ export default function StepReview({
 }: {
   state: WizardState;
   status: "idle" | "submitting" | "error";
-  onEdit: (step: "service" | "date" | "details" | "contact") => void;
+  onEdit: (step: EditableStep) => void;
   onSubmit: () => void;
 }) {
   const price = computePriceCents({
@@ -23,7 +26,7 @@ export default function StepReview({
     paymentMethod: state.paymentMethod!,
   });
 
-  const row = (label: string, value: string, step: "service" | "date" | "details" | "contact") => (
+  const row = (label: string, value: string, step: EditableStep) => (
     <div className="flex items-center justify-between border-b border-leaf/10 py-3">
       <div>
         <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">{label}</p>
@@ -42,6 +45,7 @@ export default function StepReview({
       <div className="mt-6 rounded-2xl border border-leaf/15 bg-white p-6">
         {row("Service", state.serviceType === "dine_in" ? "Dine-in" : "Takeaway", "service")}
         {row("Date", formatEventDate(state.eventDate!), "date")}
+        {state.serviceType === "dine_in" && row("Time", formatTimeSlot(state.timeSlot!), "timeslot")}
         {row(
           state.serviceType === "dine_in" ? "Guests" : "Package",
           state.serviceType === "dine_in" ? `${state.guests} people` : `${state.packageSize} people`,

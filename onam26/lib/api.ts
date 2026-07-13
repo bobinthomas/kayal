@@ -6,6 +6,7 @@ export type BookingSubmission = {
   website?: string; // honeypot
   serviceType: ServiceType;
   eventDate: string;
+  timeSlot?: string; // dine_in only
   guests?: number;
   packageSize?: PackageSize;
   paymentMethod: PaymentMethod;
@@ -23,6 +24,7 @@ export type Booking = {
   updated_at: string;
   service_type: ServiceType;
   event_date: string;
+  time_slot: string | null;
   guests: number | null;
   package_size: PackageSize | null;
   payment_method: PaymentMethod;
