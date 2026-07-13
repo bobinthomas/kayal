@@ -5,4 +5,4 @@ compatibility_date = "2026-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "kayal-onam26-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "8b59420b-5a89-4b14-994b-90127b65caf5"
