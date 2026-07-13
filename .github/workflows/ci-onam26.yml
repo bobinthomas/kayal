@@ -1,0 +1,36 @@
+name: CI (onam26)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "onam26/**"
+      - ".github/workflows/ci-onam26.yml"
+  pull_request:
+    paths:
+      - "onam26/**"
+      - ".github/workflows/ci-onam26.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: onam26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: onam26/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Upload static export
+        uses: actions/upload-artifact@v4
+        with:
+          name: onam26-site
+          path: onam26/out
+          retention-days: 7

@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@source not "../out/**";
+@source not "../.next/**";
+
+:root {
+  --leaf: #1e4d2b;
+  --clay: #b5532a;
+  --chilli: #d7263d;
+  --turmeric: #e9b44c;
+  --curryleaf: #6fa84b;
+  --cream: #faf5ec;
+  --ink: #1b1b18;
+  --banana-dark: #14331e;
+}
+
+@theme inline {
+  --color-leaf: var(--leaf);
+  --color-clay: var(--clay);
+  --color-chilli: var(--chilli);
+  --color-turmeric: var(--turmeric);
+  --color-curryleaf: var(--curryleaf);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-banana-dark: var(--banana-dark);
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.step-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+.step-card:hover {
+  transform: translateY(-2px);
+}

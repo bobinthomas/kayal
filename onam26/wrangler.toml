@@ -1,0 +1,8 @@
+name = "kayal-onam26"
+pages_build_output_dir = "out"
+compatibility_date = "2026-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kayal-onam26-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
