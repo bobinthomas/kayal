@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { fetchBookings, fetchEvents, type AnalyticsEvent, type Booking } from "@/lib/api";
 import PasswordGate from "@/components/dashboard/PasswordGate";
 import SummaryCounts from "@/components/dashboard/SummaryCounts";
@@ -39,7 +40,12 @@ export default function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="font-semibold text-2xl text-leaf">Onam Sadhya 2026 — Bookings</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-semibold text-2xl text-leaf">Onam Sadhya 2026 — Bookings</h1>
+        <Link href="/kitchen/" className="text-sm font-semibold text-leaf hover:underline">
+          Kitchen view →
+        </Link>
+      </div>
 
       {bookings === null && <p className="mt-6 text-ink/60">Loading…</p>}
 

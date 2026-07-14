@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { DASHBOARD_PASSWORD_KEY, fetchBookings } from "@/lib/api";
+
+function hasStoredPassword(): boolean {
+  if (typeof window === "undefined") return false;
+  return Boolean(sessionStorage.getItem(DASHBOARD_PASSWORD_KEY));
+}
 
 export default function PasswordGate({
   onUnlocked,
@@ -9,8 +14,21 @@ export default function PasswordGate({
   onUnlocked: () => void;
 }) {
   const [password, setPassword] = useState("");
-  const [checking, setChecking] = useState(false);
+  const [checking, setChecking] = useState(hasStoredPassword);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!checking) return;
+    fetchBookings().then((result) => {
+      if (result.ok) {
+        onUnlocked();
+      } else {
+        sessionStorage.removeItem(DASHBOARD_PASSWORD_KEY);
+        setChecking(false);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -25,6 +43,14 @@ export default function PasswordGate({
       sessionStorage.removeItem(DASHBOARD_PASSWORD_KEY);
       setError("Incorrect password.");
     }
+  }
+
+  if (checking) {
+    return (
+      <div className="mx-auto max-w-sm px-4 py-24">
+        <p className="text-ink/60">Checking…</p>
+      </div>
+    );
   }
 
   return (

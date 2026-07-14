@@ -71,6 +71,26 @@ export function isValidDateForService(serviceType: ServiceType, eventDate: strin
   return datesForService(serviceType).includes(eventDate);
 }
 
+export function allEventDates(): string[] {
+  return [...new Set([...onamEvent.dineInDates, ...onamEvent.takeawayDates])].sort();
+}
+
+// Local 'YYYY-MM-DD' for a given Date (or now), to compare against event dates.
+export function todayAsEventDate(now: Date = new Date()): string {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+// The next event date on or after today, falling back to the last date if
+// every event date is already in the past.
+export function nextEventDate(now: Date = new Date()): string {
+  const today = todayAsEventDate(now);
+  const dates = allEventDates();
+  return dates.find((d) => d >= today) ?? dates[dates.length - 1];
+}
+
 export function dineInSessionsForDate(
   eventDate: string,
 ): { session: DineInSession; slots: string[] }[] {
