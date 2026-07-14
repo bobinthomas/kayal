@@ -4,11 +4,13 @@
  * kayal.com.au site's functions/api/contact.ts.
  * Storage: inserts a 'pending' row into D1 (binding `DB`); the owner
  * reviews and confirms/declines from the /dashboard page.
- * Delivery: MailChannels (free on Workers) — one email to the owner, one
- * "request received" confirmation to the customer if they gave an email.
+ * Delivery: Resend (mail.kayal.com.au, verified domain) — one email to the
+ * owner, one "request received" confirmation to the customer if they gave
+ * an email.
  *
  * Environment variables (set in the Cloudflare Pages dashboard):
  *   DASHBOARD_PASSWORD   — required by list-bookings.ts / update-booking-status.ts, unused here
+ *   RESEND_API_KEY        — required; Resend API key for mail.kayal.com.au
  *   ONAM_TO_EMAIL         — optional override; defaults to hello@kayal.com.au
  *   TURNSTILE_SECRET_KEY  — optional; enables Turnstile verification
  * D1 binding:
@@ -27,29 +29,22 @@ import {
   type PaymentMethod,
   type ServiceType,
 } from "../../data/onam-event";
+import { sendMail } from "./_mail";
 
 interface Env {
   DB: D1Database;
+  RESEND_API_KEY: string;
   ONAM_TO_EMAIL?: string;
   TURNSTILE_SECRET_KEY?: string;
 }
 
 const TO_EMAIL_DEFAULT = "hello@kayal.com.au";
-const FROM_EMAIL = "no-reply@kayal.com.au";
 
 function json(data: object, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
     headers: { "Content-Type": "application/json" },
   });
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 type BookingPayload = {
@@ -66,33 +61,6 @@ type BookingPayload = {
   notes?: string;
   "cf-turnstile-response"?: string;
 };
-
-async function sendMail(
-  to: string,
-  toName: string,
-  subject: string,
-  lines: string[],
-  replyTo?: { email: string; name: string },
-): Promise<boolean> {
-  const mail = await fetch("https://api.mailchannels.net/tx/v1/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      personalizations: [{ to: [{ email: to, name: toName }] }],
-      from: { email: FROM_EMAIL, name: "Onam Sadhya 2026 — Kayal Foods" },
-      reply_to: replyTo,
-      subject,
-      content: [
-        { type: "text/plain", value: lines.join("\n") },
-        {
-          type: "text/html",
-          value: `<pre style="font-family:sans-serif">${escapeHtml(lines.join("\n"))}</pre>`,
-        },
-      ],
-    }),
-  });
-  return mail.ok || mail.status === 202;
-}
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   let payload: BookingPayload;
@@ -223,6 +191,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   // Best-effort emails — booking is already saved regardless of delivery outcome.
   await sendMail(
+    env.RESEND_API_KEY,
     env.ONAM_TO_EMAIL || TO_EMAIL_DEFAULT,
     "Kayal Foods",
     `New Onam booking request — pending review (${formatEventDate(eventDate)})`,
@@ -232,6 +201,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   if (email) {
     await sendMail(
+      env.RESEND_API_KEY,
       email,
       name,
       "We've received your Onam Sadhya booking request",

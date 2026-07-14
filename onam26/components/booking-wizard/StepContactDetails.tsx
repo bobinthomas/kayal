@@ -91,6 +91,9 @@ export default function StepContactDetails({
               className={inputClass}
             />
             {errors.email && <p className={errorClass}>{errors.email}</p>}
+            <p className="mt-1 text-xs text-ink/50">
+              Add your email and we&apos;ll send you a confirmation.
+            </p>
           </div>
         </div>
 
