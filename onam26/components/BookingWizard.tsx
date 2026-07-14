@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { submitBooking } from "@/lib/api";
+import { track } from "@/lib/analytics";
 import StepServiceType from "./booking-wizard/StepServiceType";
 import StepDate from "./booking-wizard/StepDate";
 import StepDineInTimeSlot from "./booking-wizard/StepDineInTimeSlot";
@@ -31,6 +32,10 @@ export default function BookingWizard() {
     setState((prev) => ({ ...prev, ...update }));
   }
 
+  useEffect(() => {
+    track("step_view", { step });
+  }, [step]);
+
   async function handleSubmit() {
     setSubmitStatus("submitting");
     const result = await submitBooking({
@@ -47,9 +52,11 @@ export default function BookingWizard() {
       notes: state.notes || undefined,
     });
     if (result.ok) {
+      track("booking_submitted", { step: "review", detail: state.serviceType! });
       setSubmitStatus("idle");
       setStep("done");
     } else {
+      track("booking_submit_failed", { step: "review", detail: result.error });
       setSubmitStatus("error");
     }
   }
@@ -92,6 +99,7 @@ export default function BookingWizard() {
       {step === "service" && (
         <StepServiceType
           onSelect={(serviceType) => {
+            track("service_selected", { step: "service", detail: serviceType });
             patch({ serviceType, eventDate: null });
             setStep("date");
           }}
@@ -102,6 +110,7 @@ export default function BookingWizard() {
         <StepDate
           serviceType={state.serviceType}
           onSelect={(eventDate) => {
+            track("date_selected", { step: "date", detail: eventDate });
             patch({ eventDate });
             setStep(state.serviceType === "dine_in" ? "timeslot" : "details");
           }}
@@ -113,6 +122,7 @@ export default function BookingWizard() {
           eventDate={state.eventDate!}
           timeSlot={state.timeSlot}
           onSelect={(timeSlot) => {
+            track("time_slot_selected", { step: "timeslot", detail: timeSlot });
             patch({ timeSlot });
             setStep("details");
           }}
@@ -125,7 +135,13 @@ export default function BookingWizard() {
           paymentMethod={state.paymentMethod}
           onChange={(guests) => patch({ guests })}
           onPaymentMethodChange={(paymentMethod) => patch({ paymentMethod })}
-          onNext={() => setStep("contact")}
+          onNext={() => {
+            track("details_selected", {
+              step: "details",
+              detail: `${state.guests} guests / ${state.paymentMethod}`,
+            });
+            setStep("contact");
+          }}
         />
       )}
 
@@ -135,12 +151,25 @@ export default function BookingWizard() {
           paymentMethod={state.paymentMethod}
           onPackageChange={(packageSize) => patch({ packageSize })}
           onPaymentMethodChange={(paymentMethod) => patch({ paymentMethod })}
-          onNext={() => setStep("contact")}
+          onNext={() => {
+            track("details_selected", {
+              step: "details",
+              detail: `${state.packageSize} people / ${state.paymentMethod}`,
+            });
+            setStep("contact");
+          }}
         />
       )}
 
       {step === "contact" && (
-        <StepContactDetails state={state} onChange={patch} onNext={() => setStep("review")} />
+        <StepContactDetails
+          state={state}
+          onChange={patch}
+          onNext={() => {
+            track("contact_details_submitted", { step: "contact" });
+            setStep("review");
+          }}
+        />
       )}
 
       {step === "review" && (

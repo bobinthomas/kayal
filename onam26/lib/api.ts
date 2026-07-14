@@ -77,3 +77,23 @@ export async function updateBookingStatus(
   });
   return res.ok;
 }
+
+// Shape of a row returned by /api/list-events — mirrors the D1
+// `analytics_events` table columns.
+export type AnalyticsEvent = {
+  id: string;
+  created_at: string;
+  session_id: string;
+  event_name: string;
+  step: string | null;
+  detail: string | null;
+};
+
+export async function fetchEvents(): Promise<
+  { ok: true; events: AnalyticsEvent[] } | { ok: false; status: number }
+> {
+  const res = await fetch("/api/list-events", { headers: dashboardHeaders() });
+  if (!res.ok) return { ok: false, status: res.status };
+  const data = (await res.json()) as { ok: boolean; events: AnalyticsEvent[] };
+  return { ok: true, events: data.events };
+}

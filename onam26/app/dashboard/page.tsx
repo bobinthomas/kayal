@@ -1,19 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchBookings, type Booking } from "@/lib/api";
+import { fetchBookings, fetchEvents, type AnalyticsEvent, type Booking } from "@/lib/api";
 import PasswordGate from "@/components/dashboard/PasswordGate";
 import SummaryCounts from "@/components/dashboard/SummaryCounts";
 import BookingsTable from "@/components/dashboard/BookingsTable";
+import AnalyticsSummary from "@/components/dashboard/AnalyticsSummary";
 
 export default function DashboardPage() {
   const [unlocked, setUnlocked] = useState(false);
   const [bookings, setBookings] = useState<Booking[] | null>(null);
+  const [events, setEvents] = useState<AnalyticsEvent[] | null>(null);
 
   useEffect(() => {
     if (!unlocked) return;
     fetchBookings().then((result) => {
       if (result.ok) setBookings(result.bookings);
+    });
+    fetchEvents().then((result) => {
+      if (result.ok) setEvents(result.events);
     });
   }, [unlocked]);
 
@@ -38,6 +43,17 @@ export default function DashboardPage() {
               )
             }
           />
+
+          <div>
+            <h2 className="font-semibold text-xl text-leaf">Clicks &amp; drop-offs</h2>
+            {events === null ? (
+              <p className="mt-2 text-ink/60">Loading…</p>
+            ) : (
+              <div className="mt-4">
+                <AnalyticsSummary events={events} />
+              </div>
+            )}
+          </div>
         </div>
       )}
     </main>
