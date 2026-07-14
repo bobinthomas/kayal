@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { fetchBookings, fetchEvents, type AnalyticsEvent, type Booking } from "@/lib/api";
 import PasswordGate from "@/components/dashboard/PasswordGate";
 import SummaryCounts from "@/components/dashboard/SummaryCounts";
@@ -11,19 +11,30 @@ export default function DashboardPage() {
   const [unlocked, setUnlocked] = useState(false);
   const [bookings, setBookings] = useState<Booking[] | null>(null);
   const [events, setEvents] = useState<AnalyticsEvent[] | null>(null);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [eventsLoading, setEventsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!unlocked) return;
+  function handleUnlocked() {
+    setUnlocked(true);
     fetchBookings().then((result) => {
       if (result.ok) setBookings(result.bookings);
     });
-    fetchEvents().then((result) => {
-      if (result.ok) setEvents(result.events);
-    });
-  }, [unlocked]);
+  }
+
+  function toggleAnalytics() {
+    const next = !showAnalytics;
+    setShowAnalytics(next);
+    if (next && events === null) {
+      setEventsLoading(true);
+      fetchEvents().then((result) => {
+        if (result.ok) setEvents(result.events);
+        setEventsLoading(false);
+      });
+    }
+  }
 
   if (!unlocked) {
-    return <PasswordGate onUnlocked={() => setUnlocked(true)} />;
+    return <PasswordGate onUnlocked={handleUnlocked} />;
   }
 
   return (
@@ -44,13 +55,22 @@ export default function DashboardPage() {
             }
           />
 
-          <div>
-            <h2 className="font-semibold text-xl text-leaf">Clicks &amp; drop-offs</h2>
-            {events === null ? (
-              <p className="mt-2 text-ink/60">Loading…</p>
-            ) : (
+          <div className="border-t border-leaf/10 pt-6">
+            <button
+              type="button"
+              onClick={toggleAnalytics}
+              className="flex items-center gap-2 text-sm font-semibold text-leaf hover:underline"
+            >
+              <span className={`inline-block transition-transform ${showAnalytics ? "rotate-90" : ""}`}>
+                ▸
+              </span>
+              {showAnalytics ? "Hide" : "Show"} clicks &amp; drop-offs
+            </button>
+
+            {showAnalytics && (
               <div className="mt-4">
-                <AnalyticsSummary events={events} />
+                {eventsLoading && <p className="text-ink/60">Loading…</p>}
+                {events !== null && <AnalyticsSummary events={events} />}
               </div>
             )}
           </div>
