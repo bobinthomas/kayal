@@ -138,7 +138,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       return json({ ok: false, error: "Enter a valid number of guests." }, 400);
     }
     timeSlot = String(payload.timeSlot || "").trim();
-    if (!isValidDineInTimeSlot(timeSlot)) {
+    if (!isValidDineInTimeSlot(eventDate, timeSlot)) {
       return json({ ok: false, error: "Invalid time slot." }, 400);
     }
   } else {

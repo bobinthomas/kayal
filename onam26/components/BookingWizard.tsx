@@ -110,6 +110,7 @@ export default function BookingWizard() {
 
       {step === "timeslot" && state.serviceType === "dine_in" && (
         <StepDineInTimeSlot
+          eventDate={state.eventDate!}
           timeSlot={state.timeSlot}
           onSelect={(timeSlot) => {
             patch({ timeSlot });

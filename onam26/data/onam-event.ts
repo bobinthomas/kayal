@@ -11,6 +11,7 @@
 export type ServiceType = "dine_in" | "takeaway";
 export type PaymentMethod = "whatsapp_cash" | "card";
 export type PackageSize = 2 | 4 | 10 | 20;
+export type DineInSession = "lunch" | "dinner";
 
 export const packageSizes: PackageSize[] = [2, 4, 10, 20];
 
@@ -38,7 +39,10 @@ export const onamEvent = {
   ],
 
   // 'HH:MM', 24-hour — dine-in only. Takeaway keeps the flyer's 12pm–3pm window.
-  dineInTimeSlots: ["12:00", "13:00", "14:00"],
+  // Lunch runs on every dine-in date; dinner is only offered on dineInDinnerDates.
+  dineInLunchTimeSlots: ["12:00", "13:00", "14:00"],
+  dineInDinnerTimeSlots: ["18:00", "19:00", "20:00"],
+  dineInDinnerDates: ["2026-08-26", "2026-08-29", "2026-08-30"],
 
   dineInFootnote:
     "Please note that for dine-in reservations, we can hold your table for up to 15 minutes past your scheduled time. After that, we may not be able to accommodate your booking. Your dine-in slot will be limited to one hour.",
@@ -67,8 +71,20 @@ export function isValidDateForService(serviceType: ServiceType, eventDate: strin
   return datesForService(serviceType).includes(eventDate);
 }
 
-export function isValidDineInTimeSlot(timeSlot: string): boolean {
-  return (onamEvent.dineInTimeSlots as readonly string[]).includes(timeSlot);
+export function dineInSessionsForDate(
+  eventDate: string,
+): { session: DineInSession; slots: string[] }[] {
+  const groups: { session: DineInSession; slots: string[] }[] = [
+    { session: "lunch", slots: [...onamEvent.dineInLunchTimeSlots] },
+  ];
+  if ((onamEvent.dineInDinnerDates as readonly string[]).includes(eventDate)) {
+    groups.push({ session: "dinner", slots: [...onamEvent.dineInDinnerTimeSlots] });
+  }
+  return groups;
+}
+
+export function isValidDineInTimeSlot(eventDate: string, timeSlot: string): boolean {
+  return dineInSessionsForDate(eventDate).some((group) => group.slots.includes(timeSlot));
 }
 
 export function formatTimeSlot(timeSlot: string): string {
