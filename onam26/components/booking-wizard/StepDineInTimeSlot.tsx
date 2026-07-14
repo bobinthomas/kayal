@@ -25,7 +25,7 @@ export default function StepDineInTimeSlot({
         ))}
       </div>
 
-      <p className="mt-6 text-sm text-ink/60">{onamEvent.dineInFootnote}</p>
+      <p className="mt-6 text-sm font-bold text-chilli">{onamEvent.dineInFootnote}</p>
     </div>
   );
 }

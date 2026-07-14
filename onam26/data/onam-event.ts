@@ -38,7 +38,7 @@ export const onamEvent = {
   ],
 
   // 'HH:MM', 24-hour — dine-in only. Takeaway keeps the flyer's 12pm–3pm window.
-  dineInTimeSlots: ["11:00", "12:00", "13:00"],
+  dineInTimeSlots: ["12:00", "13:00", "14:00"],
 
   dineInFootnote:
     "Please note that for dine-in reservations, we can hold your table for up to 15 minutes past your scheduled time. After that, we may not be able to accommodate your booking. Your dine-in slot will be limited to one hour.",

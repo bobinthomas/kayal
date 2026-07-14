@@ -20,7 +20,7 @@ export default function StepConfirmation({
       </p>
 
       {serviceType === "dine_in" && (
-        <p className="mt-4 text-sm text-ink/60">{onamEvent.dineInFootnote}</p>
+        <p className="mt-4 text-sm font-bold text-chilli">{onamEvent.dineInFootnote}</p>
       )}
 
       <div className="mt-6 flex flex-wrap justify-center gap-3">
