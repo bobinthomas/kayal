@@ -49,7 +49,7 @@ export default function StepTakeawayPackage({
             paymentMethod === "whatsapp_cash" ? "border-leaf bg-leaf/10" : "border-leaf/20 bg-white"
           }`}
         >
-          <span className="font-semibold text-leaf">WhatsApp Members Cash</span>
+          <span className="font-semibold text-leaf">WhatsApp Members Special Price</span>
           {packageSize && (
             <p className="mt-1 text-sm text-ink/70">
               {formatCents(onamEvent.takeawayPackages[packageSize].whatsapp_cash)}

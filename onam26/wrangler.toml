@@ -6,3 +6,7 @@ compatibility_date = "2026-01-01"
 binding = "DB"
 database_name = "kayal-onam26-db"
 database_id = "8b59420b-5a89-4b14-994b-90127b65caf5"
+
+[[r2_buckets]]
+binding = "RECEIPTS"
+bucket_name = "kayal-onam26-receipts"

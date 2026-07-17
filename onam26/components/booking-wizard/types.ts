@@ -7,12 +7,13 @@ export type Step =
   | "details"
   | "contact"
   | "review"
+  | "payment"
   | "done";
 
 // Dine-in adds a time-slot step; takeaway keeps the flyer's 12pm-3pm window.
 export function stepsForService(serviceType: ServiceType | null): Step[] {
   const middle: Step[] = serviceType === "dine_in" ? ["timeslot", "details"] : ["details"];
-  return ["service", "date", ...middle, "contact", "review", "done"];
+  return ["service", "date", ...middle, "contact", "review", "payment", "done"];
 }
 
 export type WizardState = {
@@ -27,6 +28,8 @@ export type WizardState = {
   email: string;
   notes: string;
   website: string; // honeypot
+  receiptKey: string | null;
+  paymentReference: string;
 };
 
 export const initialWizardState: WizardState = {
@@ -41,4 +44,6 @@ export const initialWizardState: WizardState = {
   email: "",
   notes: "",
   website: "",
+  receiptKey: null,
+  paymentReference: "",
 };

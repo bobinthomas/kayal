@@ -14,6 +14,8 @@ export type BookingSubmission = {
   phone: string;
   email?: string;
   notes?: string;
+  receiptKey?: string;
+  paymentReference?: string;
 };
 
 // Shape of a row returned by /api/list-bookings — mirrors the D1 `bookings`
@@ -33,6 +35,8 @@ export type Booking = {
   customer_phone: string;
   customer_email: string | null;
   notes: string | null;
+  receipt_key: string | null;
+  payment_reference: string | null;
   status: "pending" | "confirmed" | "declined";
 };
 
@@ -49,6 +53,19 @@ export async function submitBooking(
     return { ok: false, error: data.error || `HTTP ${res.status}` };
   }
   return { ok: true, id: data.id! };
+}
+
+export async function uploadReceipt(
+  file: File,
+): Promise<{ ok: true; key: string } | { ok: false; error: string }> {
+  const form = new FormData();
+  form.append("file", file);
+  const res = await fetch("/api/upload-receipt", { method: "POST", body: form });
+  const data = (await res.json()) as { ok: boolean; key?: string; error?: string };
+  if (!res.ok || !data.ok) {
+    return { ok: false, error: data.error || `HTTP ${res.status}` };
+  }
+  return { ok: true, key: data.key! };
 }
 
 function dashboardHeaders(): HeadersInit {
@@ -96,4 +113,18 @@ export async function fetchEvents(): Promise<
   if (!res.ok) return { ok: false, status: res.status };
   const data = (await res.json()) as { ok: boolean; events: AnalyticsEvent[] };
   return { ok: true, events: data.events };
+}
+
+// Opens a booking's uploaded receipt in a new tab. Fetches it with the
+// dashboard auth header (R2 files aren't public) and hands the browser a
+// blob URL, since a plain <a href> can't carry a custom auth header.
+export async function openReceipt(bookingId: string): Promise<boolean> {
+  const res = await fetch(`/api/receipt?id=${encodeURIComponent(bookingId)}`, {
+    headers: dashboardHeaders(),
+  });
+  if (!res.ok) return false;
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+  return true;
 }

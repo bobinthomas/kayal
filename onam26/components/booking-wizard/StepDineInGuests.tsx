@@ -55,7 +55,7 @@ export default function StepDineInGuests({
             paymentMethod === "whatsapp_cash" ? "border-leaf bg-leaf/10" : "border-leaf/20 bg-white"
           }`}
         >
-          <span className="font-semibold text-leaf">WhatsApp Members Cash</span>
+          <span className="font-semibold text-leaf">WhatsApp Members Special Price</span>
         </button>
         <button
           type="button"

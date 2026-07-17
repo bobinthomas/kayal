@@ -19,7 +19,7 @@ function BookingRow({ booking }: { booking: Booking }) {
         <span className="text-ink/40"> · {booking.customer_phone}</span>
         <span className="text-ink/40">
           {" "}
-          · {booking.payment_method === "whatsapp_cash" ? "WhatsApp cash" : "Card"}
+          · {booking.payment_method === "whatsapp_cash" ? "WhatsApp Special" : "Card"}
         </span>
       </span>
       {booking.notes && <span className="w-full text-sm italic text-chilli">Note: {booking.notes}</span>}

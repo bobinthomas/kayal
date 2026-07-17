@@ -59,6 +59,8 @@ type BookingPayload = {
   phone?: string;
   email?: string;
   notes?: string;
+  receiptKey?: string;
+  paymentReference?: string;
   "cf-turnstile-response"?: string;
 };
 
@@ -82,6 +84,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const phone = String(payload.phone || "").trim();
   const email = String(payload.email || "").trim();
   const notes = String(payload.notes || "").trim();
+  const receiptKey = String(payload.receiptKey || "").trim();
+  const paymentReference = String(payload.paymentReference || "").trim();
 
   if (serviceType !== "dine_in" && serviceType !== "takeaway") {
     return json({ ok: false, error: "Invalid service type." }, 400);
@@ -94,6 +98,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
   if (!name || !phone) {
     return json({ ok: false, error: "Name and phone are required." }, 400);
+  }
+  if (!receiptKey && !paymentReference) {
+    return json(
+      { ok: false, error: "Please upload a payment receipt or enter a reference number." },
+      400,
+    );
   }
 
   let guests: number | null = null;
@@ -153,8 +163,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   await env.DB.prepare(
     `INSERT INTO bookings
       (id, created_at, updated_at, service_type, event_date, time_slot, guests, package_size,
-       payment_method, price_total, customer_name, customer_phone, customer_email, notes, status)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+       payment_method, price_total, customer_name, customer_phone, customer_email, notes,
+       receipt_key, payment_reference, status)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
   )
     .bind(
       id,
@@ -171,6 +182,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       phone,
       email || null,
       notes || null,
+      receiptKey || null,
+      paymentReference || null,
     )
     .run();
 
@@ -180,12 +193,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ? `Date: ${formatEventDate(eventDate)} at ${formatTimeSlot(timeSlot!)}`
       : `Date: ${formatEventDate(eventDate)} (${onamEvent.timeWindow.open}–${onamEvent.timeWindow.close})`,
     serviceType === "dine_in" ? `Guests: ${guests}` : `Package: ${packageSize} people`,
-    `Payment method: ${paymentMethod === "whatsapp_cash" ? "WhatsApp Members Cash" : "Card / Non-WhatsApp"}`,
+    `Payment method: ${paymentMethod === "whatsapp_cash" ? "WhatsApp Members Special Price" : "Card / Non-WhatsApp"}`,
     `Total: ${formatCents(priceTotal)}`,
     `Name: ${name}`,
     `Phone: ${phone}`,
     email && `Email: ${email}`,
     notes && `Notes: ${notes}`,
+    receiptKey && "Payment receipt: uploaded (view in dashboard)",
+    paymentReference && `Payment reference: ${paymentReference}`,
     serviceType === "dine_in" && onamEvent.dineInFootnote,
   ].filter(Boolean) as string[];
 
@@ -208,8 +223,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       [
         `Hi ${name},`,
         "",
-        "Thanks for your Onam Sadhya 2026 booking request. It's currently pending review —",
-        "we'll confirm by phone or WhatsApp shortly. No payment has been taken yet.",
+        "Thanks for your Onam Sadhya 2026 booking request. We're now verifying your payment —",
+        "we'll confirm by phone, WhatsApp or email shortly.",
         "",
         ...summaryLines,
         "",

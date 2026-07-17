@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { formatCents, formatEventDate, formatTimeSlot } from "@/data/onam-event";
-import { updateBookingStatus, type Booking } from "@/lib/api";
+import { openReceipt, updateBookingStatus, type Booking } from "@/lib/api";
 
 type StatusFilter = "all" | "pending" | "confirmed" | "declined";
 type ServiceFilter = "all" | "dine_in" | "takeaway";
@@ -68,6 +68,7 @@ export default function BookingsTable({
               <th className="px-4 py-3">Details</th>
               <th className="px-4 py-3">Payment</th>
               <th className="px-4 py-3">Total</th>
+              <th className="px-4 py-3">Proof</th>
               <th className="px-4 py-3">Customer</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3" />
@@ -85,9 +86,24 @@ export default function BookingsTable({
                   {b.service_type === "dine_in" ? `${b.guests} guests` : `${b.package_size} people`}
                 </td>
                 <td className="px-4 py-3">
-                  {b.payment_method === "whatsapp_cash" ? "WhatsApp cash" : "Card"}
+                  {b.payment_method === "whatsapp_cash" ? "WhatsApp Special" : "Card"}
                 </td>
                 <td className="px-4 py-3 font-semibold text-clay">{formatCents(b.price_total)}</td>
+                <td className="px-4 py-3">
+                  {b.receipt_key && (
+                    <button
+                      type="button"
+                      onClick={() => openReceipt(b.id)}
+                      className="text-sm font-semibold text-leaf hover:underline"
+                    >
+                      View receipt
+                    </button>
+                  )}
+                  {!b.receipt_key && b.payment_reference && (
+                    <span className="text-sm text-ink/70">Ref: {b.payment_reference}</span>
+                  )}
+                  {!b.receipt_key && !b.payment_reference && <span className="text-ink/40">—</span>}
+                </td>
                 <td className="px-4 py-3">
                   <div>{b.customer_name}</div>
                   <div className="text-ink/60">{b.customer_phone}</div>
@@ -121,7 +137,7 @@ export default function BookingsTable({
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-ink/50">
+                <td colSpan={9} className="px-4 py-8 text-center text-ink/50">
                   No bookings match these filters.
                 </td>
               </tr>

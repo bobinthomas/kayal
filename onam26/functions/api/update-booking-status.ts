@@ -49,7 +49,7 @@ function bookingSummaryLines(row: BookingRow): string[] {
       ? `Date: ${formatEventDate(row.event_date)} at ${formatTimeSlot(row.time_slot!)}`
       : `Date: ${formatEventDate(row.event_date)} (${onamEvent.timeWindow.open}–${onamEvent.timeWindow.close})`,
     row.service_type === "dine_in" ? `Guests: ${row.guests}` : `Package: ${row.package_size} people`,
-    `Payment method: ${row.payment_method === "whatsapp_cash" ? "WhatsApp Members Cash" : "Card / Non-WhatsApp"}`,
+    `Payment method: ${row.payment_method === "whatsapp_cash" ? "WhatsApp Members Special Price" : "Card / Non-WhatsApp"}`,
     `Total: ${formatCents(row.price_total)}`,
   ];
 }

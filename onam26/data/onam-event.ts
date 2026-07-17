@@ -61,6 +61,12 @@ export const onamEvent = {
     phone: { display: "(02) 9734 9634", tel: "+61297349634" },
     whatsapp: { number: "61405250111" },
   },
+
+  bankDetails: {
+    accountName: "Kayal",
+    bsb: "062196",
+    accountNumber: "11583109",
+  },
 } as const;
 
 export function datesForService(serviceType: ServiceType): string[] {
@@ -113,6 +119,15 @@ export function formatTimeSlot(timeSlot: string): string {
   const period = hour >= 12 ? "pm" : "am";
   const hour12 = hour % 12 === 0 ? 12 : hour % 12;
   return minuteStr === "00" ? `${hour12}${period}` : `${hour12}:${minuteStr}${period}`;
+}
+
+// "12:00 PM" style, used for the fixed takeaway window in the payment message.
+export function formatTimeLong(time: string): string {
+  const [hourStr, minuteStr] = time.split(":");
+  const hour = Number(hourStr);
+  const period = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  return `${hour12}:${minuteStr} ${period}`;
 }
 
 export function formatEventDate(eventDate: string): string {

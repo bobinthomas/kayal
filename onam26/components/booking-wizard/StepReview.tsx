@@ -10,14 +10,12 @@ type EditableStep = "service" | "date" | "timeslot" | "details" | "contact";
 
 export default function StepReview({
   state,
-  status,
   onEdit,
-  onSubmit,
+  onContinue,
 }: {
   state: WizardState;
-  status: "idle" | "submitting" | "error";
   onEdit: (step: EditableStep) => void;
-  onSubmit: () => void;
+  onContinue: () => void;
 }) {
   const price = computePriceCents({
     serviceType: state.serviceType!,
@@ -53,7 +51,9 @@ export default function StepReview({
         )}
         {row(
           "Payment method",
-          state.paymentMethod === "whatsapp_cash" ? "WhatsApp Members Cash" : "Card / Non-WhatsApp",
+          state.paymentMethod === "whatsapp_cash"
+            ? "WhatsApp Members Special Price"
+            : "Card / Non-WhatsApp",
           "details",
         )}
         {row("Name", state.name, "contact")}
@@ -64,22 +64,15 @@ export default function StepReview({
         </div>
       </div>
 
-      {status === "error" && (
-        <p role="alert" className="mt-4 rounded-xl bg-chilli/10 px-4 py-3 text-sm font-medium text-chilli">
-          Something went wrong submitting your request. Please try again, or call us directly.
-        </p>
-      )}
-
       <button
         type="button"
-        disabled={status === "submitting"}
-        onClick={onSubmit}
-        className="mt-6 inline-flex min-h-12 items-center rounded-full bg-chilli px-8 font-semibold text-cream hover:bg-clay disabled:opacity-60"
+        onClick={onContinue}
+        className="mt-6 inline-flex min-h-12 items-center rounded-full bg-chilli px-8 font-semibold text-cream hover:bg-clay"
       >
-        {status === "submitting" ? "Submitting…" : "Submit booking request"}
+        Continue to payment
       </button>
       <p className="mt-3 text-sm text-ink/60">
-        No payment is taken now — this is a booking request. We&apos;ll confirm by phone or WhatsApp.
+        Next, we&apos;ll show you the advance payment details to confirm your booking.
       </p>
     </div>
   );

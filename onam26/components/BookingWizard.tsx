@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { submitBooking } from "@/lib/api";
+import { submitBooking, uploadReceipt } from "@/lib/api";
 import { track } from "@/lib/analytics";
 import StepServiceType from "./booking-wizard/StepServiceType";
 import StepDate from "./booking-wizard/StepDate";
@@ -10,6 +10,7 @@ import StepDineInGuests from "./booking-wizard/StepDineInGuests";
 import StepTakeawayPackage from "./booking-wizard/StepTakeawayPackage";
 import StepContactDetails from "./booking-wizard/StepContactDetails";
 import StepReview from "./booking-wizard/StepReview";
+import StepPayment from "./booking-wizard/StepPayment";
 import StepConfirmation from "./booking-wizard/StepConfirmation";
 import { initialWizardState, stepsForService, type Step, type WizardState } from "./booking-wizard/types";
 
@@ -20,6 +21,7 @@ const STEP_LABEL: Record<Step, string> = {
   details: "Package",
   contact: "Your details",
   review: "Review",
+  payment: "Payment",
   done: "Done",
 };
 
@@ -27,6 +29,7 @@ export default function BookingWizard() {
   const [step, setStep] = useState<Step>("service");
   const [state, setState] = useState<WizardState>(initialWizardState);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "submitting" | "error">("idle");
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function patch(update: Partial<WizardState>) {
     setState((prev) => ({ ...prev, ...update }));
@@ -36,8 +39,21 @@ export default function BookingWizard() {
     track("step_view", { step });
   }, [step]);
 
-  async function handleSubmit() {
+  async function handleSubmit(file: File | null) {
     setSubmitStatus("submitting");
+    setSubmitError(null);
+
+    let receiptKey: string | undefined;
+    if (file) {
+      const uploadResult = await uploadReceipt(file);
+      if (!uploadResult.ok) {
+        setSubmitStatus("error");
+        setSubmitError(uploadResult.error);
+        return;
+      }
+      receiptKey = uploadResult.key;
+    }
+
     const result = await submitBooking({
       website: state.website,
       serviceType: state.serviceType!,
@@ -50,20 +66,24 @@ export default function BookingWizard() {
       phone: state.phone,
       email: state.email || undefined,
       notes: state.notes || undefined,
+      receiptKey,
+      paymentReference: state.paymentReference.trim() || undefined,
     });
     if (result.ok) {
-      track("booking_submitted", { step: "review", detail: state.serviceType! });
+      track("booking_submitted", { step: "payment", detail: state.serviceType! });
       setSubmitStatus("idle");
       setStep("done");
     } else {
-      track("booking_submit_failed", { step: "review", detail: result.error });
+      track("booking_submit_failed", { step: "payment", detail: result.error });
       setSubmitStatus("error");
+      setSubmitError(result.error);
     }
   }
 
   function reset() {
     setState(initialWizardState);
     setSubmitStatus("idle");
+    setSubmitError(null);
     setStep("service");
   }
 
@@ -175,8 +195,20 @@ export default function BookingWizard() {
       {step === "review" && (
         <StepReview
           state={state}
-          status={submitStatus === "submitting" ? "submitting" : submitStatus === "error" ? "error" : "idle"}
           onEdit={(target) => setStep(target)}
+          onContinue={() => {
+            track("review_continued", { step: "review" });
+            setStep("payment");
+          }}
+        />
+      )}
+
+      {step === "payment" && (
+        <StepPayment
+          state={state}
+          onReferenceChange={(paymentReference) => patch({ paymentReference })}
+          status={submitStatus === "submitting" ? "submitting" : submitStatus === "error" ? "error" : "idle"}
+          error={submitError}
           onSubmit={handleSubmit}
         />
       )}
