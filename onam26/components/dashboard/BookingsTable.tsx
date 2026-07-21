@@ -7,6 +7,29 @@ import { openReceipt, updateBookingStatus, type Booking } from "@/lib/api";
 type StatusFilter = "all" | "pending" | "confirmed" | "declined";
 type ServiceFilter = "all" | "dine_in" | "takeaway";
 
+// 'YYYY-MM-DD' in Sydney local time, used to group/filter by booked-on date.
+function bookedDateKey(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", { timeZone: "Australia/Sydney" });
+}
+
+function formatBookedAt(iso: string): string {
+  return new Date(iso).toLocaleString("en-AU", {
+    timeZone: "Australia/Sydney",
+    day: "numeric",
+    month: "short",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+function formatBookedDateOption(dateKey: string): string {
+  return new Date(`${dateKey}T00:00:00`).toLocaleDateString("en-AU", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
+}
+
 export default function BookingsTable({
   bookings,
   onStatusChange,
@@ -16,16 +39,23 @@ export default function BookingsTable({
 }) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [serviceFilter, setServiceFilter] = useState<ServiceFilter>("all");
+  const [bookedDateFilter, setBookedDateFilter] = useState<string>("all");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  const bookedDateOptions = useMemo(
+    () => [...new Set(bookings.map((b) => bookedDateKey(b.created_at)))].sort().reverse(),
+    [bookings],
+  );
 
   const filtered = useMemo(
     () =>
       bookings.filter(
         (b) =>
           (statusFilter === "all" || b.status === statusFilter) &&
-          (serviceFilter === "all" || b.service_type === serviceFilter),
+          (serviceFilter === "all" || b.service_type === serviceFilter) &&
+          (bookedDateFilter === "all" || bookedDateKey(b.created_at) === bookedDateFilter),
       ),
-    [bookings, statusFilter, serviceFilter],
+    [bookings, statusFilter, serviceFilter, bookedDateFilter],
   );
 
   async function handleAction(id: string, status: "confirmed" | "declined") {
@@ -57,13 +87,26 @@ export default function BookingsTable({
           <option value="dine_in">Dine-in</option>
           <option value="takeaway">Takeaway</option>
         </select>
+        <select
+          value={bookedDateFilter}
+          onChange={(e) => setBookedDateFilter(e.target.value)}
+          className="rounded-lg border border-leaf/25 bg-white px-3 py-2 text-sm"
+        >
+          <option value="all">All booked dates</option>
+          {bookedDateOptions.map((dateKey) => (
+            <option key={dateKey} value={dateKey}>
+              Booked {formatBookedDateOption(dateKey)}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-leaf/15 bg-white">
-        <table className="w-full min-w-[720px] text-left text-sm">
+        <table className="w-full min-w-[820px] text-left text-sm">
           <thead>
             <tr className="border-b border-leaf/10 text-xs font-semibold uppercase tracking-wide text-ink/50">
-              <th className="px-4 py-3">Date</th>
+              <th className="px-4 py-3">Event date</th>
+              <th className="px-4 py-3">Booked on</th>
               <th className="px-4 py-3">Service</th>
               <th className="px-4 py-3">Details</th>
               <th className="px-4 py-3">Payment</th>
@@ -81,6 +124,7 @@ export default function BookingsTable({
                   {formatEventDate(b.event_date)}
                   {b.time_slot && <span className="text-ink/60"> · {formatTimeSlot(b.time_slot)}</span>}
                 </td>
+                <td className="px-4 py-3 text-ink/70">{formatBookedAt(b.created_at)}</td>
                 <td className="px-4 py-3">{b.service_type === "dine_in" ? "Dine-in" : "Takeaway"}</td>
                 <td className="px-4 py-3">
                   {b.service_type === "dine_in" ? `${b.guests} guests` : `${b.package_size} people`}
@@ -137,7 +181,7 @@ export default function BookingsTable({
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={9} className="px-4 py-8 text-center text-ink/50">
+                <td colSpan={10} className="px-4 py-8 text-center text-ink/50">
                   No bookings match these filters.
                 </td>
               </tr>
