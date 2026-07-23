@@ -50,15 +50,15 @@ export const restaurant = {
   },
   // ◻ Owner to confirm whether this stays public (PRD §11.9).
   altMobile: {
-    display: "+61 405 250 111",
-    tel: "+61405250111",
+    display: "+61 400 250 111",
+    tel: "+61400250111",
   },
 
   email: "hello@kayal.com.au",
 
   whatsapp: {
     // ⛔ Confirm number before launch (PRD §11.3).
-    number: "61405250111",
+    number: "61400250111",
     joinMessage: "Hi Kayal! I'd like to join the offers group.",
     bookingMessage: "Hi Kayal! I'd like to book a table.",
     consentCopy:

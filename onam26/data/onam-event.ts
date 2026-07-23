@@ -59,7 +59,7 @@ export const onamEvent = {
 
   contact: {
     phone: { display: "(02) 9734 9634", tel: "+61297349634" },
-    whatsapp: { number: "61405250111" },
+    whatsapp: { number: "61400250111" },
   },
 
   bankDetails: {

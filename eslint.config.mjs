@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // onam26/ is a separate Next.js project with its own lint/typecheck pipeline.
+    "onam26/**",
   ]),
 ]);
 
