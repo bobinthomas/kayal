@@ -19,7 +19,13 @@ export default function KitchenPage() {
     });
   }, [unlocked]);
 
-  const dates = useMemo(() => allEventDates(), []);
+  // Union with actual booking dates so a date removed from the event config
+  // (e.g. a takeaway day pulled after bookings were already taken) doesn't
+  // strand existing bookings with no way to select their day here.
+  const dates = useMemo(() => {
+    const bookedDates = (bookings ?? []).map((b) => b.event_date);
+    return [...new Set([...allEventDates(), ...bookedDates])].sort();
+  }, [bookings]);
 
   const dayBookings = useMemo(
     () =>
