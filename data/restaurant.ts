@@ -2,9 +2,13 @@
  * Single source of truth for NAP (name / address / phone), hours, policies
  * and socials. NEVER hard-code these in components.
  *
- * ⛔ OWNER TO CONFIRM (PRD §11): current hours, WhatsApp number,
- * booking-policy wording, alt-mobile usage.
+ * Content lives in content/restaurant.json — edit via /admin or the file
+ * directly. `url` and `maps.*` are deliberately NOT stored there: `url` is
+ * the canonical domain baked into JSON-LD/sitemap/OG tags and shouldn't be
+ * editable without a matching DNS change, and `maps.*` is derived from
+ * `address.full` so it can never drift out of sync with the address.
  */
+import restaurantJson from "@/content/restaurant.json";
 
 export type Day =
   | "monday"
@@ -21,89 +25,19 @@ export type Hours = Record<
   { sessions: Session[]; highlight?: boolean }
 >;
 
+const CANONICAL_URL = "https://kayal.com.au";
+
 export const restaurant = {
-  name: "Kayal Foods",
-  legalName: "Kayal Foods",
-  tagline: "A taste of God's Own Country",
-  positioning: "Kerala's village table, served proudly in Sydney.",
-  cuisine: ["South Indian", "Kerala", "Indian"],
-  priceRange: "$$",
+  ...restaurantJson,
+  hours: restaurantJson.hours as Hours,
 
-  address: {
-    street: "128 Nuwarra Road",
-    suburb: "Moorebank",
-    state: "NSW",
-    postcode: "2170",
-    country: "AU",
-    full: "128 Nuwarra Road, Moorebank NSW 2170",
-  },
-
-  geo: {
-    // Approximate coordinates for 128 Nuwarra Road, Moorebank NSW 2170.
-    latitude: -33.9468,
-    longitude: 150.9442,
-  },
-
-  phone: {
-    display: "(02) 9734 9634",
-    tel: "+61297349634",
-  },
-  // ◻ Owner to confirm whether this stays public (PRD §11.9).
-  altMobile: {
-    display: "+61 400 250 111",
-    tel: "+61400250111",
-  },
-
-  email: "hello@kayal.com.au",
-
-  whatsapp: {
-    // ⛔ Confirm number before launch (PRD §11.3).
-    number: "61400250111",
-    joinMessage: "Hi Kayal! I'd like to join the offers group.",
-    bookingMessage: "Hi Kayal! I'd like to book a table.",
-    consentCopy:
-      "We will be adding your number to the WhatsApp Group. You will be receiving our periodic offers via this.",
-  },
-
-  socials: {
-    facebook: "https://www.facebook.com/Kayal-Foods-111280287304578",
-    instagram: "https://www.instagram.com/kayalcatering",
-  },
-
-  url: "https://kayal.com.au",
+  url: CANONICAL_URL,
 
   maps: {
-    directionsUrl:
-      "https://www.google.com/maps/dir/?api=1&destination=128+Nuwarra+Road,+Moorebank+NSW+2170",
-    placeUrl:
-      "https://www.google.com/maps/search/?api=1&query=Kayal+Foods+128+Nuwarra+Road+Moorebank+NSW+2170",
+    directionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurantJson.address.full)}`,
+    placeUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${restaurantJson.name} ${restaurantJson.address.full}`)}`,
   },
-
-  // ⛔ Owner must confirm — third-party listings disagree (PRD §11.1).
-  hours: {
-    monday: { sessions: [{ open: "12:00", close: "15:00" }, { open: "17:00", close: "22:00" }] },
-    tuesday: { sessions: [{ open: "12:00", close: "15:00" }, { open: "17:00", close: "22:00" }] },
-    wednesday: { sessions: [{ open: "12:00", close: "15:00" }, { open: "17:00", close: "22:00" }] },
-    thursday: { sessions: [{ open: "12:00", close: "15:00" }, { open: "17:00", close: "22:00" }] },
-    friday: { sessions: [{ open: "12:00", close: "15:00" }, { open: "17:00", close: "22:00" }] },
-    saturday: { sessions: [{ open: "11:00", close: "15:00" }, { open: "17:00", close: "22:00" }], highlight: true },
-    sunday: { sessions: [{ open: "11:00", close: "15:00" }, { open: "17:00", close: "22:00" }], highlight: true },
-  } as Hours,
-
-  policies: {
-    bookingOnly: "Dine-in is by booking only — call or WhatsApp us and we'll keep your table ready.",
-    lastOrders: "Kitchen takes last orders 45 minutes before closing, so every dish leaves the pot at its best.",
-    sitting:
-      "Tables are yours for a relaxed 90 minutes — it keeps the wait fair for the next family at the door.",
-  },
-
-  findingUs: {
-    headline: "No big sign. Just a white house.",
-    blurb:
-      "We're the white house on Nuwarra Road — look for the warm lights and the smell of curry leaves. On-site parking out front (around 5 spots), with street parking nearby.",
-    parkingNote: "On-site parking for about 5 cars, plus street parking on Nuwarra Road.",
-  },
-} as const;
+};
 
 export const dayLabels: Record<Day, string> = {
   monday: "Monday",

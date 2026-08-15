@@ -67,11 +67,12 @@ export default function MenuFeaturedSpotlights() {
                 href={spotlight.href}
                 className="menu-text-link"
                 onClick={(event) => {
-                  const id = spotlight.href.replace(/^#/, "");
+                  const href = spotlight.href ?? "";
+                  const id = href.replace(/^#/, "");
                   if (!id) return;
                   event.preventDefault();
                   scrollToSection(id);
-                  window.history.replaceState(null, "", spotlight.href);
+                  window.history.replaceState(null, "", href);
                 }}
               >
                 Browse on menu →

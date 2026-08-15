@@ -1,4 +1,5 @@
 import { menuSections, type MenuItem } from "./menu";
+import specialsJson from "@/content/specials.json";
 
 const allItems = menuSections.flatMap((section) => section.items);
 
@@ -16,13 +17,8 @@ export const nonGameSpecials: MenuItem[] = specials.filter(
   (item) => !item.tags?.includes("spicy"),
 );
 
-/** Top picks for the home-page specials strip. */
-export const featuredSpecialIds = [
-  "kizhi-porotta",
-  "meen-pollichathu",
-  "fish-tikka",
-  "thalassery-biryani",
-] as const;
+/** Top picks for the home-page specials strip — content/specials.json. */
+export const featuredSpecialIds: string[] = specialsJson.featuredSpecialIds;
 
 export const featuredSpecials: MenuItem[] = featuredSpecialIds
   .map((id) => allItems.find((item) => item.id === id))

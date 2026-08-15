@@ -1,0 +1,5 @@
+ADMIN_PASSWORD=choose-a-strong-password
+GITHUB_TOKEN=github_pat_xxx
+GITHUB_OWNER=bobinthomas
+GITHUB_REPO=kayal
+GITHUB_BRANCH=main

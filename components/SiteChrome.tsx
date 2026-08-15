@@ -8,7 +8,7 @@ import BookingBanner from "@/components/BookingBanner";
 import MobileActionBar from "@/components/MobileActionBar";
 import MotionShell from "@/components/motion/MotionShell";
 
-const FULL_BLEED_PREVIEWS = ["/home-douze", "/home-figma"];
+const FULL_BLEED_PREVIEWS = ["/home-douze", "/home-figma", "/admin"];
 
 function isFullBleedPreview(pathname: string | null) {
   if (!pathname) return false;
