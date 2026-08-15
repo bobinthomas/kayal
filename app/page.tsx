@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
-import RippleDivider from "@/components/RippleDivider";
-import WhatsAppSignup from "@/components/WhatsAppSignup";
-import ReviewStrip from "@/components/ReviewStrip";
-import SignatureShowcase from "@/components/SignatureShowcase";
-import ScrollGallery from "@/components/motion/ScrollGallery";
-import StorySection from "@/components/home/StorySection";
-import SpecialsStrip from "@/components/home/SpecialsStrip";
-import HoursSection from "@/components/home/HoursSection";
-import FindingSection from "@/components/home/FindingSection";
+import HfShell from "@/components/home-figma/HfShell";
+import HfHero from "@/components/home-figma/HfHero";
+import HfSignatures from "@/components/home-figma/HfSignatures";
+import HfMangoHero from "@/components/home-figma/HfMangoHero";
+import HfVisit from "@/components/home-figma/HfVisit";
+import HfPhilosophy from "@/components/home-figma/HfPhilosophy";
+import HfSpotlights from "@/components/home-figma/HfSpotlights";
+import HfTestimonials from "@/components/home-figma/HfTestimonials";
+import HfNewsletter from "@/components/home-figma/HfNewsletter";
+import { neuton, outfit, googleSansFlex, cormorantBold } from "./home-figma/fonts";
 
 export const metadata: Metadata = {
   title: "Kayal Foods — Authentic Kerala Restaurant in Moorebank, Sydney",
@@ -21,25 +20,17 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <>
-      <Hero />
-      <Marquee />
-      <ScrollGallery />
-      <SignatureShowcase />
-
-      <div className="text-banana-dark">
-        <RippleDivider />
-      </div>
-      <StorySection />
-      <div className="rotate-180 text-banana-dark">
-        <RippleDivider />
-      </div>
-
-      <SpecialsStrip />
-      <HoursSection />
-      <FindingSection />
-      <WhatsAppSignup />
-      <ReviewStrip />
-    </>
+    <div className={`${neuton.variable} ${outfit.variable} ${googleSansFlex.variable} ${cormorantBold.variable}`}>
+      <HfShell>
+        <HfHero />
+        <HfSignatures />
+        <HfMangoHero />
+        <HfVisit />
+        <HfPhilosophy />
+        <HfSpotlights />
+        <HfTestimonials />
+        <HfNewsletter />
+      </HfShell>
+    </div>
   );
 }
