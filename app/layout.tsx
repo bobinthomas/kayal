@@ -1,42 +1,47 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Fraunces, Inter, Manrope, Noto_Sans_Malayalam } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import JsonLd from "@/components/JsonLd";
 import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
 
-// Self-hosted via next/font — zero external font requests, zero layout shift.
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
+// Self-hosted variable fonts (subsetted from the official google/fonts sources) —
+// zero external font requests, zero layout shift, and no build-time dependency on
+// fonts.gstatic.com (which next/font/google needs, and which Cloudflare's Workers
+// Builds environment can't reach).
+const cormorant = localFont({
+  src: "./fonts/cormorant-garamond-variable.woff2",
   variable: "--font-cormorant",
-  weight: ["400", "500", "600"],
+  weight: "300 700",
   display: "swap",
 });
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: "./fonts/inter-variable.woff2",
   variable: "--font-inter",
+  weight: "100 900",
   display: "swap",
 });
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
+const fraunces = localFont({
+  src: "./fonts/fraunces-variable.woff2",
   variable: "--font-fraunces",
-  axes: ["SOFT", "WONK", "opsz"],
+  weight: "100 900",
   display: "swap",
 });
 
-const manrope = Manrope({
-  subsets: ["latin"],
+const manrope = localFont({
+  src: "./fonts/manrope-variable.woff2",
   variable: "--font-manrope",
+  weight: "200 800",
   display: "swap",
 });
 
-const notoMalayalam = Noto_Sans_Malayalam({
-  subsets: ["malayalam"],
-  weight: ["400", "600"],
+const notoMalayalam = localFont({
+  src: "./fonts/noto-sans-malayalam-variable.woff2",
   variable: "--font-noto-malayalam",
+  weight: "100 900",
   display: "swap",
 });
 
