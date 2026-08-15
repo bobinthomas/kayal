@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kayal",
+  "compatibility_date": "2026-08-14",
+  "main": "./dist/worker/index.js",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS"
+  }
+}

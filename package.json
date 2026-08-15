@@ -6,6 +6,9 @@
     "dev": "next dev",
     "assets": "node scripts/generate-og.mjs",
     "build": "next build",
+    "build:worker": "wrangler pages functions build --outdir=dist/worker",
+    "cf:build": "npm run build && npm run build:worker",
+    "cf:dev": "npm run cf:build && wrangler dev",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit && tsc --noEmit -p functions"
@@ -19,7 +22,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260612.1",
+    "@cloudflare/workers-types": "^5.20260811.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -28,6 +31,7 @@
     "eslint-config-next": "16.2.9",
     "sharp": "^0.35.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4"
   }
 }

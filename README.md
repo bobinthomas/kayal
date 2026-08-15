@@ -39,53 +39,74 @@ with types — edit `content/*.json` directly (or via `/admin`), not `data/*.ts`
 ## Admin backend
 
 `/admin` is a password-gated content editor. There's no database — every save
-is a real commit to this repo via the GitHub Contents API (made by a Pages
-Function, `functions/api/admin/*`), which lands on `main` and triggers a
-normal Cloudflare Pages rebuild (~1–2 min to go live). That means content
-history is just `git log`, and a bad edit is a `git revert` away.
+is a real commit to this repo via the GitHub Contents API (made by a Cloudflare
+Worker route, `functions/api/admin/*`), which lands on `main` and triggers a
+normal rebuild (~1–2 min to go live). That means content history is just
+`git log`, and a bad edit is a `git revert` away.
 
 Auth is a single shared password sent as an `X-Admin-Password` header on every
 admin API call (checked with a constant-time comparison) — no cookies or
 sessions, mirroring the pattern already used in `onam26/functions/api/_auth.ts`.
 
-**One-time setup** (do this once, on Cloudflare Pages + GitHub):
+**Note on hosting:** by the time this was built, Cloudflare's dashboard had
+moved new-project creation from "Pages" to a unified **Workers** flow
+(`Create application` → `Import a repository`, deploying via
+`npx wrangler deploy` instead of the old Pages-specific pipeline). `onam26` —
+created earlier — is still classic Pages (`onam26/wrangler.toml`,
+`pages_build_output_dir`); this project targets the current Workers flow
+instead. It uses the same `functions/api/admin/*` file-based-routing code
+either way — `wrangler pages functions build` compiles that directory into a
+single Worker script as part of the build (see `package.json`'s `cf:build`
+script and `wrangler.jsonc`'s `assets`/`main` config). This has been verified
+locally end-to-end (`npm run cf:dev`): static pages, `/admin`, and the
+authenticated `/api/admin/*` routes all serve correctly under this setup.
+
+**One-time setup** (do this once, on Cloudflare + GitHub):
 
 1. **GitHub token** — create a fine-grained PAT at GitHub → Settings →
    Developer settings → Personal access tokens → Fine-grained tokens.
    Resource owner `bobinthomas`, repository access limited to **this repo
    only**, permission **Contents: Read and write**, a bounded expiry (not
    "no expiration"). Copy the token once — it's only shown at creation.
-2. **Cloudflare Pages project** — create one connected to this GitHub repo
-   (Pages → Create a project → Connect to Git → `bobinthomas/kayal`, root
-   directory `/`, build command `npm run build`, output directory `out`,
-   production branch `main`). Set a build path exclusion for `onam26/**` so a
-   commit that only touches the booking app doesn't trigger a wasted rebuild
-   here — this is a brand-new, separate project from `kayal-onam26`, with its
-   own domain and no shared bindings/secrets. Nothing about this setup reads,
-   writes, or redeploys `kayal-onam26` / `onam.kayal.com.au`.
-3. **Cloudflare Pages env vars** (Settings → Variables and Secrets,
-   Production) — add, encrypting the secrets:
-   - `ADMIN_PASSWORD` — a new password you choose (encrypted)
-   - `GITHUB_TOKEN` — the PAT from step 1 (encrypted)
+2. **Cloudflare Workers project** — Workers & Pages → Create application →
+   Import a repository → `bobinthomas/kayal`. On the "Set up your
+   application" screen:
+   - Project name: your choice (e.g. `kayal`) — becomes part of the default
+     `*.workers.dev` URL
+   - Build command: `npm run cf:build`
+   - Deploy command: leave the default, `npx wrangler deploy`
+   - Path: leave as `/` (repo root — unlike `onam26`/`kayalevents`, this
+     project isn't in a subfolder)
+   - This is a brand-new, separate project from `kayal-onam26`, with its own
+     domain and no shared bindings/secrets. Nothing about this setup reads,
+     writes, or redeploys `kayal-onam26` / `onam.kayal.com.au`. One caveat:
+     unlike classic Pages, Workers Builds has no per-path build exclusion, so
+     a commit touching only `onam26/**` will still trigger a (harmless, just
+     wasted) rebuild of this project.
+3. **Env vars** — add on the same "Set up your application" screen (Variable
+   name/value fields, with an "Encrypt" option for secrets), or afterward
+   under the project's Settings → Variables and Secrets:
+   - `ADMIN_PASSWORD` — a new password you choose (encrypt it)
+   - `GITHUB_TOKEN` — the PAT from step 1 (encrypt it)
    - `GITHUB_OWNER` = `bobinthomas`
    - `GITHUB_REPO` = `kayal`
-   - `GITHUB_BRANCH` = `main` (must match the Pages project's production
-     branch, or saves won't trigger a rebuild)
+   - `GITHUB_BRANCH` = `main` (must match the project's production branch, or
+     saves won't trigger a rebuild)
    - carry forward `TURNSTILE_SECRET_KEY`/`CONTACT_TO_EMAIL` if set
-   - trigger a redeploy afterward — Pages env vars only take effect on the
-     next build
+   - if added after the first deploy, trigger a redeploy afterward — env vars
+     only take effect on the next build
 4. **Test domain: `staging.kayal.com.au`** — Bluehost hosts DNS for
    `kayal.com.au` (nameservers `ns1`/`ns2.bluehost.in`) but can't run
-   Next.js itself, so the site is *served* by Cloudflare Pages while DNS
-   *records* stay in Bluehost's panel. To wire up the subdomain: add
-   `staging.kayal.com.au` as a custom domain on the new Pages project (Pages
-   project → Custom domains → Add), then create a CNAME for `staging` at
-   Bluehost pointing to that project's `*.pages.dev` hostname — the exact
-   same pattern already live for `onam.kayal.com.au` → `kayal-onam26.pages.dev`
-   (verified via `nslookup`: the root zone's nameservers are still Bluehost's;
-   only the one `onam` record was added there). This only adds one new
-   subdomain record — the root zone and `onam.kayal.com.au` are untouched.
-   `/admin` and the whole site are reachable at
+   Next.js itself, so the site is *served* by Cloudflare while DNS *records*
+   stay in Bluehost's panel. To wire up the subdomain: on the new Worker
+   project, open the **Triggers** (or **Domains**) tab → Add Custom Domain →
+   `staging.kayal.com.au`, then follow whatever CNAME target Cloudflare
+   displays and create that record for `staging` at Bluehost — the same
+   pattern already live for `onam.kayal.com.au` → `kayal-onam26.pages.dev`
+   (verified via `nslookup`: the root zone's nameservers are still
+   Bluehost's; only the one `onam` record was added there). This only adds
+   one new subdomain record — the root zone and `onam.kayal.com.au` are
+   untouched. `/admin` and the whole site are reachable at
    `https://staging.kayal.com.au/admin` once DNS propagates. Pointing the
    root `kayal.com.au` at this project is a separate, later "go live" step
    (see "Before launch" below) — not done as part of this setup.
@@ -94,13 +115,15 @@ sessions, mirroring the pattern already used in `onam26/functions/api/_auth.ts`.
 and fill in real values, then:
 
 ```bash
-npm run build
-npx wrangler pages dev out   # serves the static site + Functions together
+npm run cf:dev   # builds (next build + compiles functions/) and serves via wrangler dev
 ```
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare Workers)
 
-- Build command: `npm run build` · Output directory: `out`
+- Build command: `npm run cf:build` (runs `next build`, then compiles
+  `functions/` into a Worker script via `wrangler pages functions build`) ·
+  Deploy command: `npx wrangler deploy` · config: `wrangler.jsonc`
+  (`assets.directory` = `out`, `main` = the compiled Worker script)
 - `functions/api/contact.ts` handles the contact/catering form
   (honeypot + optional Turnstile + MailChannels → hello@kayal.com.au). Note:
   MailChannels' free relay was discontinued — this form is likely silently
