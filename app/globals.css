@@ -2209,6 +2209,40 @@ h3,
   text-decoration: underline;
 }
 
+/* ---------- Home-Figma preview tokens (scoped to app/home-figma — see AGENTS.md-style note in that route; additive, does not touch the tokens above) ---------- */
+:root {
+  --hf-green: #046937;
+  --hf-green-dark: #035c2f;
+  --hf-amber: #e29524;
+  --hf-red: #e14132;
+  --hf-ink: #1a1a1a;
+  --hf-body: #666666;
+  --hf-bg: #fafaf9;
+  --hf-border: #eae8e4;
+  --hf-badge-bg: #fef4e6;
+  --hf-footer: #111111;
+  --hf-gradient-start: #2baae2;
+  --hf-gradient-end: #046937;
+}
+
+@theme inline {
+  --color-hf-green: var(--hf-green);
+  --color-hf-green-dark: var(--hf-green-dark);
+  --color-hf-amber: var(--hf-amber);
+  --color-hf-red: var(--hf-red);
+  --color-hf-ink: var(--hf-ink);
+  --color-hf-body: var(--hf-body);
+  --color-hf-bg: var(--hf-bg);
+  --color-hf-border: var(--hf-border);
+  --color-hf-badge-bg: var(--hf-badge-bg);
+  --color-hf-footer: var(--hf-footer);
+
+  --font-hf-display: var(--font-hf-neuton), "Cormorant Garamond", serif;
+  --font-hf-heading: var(--font-hf-cormorant-bold), var(--font-cormorant), serif;
+  --font-hf-body: var(--font-hf-gsans), ui-sans-serif, sans-serif;
+  --font-hf-accent: var(--font-hf-outfit), ui-sans-serif, sans-serif;
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -8,27 +8,31 @@ import BookingBanner from "@/components/BookingBanner";
 import MobileActionBar from "@/components/MobileActionBar";
 import MotionShell from "@/components/motion/MotionShell";
 
-function isDouzePreview(pathname: string | null) {
-  return pathname === "/home-douze" || pathname === "/home-douze/";
+const FULL_BLEED_PREVIEWS = ["/home-douze", "/home-figma"];
+
+function isFullBleedPreview(pathname: string | null) {
+  if (!pathname) return false;
+  const normalized = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  return FULL_BLEED_PREVIEWS.includes(normalized);
 }
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const douzePreview = isDouzePreview(pathname);
+  const fullBleedPreview = isFullBleedPreview(pathname);
 
   return (
     <>
       <MotionShell />
-      {!douzePreview && <Header />}
+      {!fullBleedPreview && <Header />}
       <main
         id="main"
-        className={douzePreview ? "flex-1" : "flex-1 pb-20 md:pb-0"}
+        className={fullBleedPreview ? "flex-1" : "flex-1 pb-20 md:pb-0"}
       >
         {children}
       </main>
-      {!douzePreview && <Footer />}
-      {!douzePreview && <BookingBanner />}
-      {!douzePreview && <MobileActionBar />}
+      {!fullBleedPreview && <Footer />}
+      {!fullBleedPreview && <BookingBanner />}
+      {!fullBleedPreview && <MobileActionBar />}
     </>
   );
 }
