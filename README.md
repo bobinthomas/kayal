@@ -71,6 +71,17 @@ authenticated `/api/admin/*` routes all serve correctly under this setup.
 2. **Cloudflare Workers project** — Workers & Pages → Create application →
    Import a repository → `bobinthomas/kayal`. On the "Set up your
    application" screen:
+
+   **Known gotcha:** the Git connection this creates can silently drop
+   (Settings shows a "This project is disconnected from your Git account"
+   banner) without anything else in the project config changing — build
+   command, deploy command, branch, and env vars all stay intact, but pushes
+   stop triggering builds (the Build history tab shows nothing new, and
+   existing entries all say "Manually deployed" instead of being tied to a
+   commit). If a content save from `/admin` isn't showing up live after a
+   few minutes, check Settings → Git repository for that banner first,
+   click **Manage** to re-authorize, then confirm Build history shows a new
+   build actually landing.
    - Project name: your choice (e.g. `kayal`) — becomes part of the default
      `*.workers.dev` URL
    - Build command: `npm run cf:build`
