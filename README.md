@@ -94,18 +94,26 @@ authenticated `/api/admin/*` routes all serve correctly under this setup.
      unlike classic Pages, Workers Builds has no per-path build exclusion, so
      a commit touching only `onam26/**` will still trigger a (harmless, just
      wasted) rebuild of this project.
-3. **Env vars** — add on the same "Set up your application" screen (Variable
-   name/value fields, with an "Encrypt" option for secrets), or afterward
-   under the project's Settings → Variables and Secrets:
-   - `ADMIN_PASSWORD` — a new password you choose (encrypt it)
-   - `GITHUB_TOKEN` — the PAT from step 1 (encrypt it)
-   - `GITHUB_OWNER` = `bobinthomas`
-   - `GITHUB_REPO` = `kayal`
-   - `GITHUB_BRANCH` = `main` (must match the project's production branch, or
-     saves won't trigger a rebuild)
+3. **Env vars — this is the step most likely to trip you up.** The "Set up
+   your application" screen and the project's Settings → Builds page both
+   have their own "Variables and secrets" fields, but those are **build-time
+   only** — invisible to the deployed Worker at request time. Hit this live:
+   filled those in, the build succeeded, and `/admin` still said "Incorrect
+   password" no matter what, because `env.ADMIN_PASSWORD` was genuinely
+   undefined at runtime. The vars have to go in the **top-level Settings tab
+   → "Variables and secrets" panel** (sibling to Overview/Metrics/
+   Deployments/Bindings/..., *not* nested under Build) — that's the runtime
+   store `functions/api/admin/*` actually reads via `env`. Add there,
+   individually or via "Import .env":
+   - `ADMIN_PASSWORD` — a new password you choose (type: Secret)
+   - `GITHUB_TOKEN` — the PAT from step 1 (type: Secret)
+   - `GITHUB_OWNER` = `bobinthomas` (type: Variable)
+   - `GITHUB_REPO` = `kayal` (type: Variable)
+   - `GITHUB_BRANCH` = `main` (type: Variable; must match the project's
+     production branch, or saves won't trigger a rebuild)
    - carry forward `TURNSTILE_SECRET_KEY`/`CONTACT_TO_EMAIL` if set
-   - if added after the first deploy, trigger a redeploy afterward — env vars
-     only take effect on the next build
+   - these are picked up by the current live version immediately — no
+     redeploy needed
 4. **Test domain: `staging.kayal.com.au`** — Bluehost hosts DNS for
    `kayal.com.au` (nameservers `ns1`/`ns2.bluehost.in`) but can't run
    Next.js itself, so the site is *served* by Cloudflare while DNS *records*
