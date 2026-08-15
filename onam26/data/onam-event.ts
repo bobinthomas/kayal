@@ -21,7 +21,6 @@ export const onamEvent = {
 
   // 'YYYY-MM-DD'
   dineInDates: [
-    "2026-08-16",
     "2026-08-22",
     "2026-08-23",
     "2026-08-26",
@@ -29,7 +28,6 @@ export const onamEvent = {
     "2026-08-30",
   ],
   takeawayDates: [
-    "2026-08-16",
     "2026-08-22",
     "2026-08-23",
     "2026-08-26",
