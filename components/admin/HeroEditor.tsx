@@ -61,7 +61,13 @@ export default function HeroEditor({
   }, [password]);
 
   if (loading) return <p className="p-4 text-neutral-500">Loading…</p>;
-  if (!data) return <p className="p-4 text-red-600">Could not load the home page hero.</p>;
+  if (!data) {
+    return (
+      <p className="p-4 text-red-600">
+        Could not load the home page hero{error ? ` — ${error}` : " (no content/home-hero.json found yet)"}.
+      </p>
+    );
+  }
 
   const slides = data.slides;
 
