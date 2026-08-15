@@ -35,6 +35,11 @@ with types — edit `content/*.json` directly (or via `/admin`), not `data/*.ts`
 | `content/reviews.json` | Curated review quotes |
 | `content/copy.json` | Verbatim brand copy, marquee dishes, catering categories |
 | `content/menu-meta.json` | Menu page intro copy, nav labels, featured spotlights |
+| `content/home-hero.json` | Home page hero carousel — slide order, headline word, featured dish, photo |
+
+Hero photos are uploaded straight from `/admin` (resized client-side, no image
+optimizer needed since this is a static export) and land in
+`public/images/home-figma/uploads/` as their own commit.
 
 ## Admin backend
 

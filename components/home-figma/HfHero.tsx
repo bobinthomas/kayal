@@ -145,13 +145,12 @@ function HeroHeadline({ heroWord, dark }: { heroWord: string; dark: boolean }) {
 }
 
 function DarkSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
-  const { item, heroWord } = slide;
-  const bgImage = "bgImage" in slide ? slide.bgImage : undefined;
+  const { item, heroWord, image } = slide;
   return (
     <div className="relative flex h-full items-center pb-16 pt-28 lg:pb-16 lg:pt-24">
       <div className="absolute inset-0">
-        {bgImage && (
-          <Image src={bgImage} alt="" fill priority sizes="100vw" className="object-cover" />
+        {image && (
+          <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
       </div>
@@ -171,8 +170,7 @@ function DarkSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
 }
 
 function LightSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
-  const { item, heroWord } = slide;
-  const dishImage = "dishImage" in slide ? slide.dishImage : undefined;
+  const { item, heroWord, image: dishImage } = slide;
   return (
     <div className="flex h-full items-center bg-white pb-16 pt-28 lg:pb-16 lg:pt-24">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col-reverse items-center gap-8 px-6 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-16">

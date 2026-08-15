@@ -191,12 +191,29 @@ export const CopyFileSchema = z.object({
   ),
 });
 
+export const HomeHeroSlideSchema = z.object({
+  id: z
+    .string()
+    .min(1)
+    .regex(/^[a-z0-9-]+$/, "lowercase-kebab-case id"),
+  theme: z.enum(["light", "dark"]),
+  heroWord: z.string().min(1).max(30),
+  menuItemId: z.string().min(1),
+  image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
+});
+
+export const HomeHeroFileSchema = z.object({
+  slides: z.array(HomeHeroSlideSchema).min(1).max(6),
+});
+
 export type MenuFile = z.infer<typeof MenuFileSchema>;
 export type MenuMetaFile = z.infer<typeof MenuMetaFileSchema>;
 export type SpecialsFile = z.infer<typeof SpecialsFileSchema>;
 export type RestaurantFile = z.infer<typeof RestaurantFileSchema>;
 export type ReviewsFile = z.infer<typeof ReviewsFileSchema>;
 export type CopyFile = z.infer<typeof CopyFileSchema>;
+export type HomeHeroFile = z.infer<typeof HomeHeroFileSchema>;
+export type HomeHeroSlide = z.infer<typeof HomeHeroSlideSchema>;
 
 export const CONTENT_SCHEMAS = {
   menu: MenuFileSchema,
@@ -205,6 +222,7 @@ export const CONTENT_SCHEMAS = {
   restaurant: RestaurantFileSchema,
   reviews: ReviewsFileSchema,
   copy: CopyFileSchema,
+  "home-hero": HomeHeroFileSchema,
 } as const;
 
 export type ContentKey = keyof typeof CONTENT_SCHEMAS;

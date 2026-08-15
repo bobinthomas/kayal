@@ -15,6 +15,7 @@ import {
   MenuFileSchema,
   MenuMetaFileSchema,
   SpecialsFileSchema,
+  HomeHeroFileSchema,
 } from "../../../../lib/content/schemas";
 
 const CONTENT_PATHS: Record<ContentKey, string> = {
@@ -24,6 +25,7 @@ const CONTENT_PATHS: Record<ContentKey, string> = {
   restaurant: "content/restaurant.json",
   reviews: "content/reviews.json",
   copy: "content/copy.json",
+  "home-hero": "content/home-hero.json",
 };
 
 function isContentKey(key: string): key is ContentKey {
@@ -42,7 +44,7 @@ async function crossReferenceIssues(
   key: ContentKey,
   data: z.infer<(typeof CONTENT_SCHEMAS)[ContentKey]>,
 ): Promise<string[]> {
-  if (key !== "menu-meta" && key !== "specials") return [];
+  if (key !== "menu-meta" && key !== "specials" && key !== "home-hero") return [];
 
   const menuFile = await getFile(env, CONTENT_PATHS.menu);
   if (!menuFile) return [];
@@ -74,6 +76,15 @@ async function crossReferenceIssues(
     for (const id of specials.featuredSpecialIds) {
       if (!itemIds.has(id)) {
         issues.push(`featuredSpecialIds: unknown menu item id "${id}"`);
+      }
+    }
+  }
+
+  if (key === "home-hero") {
+    const homeHero = data as z.infer<typeof HomeHeroFileSchema>;
+    for (const slide of homeHero.slides) {
+      if (!itemIds.has(slide.menuItemId)) {
+        issues.push(`slides: "${slide.id}" references unknown menu item id "${slide.menuItemId}"`);
       }
     }
   }

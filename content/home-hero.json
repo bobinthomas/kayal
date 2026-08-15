@@ -1,0 +1,25 @@
+{
+  "slides": [
+    {
+      "id": "fish-tikka",
+      "theme": "light",
+      "heroWord": "taste",
+      "menuItemId": "fish-tikka",
+      "image": "/images/home-figma/hero-slide-fish-tikka.png"
+    },
+    {
+      "id": "kerala-fish-curry",
+      "theme": "dark",
+      "heroWord": "food",
+      "menuItemId": "kerala-fish-curry",
+      "image": "/images/home-figma/hero-slide-fish-curry.jpg"
+    },
+    {
+      "id": "thalassery-biryani",
+      "theme": "dark",
+      "heroWord": "recipes",
+      "menuItemId": "thalassery-biryani",
+      "image": "/images/home-figma/hero-bg.jpg"
+    }
+  ]
+}

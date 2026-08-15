@@ -74,13 +74,35 @@ export async function putFile(
   sha: string | null,
   message: string,
 ): Promise<PutFileResult> {
+  return putRaw(env, path, encodeUtf8Base64(content), sha, message);
+}
+
+// Images arrive from the client already base64-encoded (read via
+// FileReader/canvas), so this skips the UTF-8 text encoding step putFile
+// uses — running that again would double-base64-encode binary content.
+export async function putBinaryFile(
+  env: AdminEnv,
+  path: string,
+  base64Content: string,
+  message: string,
+): Promise<PutFileResult> {
+  return putRaw(env, path, base64Content, null, message);
+}
+
+async function putRaw(
+  env: AdminEnv,
+  path: string,
+  base64Content: string,
+  sha: string | null,
+  message: string,
+): Promise<PutFileResult> {
   const url = `${API_BASE}/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}`;
   const res = await fetch(url, {
     method: "PUT",
     headers: { ...githubHeaders(env), "Content-Type": "application/json" },
     body: JSON.stringify({
       message,
-      content: encodeUtf8Base64(content),
+      content: base64Content,
       branch: env.GITHUB_BRANCH,
       ...(sha ? { sha } : {}),
       committer: { name: "Kayal Admin", email: "admin@kayal.com.au" },

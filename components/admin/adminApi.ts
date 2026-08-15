@@ -47,6 +47,25 @@ export interface ContentPutResult {
   issues?: unknown;
 }
 
+export interface UploadImageResult {
+  ok: boolean;
+  path?: string;
+  error?: string;
+}
+
+export async function uploadImage(
+  password: string,
+  dataBase64: string,
+  contentType: string,
+): Promise<UploadImageResult> {
+  const res = await adminFetch("/api/admin/upload-image", password, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ dataBase64, contentType }),
+  });
+  return res.json();
+}
+
 export async function saveContent<T>(
   key: string,
   password: string,
