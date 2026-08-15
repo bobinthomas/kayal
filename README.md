@@ -73,6 +73,18 @@ authenticated `/api/admin/*` routes all serve correctly under this setup.
    Resource owner `bobinthomas`, repository access limited to **this repo
    only**, permission **Contents: Read and write**, a bounded expiry (not
    "no expiration"). Copy the token once — it's only shown at creation.
+
+   **Known gotcha:** if every tab in `/admin` fails to load content (not
+   just one), and `GITHUB_OWNER`/`GITHUB_REPO`/`GITHUB_BRANCH` all look
+   correct, check the token's status at GitHub → Settings → Developer
+   settings → Fine-grained tokens. If it says **"Never used,"** the value
+   stored in Cloudflare's `GITHUB_TOKEN` doesn't actually match this token
+   (never copied in right, or a stale value from before) — GitHub's
+   Contents API returns a plain 404 for both "file doesn't exist" and
+   "this token can't see this repo," so a bad token silently looks like
+   missing content rather than an auth error. Fix: regenerate the token,
+   copy the new value immediately (shown once), and use **Rotate** on
+   `GITHUB_TOKEN` in Cloudflare's Variables and secrets panel.
 2. **Cloudflare Workers project** — Workers & Pages → Create application →
    Import a repository → `bobinthomas/kayal`. On the "Set up your
    application" screen:
