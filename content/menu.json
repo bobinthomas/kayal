@@ -47,7 +47,8 @@
           "desc": "Crunchy poori base topped with lip-smacking chutneys.",
           "price": 14.9,
           "tags": [
-            "veg"
+            "veg",
+            "signature"
           ]
         },
         {
@@ -83,7 +84,10 @@
           "id": "tandoori-chicken-half",
           "name": "Tandoori Chicken Half",
           "desc": "Smoky chicken appetiser cooked in the tandoor.",
-          "price": 13.9
+          "price": 13.9,
+          "tags": [
+            "signature"
+          ]
         },
         {
           "id": "tandoori-chicken-full",
@@ -95,7 +99,10 @@
           "id": "chicken-tikka",
           "name": "Chicken Tikka (4 pcs)",
           "desc": "Small pieces of marinated chicken threaded onto skewers.",
-          "price": 14.9
+          "price": 14.9,
+          "tags": [
+            "spicy"
+          ]
         },
         {
           "id": "malai-tikka",
@@ -119,7 +126,10 @@
           "id": "mix-non-veg-platter",
           "name": "Mix Non-Veg Platter (2 pcs each)",
           "desc": "Assorted tikkas, tandoor, and grills.",
-          "price": 24.9
+          "price": 24.9,
+          "tags": [
+            "spicy"
+          ]
         },
         {
           "id": "fish-tikka",
@@ -134,7 +144,10 @@
           "id": "tiger-prawns",
           "name": "Tiger Prawns (6 pcs)",
           "desc": "Marinated and grilled Indian tandoori shrimp skewers.",
-          "price": 24.9
+          "price": 24.9,
+          "tags": [
+            "signature"
+          ]
         }
       ]
     },
@@ -815,8 +828,8 @@
         },
         {
           "id": "thalassery-biryani",
-          "mal": "തലശ്ശേരി ബിരിയാണി",
           "name": "Thalassery Biryani",
+          "mal": "തലശ്ശേരി ബിരിയാണി",
           "desc": "Short-grain rice layered with spiced meat, fried onion and ghee.",
           "price": 22.9,
           "tags": [
