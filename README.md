@@ -120,17 +120,29 @@ authenticated `/api/admin/*` routes all serve correctly under this setup.
    undefined at runtime. The vars have to go in the **top-level Settings tab
    → "Variables and secrets" panel** (sibling to Overview/Metrics/
    Deployments/Bindings/..., *not* nested under Build) — that's the runtime
-   store `functions/api/admin/*` actually reads via `env`. Add there,
-   individually or via "Import .env":
-   - `ADMIN_PASSWORD` — a new password you choose (type: Secret)
-   - `GITHUB_TOKEN` — the PAT from step 1 (type: Secret)
-   - `GITHUB_OWNER` = `bobinthomas` (type: Variable)
-   - `GITHUB_REPO` = `kayal` (type: Variable)
-   - `GITHUB_BRANCH` = `main` (type: Variable; must match the project's
-     production branch, or saves won't trigger a rebuild)
+   store `functions/api/admin/*` actually reads via `env`. Add the **secrets**
+   there (type: Secret), individually or via "Import .env":
+   - `ADMIN_PASSWORD` — a new password you choose
+   - `GITHUB_TOKEN` — the PAT from step 1
    - carry forward `TURNSTILE_SECRET_KEY`/`CONTACT_TO_EMAIL` if set
    - these are picked up by the current live version immediately — no
      redeploy needed
+
+   **Known gotcha — plain (non-secret) vars don't belong in this panel.**
+   `GITHUB_OWNER`/`GITHUB_REPO`/`GITHUB_BRANCH` are *not* secrets, but adding
+   them here as type "Variable" doesn't stick: Wrangler treats
+   `wrangler.jsonc` as the source of truth for plaintext vars, so the next
+   deploy (any push to `main`, including an unrelated commit) wipes every
+   dashboard-added plaintext var back to nothing — while secrets are exempt
+   and survive. Symptom: `GITHUB_TOKEN` checks out fine (GitHub shows it
+   Active), but writes fail with the generic `github_error` ("GitHub
+   couldn't be reached"), because the PUT URL ends up pointing at
+   `repos/undefined/undefined/contents/...`. Fix: these three are already
+   committed in `wrangler.jsonc`'s `vars` block — don't also add them in the
+   dashboard. (If you ever need a dashboard-set plain var to persist
+   instead, the alternative is `"keep_vars": true` in `wrangler.jsonc`, but
+   committing the actual values is simpler here since none of them are
+   sensitive.)
 4. **Test domain: `staging.kayal.com.au`** — Bluehost hosts DNS for
    `kayal.com.au` (nameservers `ns1`/`ns2.bluehost.in`) but can't run
    Next.js itself, so the site is *served* by Cloudflare while DNS *records*
