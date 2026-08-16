@@ -2,10 +2,10 @@
   "slides": [
     {
       "id": "fish-tikka",
-      "theme": "light",
+      "theme": "dark",
       "heroWord": "taste",
-      "menuItemId": "veg-basket",
-      "image": "/images/home-figma/hero-slide-fish-tikka.png"
+      "menuItemId": "chatti-choru",
+      "image": "/images/home-figma/uploads/ba35e3a6-aa44-4ce9-806c-9da3cbb345c0.jpg"
     },
     {
       "id": "kerala-fish-curry",
