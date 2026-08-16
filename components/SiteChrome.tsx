@@ -2,13 +2,13 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 import BookingBanner from "@/components/BookingBanner";
 import MobileActionBar from "@/components/MobileActionBar";
 import MotionShell from "@/components/motion/MotionShell";
 
-const FULL_BLEED_PREVIEWS = ["", "/home-douze", "/admin"];
+const FULL_BLEED_PREVIEWS = ["/home-douze", "/admin"];
 
 function isFullBleedPreview(pathname: string | null) {
   if (!pathname) return false;
@@ -19,20 +19,24 @@ function isFullBleedPreview(pathname: string | null) {
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const fullBleedPreview = isFullBleedPreview(pathname);
+  const isHome = pathname === "" || pathname === "/";
+  // Home keeps its full-bleed hero: no bottom padding, and no mobile
+  // action bar / booking banner stacked under a floating (not in-flow) nav.
+  const showMobileChrome = !fullBleedPreview && !isHome;
 
   return (
     <>
       <MotionShell />
-      {!fullBleedPreview && <Header />}
+      {!fullBleedPreview && <SiteHeader />}
       <main
         id="main"
-        className={fullBleedPreview ? "flex-1" : "flex-1 pb-20 md:pb-0"}
+        className={fullBleedPreview || isHome ? "flex-1" : "flex-1 pb-20 md:pb-0"}
       >
         {children}
       </main>
-      {!fullBleedPreview && <Footer />}
-      {!fullBleedPreview && <BookingBanner />}
-      {!fullBleedPreview && <MobileActionBar />}
+      {!fullBleedPreview && <SiteFooter />}
+      {showMobileChrome && <BookingBanner />}
+      {showMobileChrome && <MobileActionBar />}
     </>
   );
 }

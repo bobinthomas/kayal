@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import HfShell from "@/components/home-figma/HfShell";
 import HfHero from "@/components/home-figma/HfHero";
 import HfSignatures from "@/components/home-figma/HfSignatures";
 import HfMangoHero from "@/components/home-figma/HfMangoHero";
@@ -8,7 +7,6 @@ import HfPhilosophy from "@/components/home-figma/HfPhilosophy";
 import HfSpotlights from "@/components/home-figma/HfSpotlights";
 import HfTestimonials from "@/components/home-figma/HfTestimonials";
 import HfNewsletter from "@/components/home-figma/HfNewsletter";
-import { neuton, outfit, googleSansFlex, cormorantBold } from "./home-figma/fonts";
 
 export const metadata: Metadata = {
   title: "Kayal Foods — Authentic Kerala Restaurant in Moorebank, Sydney",
@@ -20,17 +18,15 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className={`${neuton.variable} ${outfit.variable} ${googleSansFlex.variable} ${cormorantBold.variable}`}>
-      <HfShell>
-        <HfHero />
-        <HfSignatures />
-        <HfMangoHero />
-        <HfVisit />
-        <HfPhilosophy />
-        <HfSpotlights />
-        <HfTestimonials />
-        <HfNewsletter />
-      </HfShell>
+    <div className="hf-page bg-hf-bg font-hf-body text-hf-ink">
+      <HfHero />
+      <HfSignatures />
+      <HfMangoHero />
+      <HfVisit />
+      <HfPhilosophy />
+      <HfSpotlights />
+      <HfTestimonials />
+      <HfNewsletter />
     </div>
   );
 }
