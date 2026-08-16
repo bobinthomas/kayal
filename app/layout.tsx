@@ -18,13 +18,6 @@ const cormorant = localFont({
   display: "swap",
 });
 
-const inter = localFont({
-  src: "./fonts/inter-variable.woff2",
-  variable: "--font-inter",
-  weight: "100 900",
-  display: "swap",
-});
-
 const fraunces = localFont({
   src: "./fonts/fraunces-variable.woff2",
   variable: "--font-fraunces",
@@ -75,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${cormorant.variable} ${inter.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${neuton.variable} ${outfit.variable} ${googleSansFlex.variable} ${cormorantBold.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${neuton.variable} ${outfit.variable} ${googleSansFlex.variable} ${cormorantBold.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-cream text-ink">
         <a href="#main" className="skip-link">

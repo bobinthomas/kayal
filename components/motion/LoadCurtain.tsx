@@ -60,25 +60,22 @@ export default function LoadCurtain() {
 
   return (
     <div
-      className={`load-curtain fixed inset-0 z-[100] flex flex-col items-center justify-center bg-banana-dark text-cream ${
+      className={`load-curtain fixed inset-0 z-[100] flex flex-col items-center justify-center bg-hf-footer text-white ${
         exiting ? "load-curtain-exit" : ""
       }`}
       aria-hidden="true"
     >
-      <p
-        className="font-display text-4xl font-semibold tracking-tight sm:text-5xl"
-        style={{ fontVariationSettings: '"WONK" 1.2' }}
-      >
+      <p className="font-hf-display text-4xl font-semibold tracking-tight sm:text-5xl">
         Kayal
       </p>
-      <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.4em] text-turmeric">
+      <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.4em] text-hf-amber">
         Foods
       </p>
-      <p className="load-curtain-counter mt-10 font-display text-6xl font-light tabular-nums text-turmeric sm:text-8xl">
+      <p className="load-curtain-counter mt-10 font-hf-display text-6xl font-light tabular-nums text-hf-amber sm:text-8xl">
         {String(pct).padStart(2, "0")}
-        <span className="text-2xl text-cream/40">%</span>
+        <span className="text-2xl text-white/40">%</span>
       </p>
-      <p className="mt-4 text-xs uppercase tracking-[0.35em] text-cream/40">
+      <p className="mt-4 text-xs uppercase tracking-[0.35em] text-white/40">
         Kerala&apos;s village table
       </p>
     </div>

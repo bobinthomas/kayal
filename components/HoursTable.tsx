@@ -25,7 +25,7 @@ export default function HoursTable({ compact = false }: { compact?: boolean }) {
             <tr
               key={day}
               className={`border-b border-current/10 last:border-0 ${
-                highlight ? "font-semibold text-turmeric" : ""
+                highlight ? "font-semibold text-hf-amber" : ""
               }`}
             >
               <th scope="row" className="py-1.5 pr-4 text-left font-medium">

@@ -19,7 +19,7 @@ export default function WhatsAppCta({
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => track("whatsapp_tap", { placement })}
-      className="inline-flex min-h-12 items-center rounded-full bg-curryleaf px-7 font-semibold text-ink transition-colors hover:bg-turmeric focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
+      className="inline-flex min-h-12 items-center rounded-full bg-hf-green px-7 font-semibold text-white transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hf-amber"
     >
       {label}
     </a>

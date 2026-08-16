@@ -25,7 +25,7 @@ export default function AboutPage() {
           { name: "About", path: "/about/" },
         ])}
       />
-      <div className="relative isolate overflow-hidden bg-banana-dark text-cream">
+      <div className="relative isolate overflow-hidden bg-hf-footer text-white">
         <Image
           src={legacyPhoto(3).src}
           alt=""
@@ -35,46 +35,45 @@ export default function AboutPage() {
           sizes="100vw"
         />
         <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-turmeric">
+          <p className="text-xs font-bold uppercase tracking-widest text-hf-amber">
             Our story
           </p>
-          <h1 className="mt-3 max-w-2xl font-display text-4xl font-semibold leading-tight sm:text-6xl">
+          <h1 className="mt-4 max-w-2xl font-hf-heading text-4xl font-semibold leading-tight sm:text-6xl">
             Kayal means backwater. It&apos;s where our food comes from.
           </h1>
         </div>
       </div>
 
       <section aria-labelledby="origin-heading" className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-        <h2 id="origin-heading" className="font-display text-3xl font-semibold text-leaf">
+        <h2 id="origin-heading" className="font-hf-heading text-3xl font-semibold text-hf-ink">
           The lagoon and the table
         </h2>
-        <div className="gold-rule my-5" aria-hidden="true" />
-        <p className="leading-relaxed text-ink/85">
+        <p className="mt-5 leading-relaxed text-hf-body">
           In Kerala, the <em>kayal</em> is the slow water between the rice paddies
           and the sea — home of the kettuvallam houseboats, the toddy shops on
           stilts, and the kind of cooking that never needed a recipe book. Fish
           straight off the line into the clay pot. Tapioca and beef on a rainy
           afternoon. Lunch tied up in a banana leaf.
         </p>
-        <p className="mt-4 leading-relaxed text-ink/85">{aboutParagraph}</p>
-        <p className="mt-4 leading-relaxed text-ink/85">
+        <p className="mt-4 leading-relaxed text-hf-body">{aboutParagraph}</p>
+        <p className="mt-4 leading-relaxed text-hf-body">
           Our kitchen is led by a chef with around seventeen years of cooking in
           Kerala before bringing the village table to Sydney.
           {/* ◻ Owner to confirm chef name, years and hometown (PRD §11.6). */}
         </p>
       </section>
 
-      <div className="text-leaf">
+      <div className="text-hf-green">
         <RippleDivider />
       </div>
 
-      <section aria-labelledby="kizhi-heading" className="bg-leaf py-16 text-cream">
+      <section aria-labelledby="kizhi-heading" className="bg-hf-green py-16 text-white">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 md:grid-cols-2">
           <Reveal>
-            <h2 id="kizhi-heading" className="font-display text-3xl font-semibold text-turmeric">
+            <h2 id="kizhi-heading" className="font-hf-heading text-3xl font-semibold text-hf-amber">
               The Kizhi Porotta
             </h2>
-            <p className="mt-4 leading-relaxed text-cream/90">{kizhiPorottaStory}</p>
+            <p className="mt-4 leading-relaxed text-white/90">{kizhiPorottaStory}</p>
           </Reveal>
           <Reveal>
             <Image
@@ -82,7 +81,7 @@ export default function AboutPage() {
               alt={legacyPhoto(1).alt}
               width={600}
               height={450}
-              className="aspect-[4/3] w-full rounded-3xl object-cover ring-1 ring-turmeric/30"
+              className="aspect-[4/3] w-full rounded-3xl object-cover ring-1 ring-hf-amber/30"
             />
           </Reveal>
         </div>
@@ -91,11 +90,11 @@ export default function AboutPage() {
       <section aria-labelledby="chatti-heading" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="grid items-center gap-10 md:grid-cols-2">
           <Reveal className="md:order-2">
-            <h2 id="chatti-heading" className="font-display text-3xl font-semibold text-clay">
+            <h2 id="chatti-heading" className="font-hf-heading text-3xl font-semibold text-hf-red">
               The Chatti Choru
             </h2>
-            <p className="mt-4 leading-relaxed text-ink/85">{chattiChoruStory}</p>
-            <p className="mt-3 leading-relaxed text-ink/85">
+            <p className="mt-4 leading-relaxed text-hf-body">{chattiChoruStory}</p>
+            <p className="mt-3 leading-relaxed text-hf-body">
               It&apos;s our best seller for a reason: the clay holds the heat, the heat
               holds the flavour, and the flavour holds the memory.
             </p>
@@ -106,18 +105,18 @@ export default function AboutPage() {
               alt={legacyPhoto(0).alt}
               width={600}
               height={450}
-              className="aspect-[4/3] w-full rounded-3xl object-cover ring-1 ring-clay/30"
+              className="aspect-[4/3] w-full rounded-3xl object-cover ring-1 ring-hf-red/30"
             />
           </Reveal>
         </div>
       </section>
 
       <section aria-labelledby="minimart-heading" className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
-        <div className="rounded-3xl bg-turmeric/15 p-8 ring-1 ring-turmeric/30">
-          <h2 id="minimart-heading" className="font-display text-2xl font-semibold text-leaf">
+        <div className="rounded-3xl bg-hf-badge-bg p-8 ring-1 ring-hf-amber/30">
+          <h2 id="minimart-heading" className="font-hf-heading text-2xl font-semibold text-hf-ink">
             Take Kerala home
           </h2>
-          <p className="mt-2 leading-relaxed text-ink/80">
+          <p className="mt-2 leading-relaxed text-hf-body">
             Our grocery corner stocks the essentials — matta rice, spice mixes,
             pickles and the things a Kerala pantry can&apos;t do without. Ask us on
             your way out.
@@ -125,7 +124,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-5 inline-flex min-h-11 items-center rounded-full bg-leaf px-6 text-sm font-semibold text-cream hover:bg-banana-dark"
+            className="mt-5 inline-flex min-h-11 items-center rounded-full bg-hf-green px-6 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
           >
             Visit us
           </Link>

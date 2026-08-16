@@ -11,16 +11,15 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-4xl font-semibold text-leaf">Privacy policy</h1>
-      <div className="gold-rule my-6" aria-hidden="true" />
-      <div className="space-y-6 leading-relaxed text-ink/85">
+      <h1 className="font-hf-heading text-4xl font-semibold text-hf-ink">Privacy policy</h1>
+      <div className="mt-6 space-y-6 leading-relaxed text-hf-body">
         <p>
           {restaurant.name} (&ldquo;we&rdquo;, &ldquo;us&rdquo;) respects your
           privacy. This policy explains what we collect through{" "}
           {restaurant.url.replace("https://", "")} and how we use it.
         </p>
         <section>
-          <h2 className="font-display text-2xl font-semibold text-leaf">What we collect</h2>
+          <h2 className="font-hf-heading text-2xl font-semibold text-hf-ink">What we collect</h2>
           <ul className="mt-3 list-disc space-y-2 pl-6">
             <li>
               <strong>Contact and catering enquiries:</strong> your name, phone
@@ -41,7 +40,7 @@ export default function PrivacyPage() {
           </ul>
         </section>
         <section>
-          <h2 className="font-display text-2xl font-semibold text-leaf">How we use it</h2>
+          <h2 className="font-hf-heading text-2xl font-semibold text-hf-ink">How we use it</h2>
           <p className="mt-3">
             We use your details only to answer your enquiry, arrange your booking
             or catering quote, and — if you join the WhatsApp group — to send
@@ -50,7 +49,7 @@ export default function PrivacyPage() {
           </p>
         </section>
         <section>
-          <h2 className="font-display text-2xl font-semibold text-leaf">Third-party services</h2>
+          <h2 className="font-hf-heading text-2xl font-semibold text-hf-ink">Third-party services</h2>
           <p className="mt-3">
             Form submissions are processed by Cloudflare and delivered to our
             email. Spam protection may be provided by Cloudflare Turnstile. The
@@ -59,16 +58,16 @@ export default function PrivacyPage() {
           </p>
         </section>
         <section>
-          <h2 className="font-display text-2xl font-semibold text-leaf">Contact us</h2>
+          <h2 className="font-hf-heading text-2xl font-semibold text-hf-ink">Contact us</h2>
           <p className="mt-3">
             Questions about your data? Email{" "}
-            <a href={`mailto:${restaurant.email}`} className="font-semibold text-clay underline-offset-2 hover:underline">
+            <a href={`mailto:${restaurant.email}`} className="font-semibold text-hf-red underline-offset-2 hover:underline">
               {restaurant.email}
             </a>{" "}
             or call {restaurant.phone.display}.
           </p>
         </section>
-        <p className="text-sm text-ink/60">Last updated: June 2026.</p>
+        <p className="text-sm text-hf-body">Last updated: June 2026.</p>
       </div>
     </div>
   );

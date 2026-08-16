@@ -66,27 +66,27 @@ export default function ContactForm({
   }
 
   const inputClass =
-    "mt-1 w-full rounded-xl border border-leaf/25 bg-white/80 px-4 py-3 text-ink placeholder:text-ink/40 focus:border-leaf focus:outline-2 focus:outline-offset-1 focus:outline-turmeric";
-  const labelClass = "block text-sm font-semibold text-leaf";
-  const errorClass = "mt-1 text-sm font-medium text-chilli";
+    "mt-1 w-full rounded-xl border border-hf-border bg-white px-4 py-3 text-hf-ink placeholder:text-hf-body/60 focus:border-hf-ink focus:outline-2 focus:outline-offset-1 focus:outline-hf-amber";
+  const labelClass = "block text-sm font-semibold text-hf-ink";
+  const errorClass = "mt-1 text-sm font-medium text-hf-red";
 
   if (status === "success") {
     return (
       <div
         role="status"
-        className="rounded-2xl bg-curryleaf/15 p-8 text-center ring-1 ring-curryleaf/40"
+        className="rounded-2xl bg-hf-badge-bg p-8 text-center ring-1 ring-hf-amber/40"
       >
-        <p className="font-display text-2xl font-semibold text-leaf">
+        <p className="font-hf-heading text-2xl font-semibold text-hf-ink">
           Got it — the pot&apos;s on.
         </p>
-        <p className="mt-2 text-ink/80">
+        <p className="mt-2 text-hf-body">
           We&apos;ve received your {variant === "catering" ? "catering enquiry" : "message"} and
           will get back to you shortly. In a hurry? Call us directly.
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-5 inline-flex min-h-11 items-center rounded-full border border-leaf px-6 text-sm font-semibold text-leaf hover:bg-leaf hover:text-cream"
+          className="mt-5 inline-flex min-h-11 items-center rounded-full border border-hf-ink px-6 text-sm font-semibold text-hf-ink hover:bg-hf-ink hover:text-white"
         >
           Send another message
         </button>
@@ -228,7 +228,7 @@ export default function ContactForm({
       )}
 
       {status === "error" && (
-        <p role="alert" className="rounded-xl bg-chilli/10 px-4 py-3 text-sm font-medium text-chilli">
+        <p role="alert" className="rounded-xl bg-hf-red/10 px-4 py-3 text-sm font-medium text-hf-red">
           Something went wrong sending your message. Please try again, or call us
           directly — we&apos;d love to hear from you.
         </p>
@@ -237,7 +237,7 @@ export default function ContactForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex min-h-12 items-center rounded-full bg-clay px-8 font-semibold text-cream transition-colors hover:bg-chilli disabled:opacity-60"
+        className="inline-flex min-h-12 items-center rounded-full bg-hf-red px-8 font-semibold text-white transition-transform hover:scale-[1.03] disabled:opacity-60"
       >
         {status === "submitting"
           ? "Sending…"
