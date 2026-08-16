@@ -888,6 +888,13 @@ h3 {
   text-decoration: underline;
 }
 .menu-page-body {
+  background: var(--lagoon-2);
+  color: white;
+  /* Flips every color-mix(var(--ink) ...) rule below to render light-on-dark
+     inside this scope, without having to touch each rule individually. */
+  --ink: white;
+}
+.menu-page-body-inner {
   margin: 0 auto;
   max-width: 52rem;
   padding: 2rem 1.5rem 4rem;
@@ -923,11 +930,25 @@ h3 {
 .menu-item:last-child {
   border-bottom: none;
 }
+.menu-item-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
 .menu-item-name {
   font-family: var(--font-hf-heading);
   font-size: 1.25rem;
   font-weight: 500;
   color: var(--ink);
+}
+.menu-item-price {
+  flex-shrink: 0;
+  font-family: var(--font-hf-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-deep);
 }
 .menu-item-mal {
   margin-top: 0.15rem;
@@ -935,23 +956,8 @@ h3 {
   font-size: 0.875rem;
   color: color-mix(in srgb, var(--ink) 45%, transparent);
 }
-.menu-item-price {
-  margin-top: 0.35rem;
-  font-family: var(--font-hf-heading);
-  font-size: 1.125rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--clay);
-}
-.menu-item-desc {
-  margin-top: 0.5rem;
-  max-width: 40rem;
-  font-size: 0.9375rem;
-  line-height: 1.65;
-  color: color-mix(in srgb, var(--ink) 68%, transparent);
-}
 .menu-item-tags {
-  margin-top: 0.75rem;
+  margin-top: 0.65rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -965,13 +971,44 @@ h3 {
   background: var(--hf-badge-bg);
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--ink);
+  /* Explicit un-remapped token: this chip stays light even inside
+     .menu-page-body's dark scope, so its text must stay dark too. */
+  color: var(--hf-ink);
 }
 .menu-item-tag svg {
   width: 0.8rem;
   height: 0.8rem;
   flex-shrink: 0;
   color: var(--hf-amber);
+}
+.menu-item-desc {
+  margin-top: 0.65rem;
+  max-width: 40rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--ink) 68%, transparent);
+}
+.menu-item--featured {
+  margin: 1.75rem 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, white 22%, transparent);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.menu-item--featured:last-child {
+  border-bottom: 1px solid color-mix(in srgb, white 22%, transparent);
+}
+.menu-item-featured-label {
+  padding: 0.6rem 1.25rem;
+  background: var(--gold-deep);
+  color: var(--lagoon-2);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.menu-item-featured-body {
+  padding: 1.5rem 1.25rem 1.75rem;
 }
 .menu-legend {
   margin-top: 3rem;
@@ -992,7 +1029,9 @@ h3 {
   flex-wrap: wrap;
   gap: 0.75rem 1.5rem;
   font-size: 0.875rem;
-  color: color-mix(in srgb, var(--ink) 70%, transparent);
+  /* .menu-legend keeps its light card background even inside the dark
+     .menu-page-body scope, so this needs the un-remapped ink token. */
+  color: color-mix(in srgb, var(--hf-ink) 70%, transparent);
 }
 .menu-page-footer {
   margin-top: 2.5rem;

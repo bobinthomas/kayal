@@ -13,21 +13,25 @@ const tagIcons: Record<MenuTag, typeof Leaf> = {
 };
 
 export default function MenuItemRow({ item }: { item: MenuItem }) {
-  return (
-    <article className="menu-item">
-      <h3 className="menu-item-name">{item.name}</h3>
+  const isFeatured = item.tags?.includes("signature") ?? false;
+  // The featured box's own label already says "chef recommend", so the
+  // signature pill would just repeat that — only show the other tags.
+  const pillTags = isFeatured ? item.tags?.filter((tag) => tag !== "signature") : item.tags;
+
+  const body = (
+    <>
+      <div className="menu-item-head">
+        <h3 className="menu-item-name">{item.name}</h3>
+        {item.price != null && <p className="menu-item-price">{formatPrice(item.price)}</p>}
+      </div>
       {item.mal && (
         <p className="menu-item-mal" lang="ml">
           {item.mal}
         </p>
       )}
-      {item.price != null && (
-        <p className="menu-item-price">{formatPrice(item.price)}</p>
-      )}
-      {item.desc && <p className="menu-item-desc">{item.desc}</p>}
-      {item.tags && item.tags.length > 0 && (
+      {pillTags && pillTags.length > 0 && (
         <p className="menu-item-tags">
-          {item.tags.map((tag) => {
+          {pillTags.map((tag) => {
             const Icon = tagIcons[tag];
             return (
               <span key={tag} className="menu-item-tag">
@@ -38,6 +42,18 @@ export default function MenuItemRow({ item }: { item: MenuItem }) {
           })}
         </p>
       )}
-    </article>
+      {item.desc && <p className="menu-item-desc">{item.desc}</p>}
+    </>
   );
+
+  if (isFeatured) {
+    return (
+      <article className="menu-item menu-item--featured">
+        <p className="menu-item-featured-label">Chef Recommend</p>
+        <div className="menu-item-featured-body">{body}</div>
+      </article>
+    );
+  }
+
+  return <article className="menu-item">{body}</article>;
 }

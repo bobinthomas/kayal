@@ -38,6 +38,7 @@ export default function MenuPage() {
         <MenuFeaturedSpotlights />
 
         <div className="menu-page-body">
+        <div className="menu-page-body-inner">
         {menuSections.map((section) => (
           <MenuSectionBlock key={section.id} section={section} />
         ))}
@@ -57,6 +58,7 @@ export default function MenuPage() {
           <p className="menu-disclaimer">{menuDisclaimer}</p>
           <WhatsAppCta placement="menu_footer" label="Book on WhatsApp" />
         </footer>
+        </div>
       </div>
       </div>
     </>
