@@ -2,8 +2,8 @@
   "slides": [
     {
       "id": "fish-tikka",
-      "theme": "light",
-      "heroWord": "taste3",
+      "theme": "dark",
+      "heroWord": "taste",
       "menuItemId": "chatti-choru",
       "image": "/images/home-figma/uploads/2996a085-b07e-4776-bab3-d234a547e721.jpg"
     },
