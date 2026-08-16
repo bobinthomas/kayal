@@ -929,13 +929,6 @@ h3 {
   font-weight: 500;
   color: var(--ink);
 }
-.menu-item-veg {
-  font-family: var(--font-hf-body);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
 .menu-item-mal {
   margin-top: 0.15rem;
   font-family: var(--font-malayalam);
@@ -958,15 +951,27 @@ h3 {
   color: color-mix(in srgb, var(--ink) 68%, transparent);
 }
 .menu-item-tags {
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  font-size: 0.6875rem;
+  gap: 0.5rem;
+}
+.menu-item-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background: var(--hf-badge-bg);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--ink) 45%, transparent);
+  color: var(--ink);
+}
+.menu-item-tag svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex-shrink: 0;
+  color: var(--hf-amber);
 }
 .menu-legend {
   margin-top: 3rem;
