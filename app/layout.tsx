@@ -5,19 +5,12 @@ import SiteChrome from "@/components/SiteChrome";
 import JsonLd from "@/components/JsonLd";
 import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
-import { googleSansFlex, besleyBold } from "./home-figma/fonts";
+import { googleSansFlex, newsreader } from "./home-figma/fonts";
 
 // Self-hosted variable fonts (subsetted from the official google/fonts sources) —
 // zero external font requests, zero layout shift, and no build-time dependency on
 // fonts.gstatic.com (which next/font/google needs, and which Cloudflare's Workers
 // Builds environment can't reach).
-const besley = localFont({
-  src: "./fonts/besley-variable.woff2",
-  variable: "--font-besley",
-  weight: "400 900",
-  display: "swap",
-});
-
 const fraunces = localFont({
   src: "./fonts/fraunces-variable.woff2",
   variable: "--font-fraunces",
@@ -68,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${besley.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${googleSansFlex.variable} ${besleyBold.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${googleSansFlex.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-cream text-ink">
         <a href="#main" className="skip-link">

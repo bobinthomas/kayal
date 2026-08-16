@@ -12,11 +12,15 @@ export const googleSansFlex = localFont({
   display: "swap",
 });
 
-// Reuses the same self-hosted Besley file as the root layout (already spans
-// weight 400-900) — this design just needs 700 for headings.
-export const besleyBold = localFont({
-  src: "../fonts/besley-variable.woff2",
-  weight: "700",
-  variable: "--font-hf-besley-bold",
+// Google serves the same underlying variable file for every static weight
+// request on a VF-only family like Newsreader — each @font-face entry below
+// just points the browser at a fixed instance (Light, Regular) within it,
+// same technique Google Fonts itself uses.
+export const newsreader = localFont({
+  src: [
+    { path: "./fonts/newsreader-variable.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/newsreader-variable.woff2", weight: "400", style: "normal" },
+  ],
+  variable: "--font-hf-newsreader",
   display: "swap",
 });
