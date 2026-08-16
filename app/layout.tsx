@@ -5,7 +5,7 @@ import SiteChrome from "@/components/SiteChrome";
 import JsonLd from "@/components/JsonLd";
 import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
-import { neuton, outfit, googleSansFlex, cormorantBold } from "./home-figma/fonts";
+import { googleSansFlex, cormorantBold } from "./home-figma/fonts";
 
 // Self-hosted variable fonts (subsetted from the official google/fonts sources) —
 // zero external font requests, zero layout shift, and no build-time dependency on
@@ -68,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${cormorant.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${neuton.variable} ${outfit.variable} ${googleSansFlex.variable} ${cormorantBold.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${googleSansFlex.variable} ${cormorantBold.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-cream text-ink">
         <a href="#main" className="skip-link">
