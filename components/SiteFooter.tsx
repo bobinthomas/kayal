@@ -12,7 +12,8 @@ const [exploreLinks, visitLinks] = [
 /** Site-wide footer — same on every page. */
 export default function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden bg-hf-green px-6 pb-10 pt-16 text-white sm:px-10 lg:px-20">
+    <div className="bg-hf-bg px-3 pt-3 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
+    <footer className="relative overflow-hidden rounded-[1.5rem] bg-hf-green px-6 pb-10 pt-16 text-white sm:rounded-[2rem] sm:px-10 lg:px-20">
       {/* Backwater ripples — "kayal" means lagoon */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <svg
@@ -115,17 +116,12 @@ export default function SiteFooter() {
 
         {/* Wordmark + copyright */}
         <div className="flex flex-col gap-6">
-          <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-            <p className="font-hf-display text-[clamp(3.5rem,13vw,8.5rem)] font-light leading-[0.85] tracking-tight text-white">
-              Kayal
-            </p>
-            <p
-              lang="ml"
-              className="font-[family-name:var(--font-malayalam)] text-[clamp(1.5rem,4.5vw,3rem)] text-hf-amber"
-            >
-              കായൽ
-            </p>
-          </div>
+          <p
+            lang="ml"
+            className="font-[family-name:var(--font-malayalam)] text-[clamp(3rem,11vw,7rem)] leading-[0.95] text-white"
+          >
+            കായൽ
+          </p>
 
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <p className="text-xs text-white/50">
@@ -166,5 +162,6 @@ export default function SiteFooter() {
         </a>
       </div>
     </footer>
+    </div>
   );
 }

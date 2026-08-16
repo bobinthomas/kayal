@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HfHero from "@/components/home-figma/HfHero";
+import HfHeritage from "@/components/home-figma/HfHeritage";
 import HfSignatures from "@/components/home-figma/HfSignatures";
 import HfMangoHero from "@/components/home-figma/HfMangoHero";
 import HfVisit from "@/components/home-figma/HfVisit";
@@ -20,6 +21,7 @@ export default function HomePage() {
   return (
     <div className="hf-page bg-hf-bg font-hf-body text-hf-ink">
       <HfHero />
+      <HfHeritage />
       <HfSignatures />
       <HfMangoHero />
       <HfVisit />
