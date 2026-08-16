@@ -12,11 +12,11 @@ export const googleSansFlex = localFont({
   display: "swap",
 });
 
-// Reuses the same self-hosted Cormorant Garamond file as the root layout
-// (already spans weight 300-700) — this design just needs 700 for headings.
-export const cormorantBold = localFont({
-  src: "../fonts/cormorant-garamond-variable.woff2",
+// Reuses the same self-hosted Besley file as the root layout (already spans
+// weight 400-900) — this design just needs 700 for headings.
+export const besleyBold = localFont({
+  src: "../fonts/besley-variable.woff2",
   weight: "700",
-  variable: "--font-hf-cormorant-bold",
+  variable: "--font-hf-besley-bold",
   display: "swap",
 });

@@ -1692,8 +1692,8 @@ h3 {
   --color-hf-badge-bg: var(--hf-badge-bg);
   --color-hf-footer: var(--hf-footer);
 
-  --font-hf-display: var(--font-cormorant), "Cormorant Garamond", serif;
-  --font-hf-heading: var(--font-hf-cormorant-bold), var(--font-cormorant), serif;
+  --font-hf-display: var(--font-besley), "Besley", serif;
+  --font-hf-heading: var(--font-hf-besley-bold), var(--font-besley), serif;
   --font-hf-body: var(--font-hf-gsans), ui-sans-serif, sans-serif;
   --font-hf-accent: var(--font-hf-gsans), ui-sans-serif, sans-serif;
 }
