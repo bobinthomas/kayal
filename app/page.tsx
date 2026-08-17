@@ -3,7 +3,6 @@ import HfHero from "@/components/home-figma/HfHero";
 import HfDishMarquee from "@/components/home-figma/HfDishMarquee";
 import HfHeritage from "@/components/home-figma/HfHeritage";
 import HfSignatures from "@/components/home-figma/HfSignatures";
-import HfMangoHero from "@/components/home-figma/HfMangoHero";
 import HfVisit from "@/components/home-figma/HfVisit";
 import HfPhilosophy from "@/components/home-figma/HfPhilosophy";
 import HfSpotlights from "@/components/home-figma/HfSpotlights";
@@ -22,10 +21,9 @@ export default function HomePage() {
   return (
     <div className="hf-page bg-hf-bg font-hf-body text-hf-ink">
       <HfHero />
-      <HfDishMarquee />
       <HfHeritage />
       <HfSignatures />
-      <HfMangoHero />
+      <HfDishMarquee />
       <HfVisit />
       <HfPhilosophy />
       <HfSpotlights />
