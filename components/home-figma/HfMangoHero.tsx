@@ -4,31 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { hfMangoSlides, hfMangoGarnish, hfMangoBlurb, formatPrice } from "@/data/home-figma";
+import { hfMangoSlides, hfMangoBlurb, formatPrice } from "@/data/home-figma";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { track } from "@/lib/analytics";
 import HfReveal from "./HfReveal";
 
 const SLIDE_MS = 6500;
-
-const GARNISH_CORNERS = {
-  chili: "left-2 top-2 sm:left-4 sm:top-4",
-  onion: "left-2 bottom-2 sm:left-4 sm:bottom-4",
-  star: "right-2 top-2 sm:right-4 sm:top-4",
-  coriander: "right-2 bottom-2 sm:right-4 sm:bottom-4",
-} as const;
-
-function GarnishImg({ asset }: { asset: keyof typeof hfMangoGarnish }) {
-  const { src } = hfMangoGarnish[asset];
-  return (
-    <div
-      className={`absolute hidden h-10 w-10 sm:block sm:h-14 sm:w-14 lg:h-16 lg:w-16 ${GARNISH_CORNERS[asset]}`}
-      aria-hidden="true"
-    >
-      <Image src={src} alt="" fill sizes="64px" className="object-contain" />
-    </div>
-  );
-}
 
 export default function HfMangoHero() {
   const [active, setActive] = useState(0);
@@ -109,11 +90,6 @@ export default function HfMangoHero() {
             </div>
 
             <div className="relative min-h-0 flex-1">
-              <GarnishImg asset="chili" />
-              <GarnishImg asset="onion" />
-              <GarnishImg asset="star" />
-              <GarnishImg asset="coriander" />
-
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-85">
                 <div
                   className="relative h-[45%] max-w-[85%] sm:h-[55%]"
@@ -131,7 +107,7 @@ export default function HfMangoHero() {
               </div>
 
               <div
-                className="absolute bottom-0 left-1/2 w-[55%] -translate-x-1/2 sm:w-[45%] lg:w-[38%]"
+                className="absolute bottom-0 left-1/2 w-[65%] -translate-x-1/2"
                 style={{ aspectRatio: slide.imageAspect }}
               >
                 <Image

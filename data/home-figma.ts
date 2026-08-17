@@ -29,16 +29,7 @@ export const hfBentoDishes = [
  * Position percentages below are converted directly from the Figma spec's
  * fixed 1440x900 canvas coordinates (e.g. left:110px -> 110/1440 = 7.6%), so
  * the slide is laid out at `aspect-[1440/900]` and everything scales
- * together exactly as in the design. Garnish images are the same 4 assets
- * (chili, onion, star anise, coriander) Figma reuses across all variants,
- * just renudged per variant to sit around that slide's wordmark line count. */
-const chattiGarnish = {
-  chili: { left: 7.6, top: 21.1 },
-  onion: { left: 5.2, top: 46.7 },
-  star: { left: 73.6, top: 18.9 },
-  coriander: { left: 69.9, top: 62.3 },
-};
-
+ * together exactly as in the design. */
 export const hfMangoSlides = [
   {
     id: "chatti-choru",
@@ -53,7 +44,6 @@ export const hfMangoSlides = [
     rotate: true,
     wordmarkTop: 31.1,
     dishTop: 54.1,
-    garnish: chattiGarnish,
   },
   {
     id: "kappa-biryani",
@@ -66,12 +56,6 @@ export const hfMangoSlides = [
     rotate: false,
     wordmarkTop: 32.2,
     dishTop: 47.1,
-    garnish: {
-      chili: { left: 7.6, top: 32.2 },
-      onion: { left: 5.2, top: 57.8 },
-      star: { left: 73.6, top: 26.7 },
-      coriander: { left: 76.8, top: 62.3 },
-    },
   },
   {
     id: "thalassery-biryani",
@@ -84,12 +68,6 @@ export const hfMangoSlides = [
     rotate: false,
     wordmarkTop: 20,
     dishTop: 48.6,
-    garnish: {
-      chili: { left: 16.6, top: 26.1 },
-      onion: { left: 3.1, top: 54.6 },
-      star: { left: 67.9, top: 26.1 },
-      coriander: { left: 74.2, top: 59.1 },
-    },
   },
   {
     id: "avial",
@@ -102,7 +80,6 @@ export const hfMangoSlides = [
     rotate: false,
     wordmarkTop: 24.4,
     dishTop: 54.1,
-    garnish: chattiGarnish,
   },
 ] as const;
 
@@ -111,14 +88,6 @@ export const hfMangoSlides = [
  * all 4 variants, matching the design's own pattern of one blurb for every slide. */
 export const hfMangoBlurb =
   "Kerala's village recipes, cooked the naadan way — fresh spices, slow flame, real flavour.";
-
-/** The 4 garnish images Figma reuses across every MangoHero variant. */
-export const hfMangoGarnish = {
-  chili: { src: "/images/home-figma/garnish-chili.png", width: 7.8, height: 11.8 },
-  onion: { src: "/images/home-figma/garnish-onion.png", width: 14.9, height: 24.4 },
-  star: { src: "/images/home-figma/garnish-star.png", width: 10.4, height: 16.7 },
-  coriander: { src: "/images/home-figma/garnish-coriander.png", width: 15.6, height: 23.3 },
-} as const;
 
 /** Hero slider — real signature dishes, matching the Figma "God's Own ___"
  * slide set (node 62:1100). "light" mirrors the Default variant (white bg,
