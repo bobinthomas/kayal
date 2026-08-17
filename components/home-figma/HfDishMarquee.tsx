@@ -23,7 +23,7 @@ export default function HfDishMarquee() {
           {row.map((dish, i) => (
             <span
               key={i}
-              className="flex shrink-0 items-center gap-4 px-5 font-hf-heading text-lg font-medium text-white sm:text-xl"
+              className="flex shrink-0 items-center gap-4 px-5 font-hf-heading text-[2.125rem] font-medium text-white"
             >
               {dish}
               <span className="text-hf-amber" aria-hidden="true">
