@@ -26,6 +26,7 @@ const CONTENT_PATHS: Record<ContentKey, string> = {
   reviews: "content/reviews.json",
   copy: "content/copy.json",
   "home-hero": "content/home-hero.json",
+  "home-showcase": "content/home-showcase.json",
 };
 
 function isContentKey(key: string): key is ContentKey {

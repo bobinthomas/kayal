@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { ADMIN_PASSWORD_KEY, checkSession } from "./adminApi";
 import HeroEditor from "./HeroEditor";
+import ShowcaseEditor from "./ShowcaseEditor";
 import MenuEditor from "./MenuEditor";
 import MenuMetaEditor from "./MenuMetaEditor";
 import SpecialsEditor from "./SpecialsEditor";
@@ -12,6 +13,7 @@ import CopyEditor from "./CopyEditor";
 
 const TABS = [
   { id: "hero", label: "Home hero" },
+  { id: "showcase", label: "Dish photos" },
   { id: "menu", label: "Menu" },
   { id: "menu-meta", label: "Menu page" },
   { id: "specials", label: "Featured specials" },
@@ -128,6 +130,7 @@ export default function AdminApp() {
       </nav>
 
       {tab === "hero" && <HeroEditor password={password} onUnauthorized={handleUnauthorized} />}
+      {tab === "showcase" && <ShowcaseEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "menu" && <MenuEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "menu-meta" && <MenuMetaEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "specials" && <SpecialsEditor password={password} onUnauthorized={handleUnauthorized} />}

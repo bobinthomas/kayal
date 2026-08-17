@@ -36,6 +36,7 @@ with types — edit `content/*.json` directly (or via `/admin`), not `data/*.ts`
 | `content/copy.json` | Verbatim brand copy, marquee dishes, catering categories |
 | `content/menu-meta.json` | Menu page intro copy, nav labels, featured spotlights |
 | `content/home-hero.json` | Home page hero carousel — slide order, headline word, featured dish, photo |
+| `content/home-showcase.json` | Photos for the Signature Dishes bento grid and mango-slide showcase |
 
 Hero photos are uploaded straight from `/admin` (resized client-side, no image
 optimizer needed since this is a static export) and land in

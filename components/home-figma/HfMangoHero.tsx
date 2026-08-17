@@ -51,7 +51,7 @@ export default function HfMangoHero() {
   return (
     <HfReveal
       as="section"
-      className="relative isolate h-dvh max-h-[1000px] min-h-[380px] overflow-hidden"
+      className="relative isolate h-dvh max-h-[400px] min-h-[380px] overflow-hidden sm:max-h-[700px]"
       aria-roledescription="carousel"
       aria-label="Featured dishes"
     >

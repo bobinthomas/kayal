@@ -1,5 +1,6 @@
 import { menuSections, formatPrice, type MenuItem } from "./menu";
 import homeHeroJson from "@/content/home-hero.json";
+import homeShowcaseJson from "@/content/home-showcase.json";
 
 const allItems = menuSections.flatMap((section) => section.items);
 const byId = (id: string): MenuItem => {
@@ -8,13 +9,14 @@ const byId = (id: string): MenuItem => {
   return item;
 };
 
-/** Bento grid — signature dishes section. Real menu data, template stock photography. */
+/** Bento grid — signature dishes section. Real menu data; photo per dish is
+ * admin-editable via content/home-showcase.json (see /admin). */
 export const hfBentoDishes = [
-  { item: byId("kizhi-porotta"), image: "/images/home-figma/dish-kizhi-porotta.png" },
-  { item: byId("meen-pollichathu"), image: "/images/home-figma/dish-meen-pollichathu.png" },
-  { item: byId("thalassery-biryani"), image: "/images/home-figma/dish-thalassery-biryani.png" },
-  { item: byId("kerala-fish-curry"), image: "/images/home-figma/dish-kerala-fish-curry.png" },
-  { item: byId("fish-tikka"), image: "/images/home-figma/dish-fish-tikka.png" },
+  { item: byId("kizhi-porotta"), image: homeShowcaseJson.signatureDishes["kizhi-porotta"] },
+  { item: byId("meen-pollichathu"), image: homeShowcaseJson.signatureDishes["meen-pollichathu"] },
+  { item: byId("thalassery-biryani"), image: homeShowcaseJson.signatureDishes["thalassery-biryani"] },
+  { item: byId("kerala-fish-curry"), image: homeShowcaseJson.signatureDishes["kerala-fish-curry"] },
+  { item: byId("fish-tikka"), image: homeShowcaseJson.signatureDishes["fish-tikka"] },
 ] as const;
 
 /** Mango-hero slider — matches the Figma "MangoHero" component's 4-variant
@@ -43,7 +45,7 @@ export const hfMangoSlides = [
     wordmarkSvg: "/images/home-figma/wordmarks/chatti-choru-wordmark.svg",
     wordmarkAspect: 977 / 309,
     item: byId("chatti-choru"),
-    image: "/images/home-figma/chatti-choru-bowl.png",
+    image: homeShowcaseJson.mangoSlides["chatti-choru"],
     imageAspect: 1472 / 990,
     gradient: { from: "#2baae2", to: "#046937" },
     // Only the Figma "Default" variant rotates its focal image (rotate_31);
@@ -58,7 +60,7 @@ export const hfMangoSlides = [
     wordmarkSvg: "/images/home-figma/wordmarks/kappa-biryani-wordmark.svg",
     wordmarkAspect: 1152 / 440,
     item: byId("kappa-biryani"),
-    image: "/images/home-figma/mango-kappa-biryani.png",
+    image: homeShowcaseJson.mangoSlides["kappa-biryani"],
     imageAspect: 777 / 409,
     gradient: { from: "#2b1105", to: "#542103" },
     rotate: false,
@@ -76,7 +78,7 @@ export const hfMangoSlides = [
     wordmarkSvg: "/images/home-figma/wordmarks/thalassery-biryani-wordmark.svg",
     wordmarkAspect: 1152 / 520,
     item: byId("thalassery-biryani"),
-    image: "/images/home-figma/mango-thalassery-biryani.png",
+    image: homeShowcaseJson.mangoSlides["thalassery-biryani"],
     imageAspect: 782 / 463,
     gradient: { from: "#034e35", to: "#012c1e" },
     rotate: false,
@@ -94,7 +96,7 @@ export const hfMangoSlides = [
     wordmarkSvg: "/images/home-figma/wordmarks/avial-wordmark.svg",
     wordmarkAspect: 622 / 468,
     item: byId("avial"),
-    image: "/images/home-figma/mango-avial.png",
+    image: homeShowcaseJson.mangoSlides.avial,
     imageAspect: 720 / 403,
     gradient: { from: "#5b120b", to: "#3b0803" },
     rotate: false,

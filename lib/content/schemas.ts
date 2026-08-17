@@ -206,6 +206,24 @@ export const HomeHeroFileSchema = z.object({
   slides: z.array(HomeHeroSlideSchema).min(1).max(6),
 });
 
+const ShowcaseImagePathSchema = z.string().regex(/^\/images\/.+/, "must be a /images/... path");
+
+export const HomeShowcaseFileSchema = z.object({
+  signatureDishes: z.object({
+    "kizhi-porotta": ShowcaseImagePathSchema,
+    "meen-pollichathu": ShowcaseImagePathSchema,
+    "thalassery-biryani": ShowcaseImagePathSchema,
+    "kerala-fish-curry": ShowcaseImagePathSchema,
+    "fish-tikka": ShowcaseImagePathSchema,
+  }),
+  mangoSlides: z.object({
+    "chatti-choru": ShowcaseImagePathSchema,
+    "kappa-biryani": ShowcaseImagePathSchema,
+    "thalassery-biryani": ShowcaseImagePathSchema,
+    avial: ShowcaseImagePathSchema,
+  }),
+});
+
 export type MenuFile = z.infer<typeof MenuFileSchema>;
 export type MenuMetaFile = z.infer<typeof MenuMetaFileSchema>;
 export type SpecialsFile = z.infer<typeof SpecialsFileSchema>;
@@ -214,6 +232,7 @@ export type ReviewsFile = z.infer<typeof ReviewsFileSchema>;
 export type CopyFile = z.infer<typeof CopyFileSchema>;
 export type HomeHeroFile = z.infer<typeof HomeHeroFileSchema>;
 export type HomeHeroSlide = z.infer<typeof HomeHeroSlideSchema>;
+export type HomeShowcaseFile = z.infer<typeof HomeShowcaseFileSchema>;
 
 export const CONTENT_SCHEMAS = {
   menu: MenuFileSchema,
@@ -223,6 +242,7 @@ export const CONTENT_SCHEMAS = {
   reviews: ReviewsFileSchema,
   copy: CopyFileSchema,
   "home-hero": HomeHeroFileSchema,
+  "home-showcase": HomeShowcaseFileSchema,
 } as const;
 
 export type ContentKey = keyof typeof CONTENT_SCHEMAS;
