@@ -24,11 +24,19 @@ export async function resizeImageFile(
   ctx.drawImage(bitmap, 0, 0, width, height);
   bitmap.close();
 
-  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+  // JPEG has no alpha channel — canvas fills transparent pixels with opaque
+  // black when flattening to it, so a transparent source (a cutout PNG/WebP)
+  // must stay on a format that keeps transparency, or the "transparent"
+  // background silently becomes a solid black background in the output.
+  const preserveAlpha = file.type === "image/png" || file.type === "image/webp";
+  const outputType = preserveAlpha ? "image/png" : "image/jpeg";
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, outputType, preserveAlpha ? undefined : quality),
+  );
   if (!blob) throw new Error("encode_failed");
 
   const dataBase64 = await blobToBase64(blob);
-  return { dataBase64, contentType: "image/jpeg" };
+  return { dataBase64, contentType: outputType };
 }
 
 function blobToBase64(blob: Blob): Promise<string> {
