@@ -124,7 +124,7 @@ export default function ShowcaseEditor({
       <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-6 p-4">
         <p className="text-sm text-neutral-500">
-          Photos for the "Signature Dishes" bento grid and the mango-slide showcase on the home page. Everything
+          Photos for the &quot;Signature Dishes&quot; bento grid and the mango-slide showcase on the home page. Everything
           else about those sections (layout, wordmark, dish name, price) is fixed in code — only the photo changes
           here.
         </p>
