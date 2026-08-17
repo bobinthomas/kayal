@@ -90,7 +90,7 @@ export default function HfMangoHero() {
             </div>
 
             <div className="relative min-h-0 flex-1">
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-85">
+              <div className="pointer-events-none absolute inset-0 flex -translate-y-[30%] items-center justify-center opacity-85">
                 <div
                   className="relative h-[45%] max-w-[85%] sm:h-[55%]"
                   style={{ aspectRatio: slide.wordmarkAspect }}
@@ -107,7 +107,7 @@ export default function HfMangoHero() {
               </div>
 
               <div
-                className="absolute bottom-0 left-1/2 w-[65%] -translate-x-1/2"
+                className="absolute bottom-0 left-1/2 w-[75%] translate-y-1/2 -translate-x-1/2"
                 style={{ aspectRatio: slide.imageAspect }}
               >
                 <Image
