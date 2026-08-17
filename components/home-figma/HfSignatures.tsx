@@ -31,15 +31,7 @@ export default function HfSignatures() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   {item.price != null && (
-                    <span
-                      className="absolute right-0 top-0 rounded-tr-2xl bg-white px-3.5 py-2 text-sm font-semibold text-hf-ink"
-                      style={{
-                        WebkitMaskImage:
-                          "radial-gradient(circle 14px at 0 100%, transparent 99%, black 100%)",
-                        maskImage:
-                          "radial-gradient(circle 14px at 0 100%, transparent 99%, black 100%)",
-                      }}
-                    >
+                    <span className="absolute right-0 top-0 rounded-bl-2xl rounded-tr-2xl bg-white px-3.5 py-2 text-sm font-semibold text-hf-ink">
                       {formatPrice(item.price)}
                     </span>
                   )}
