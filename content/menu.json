@@ -679,32 +679,27 @@
     },
     {
       "id": "desserts-drinks",
-      "title": "Desserts & Drinks",
+      "title": "Drinks & Beverages",
       "blurb": "Sweet finishes and refreshing pours.",
       "items": [
-        {
-          "id": "gulab-jamun",
-          "name": "Gulab Jamun",
-          "desc": "Classic Indian sweet made of milk solids and sugar.",
-          "price": 5.5,
-          "tags": [
-            "veg"
-          ]
-        },
-        {
-          "id": "kulfi",
-          "name": "Kulfi — Roasted Almonds / Mango",
-          "desc": "Reduced milk flavoured with saffron, cardamom, pistachio, and almonds, served chilled.",
-          "price": 5.5,
-          "tags": [
-            "veg"
-          ]
-        },
         {
           "id": "mango-lassi",
           "name": "Lassi — Mango / Salt / Sweet",
           "desc": "Yogurt-based drink blended with water, spices, dry fruits, or fruit.",
-          "price": 5.99,
+          "price": 6.95,
+          "tags": [
+            "veg"
+          ]
+        },
+        {
+          "id": "new-item-1787206200698",
+          "name": "Mineral Water",
+          "price": 3.95
+        },
+        {
+          "id": "coke",
+          "name": "Soft Drinks",
+          "price": 3.95,
           "tags": [
             "veg"
           ]
@@ -741,38 +736,6 @@
           "name": "Orange Juice",
           "desc": "Fresh orange juice.",
           "price": 9.99,
-          "tags": [
-            "veg"
-          ]
-        },
-        {
-          "id": "coke",
-          "name": "Coke",
-          "price": 3.5,
-          "tags": [
-            "veg"
-          ]
-        },
-        {
-          "id": "fanta",
-          "name": "Fanta",
-          "price": 3.5,
-          "tags": [
-            "veg"
-          ]
-        },
-        {
-          "id": "sprite",
-          "name": "Sprite",
-          "price": 3.5,
-          "tags": [
-            "veg"
-          ]
-        },
-        {
-          "id": "coke-diet",
-          "name": "Coke Diet",
-          "price": 3.5,
           "tags": [
             "veg"
           ]
