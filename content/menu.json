@@ -152,33 +152,6 @@
       ]
     },
     {
-      "id": "dosa-appam",
-      "title": "Appam",
-      "blurb": "Fermented rice batters from the griddle and steamer.",
-      "items": [
-        {
-          "id": "appam",
-          "name": "Appam",
-          "desc": "Traditional Kerala breakfast item.",
-          "price": 3,
-          "tags": [
-            "veg",
-            "availability"
-          ]
-        },
-        {
-          "id": "idiappam",
-          "name": "Idiappam",
-          "desc": "Steamed South Indian rice noodle made from rice flour.",
-          "price": 1.5,
-          "tags": [
-            "veg",
-            "availability"
-          ]
-        }
-      ]
-    },
-    {
       "id": "vegetarian",
       "title": "Vegetarian",
       "blurb": "Wholesome vegetable curries, lentils and paneer from the Kerala coast.",
@@ -577,34 +550,6 @@
           "name": "Prawn Biriyani",
           "desc": "Chef's special dum biriyani.",
           "price": 24.9
-        },
-        {
-          "id": "kappachatti",
-          "name": "Kappachatti",
-          "desc": "Tapioca, fish curry, and fish fry in an authentic chatti.",
-          "price": 25,
-          "tags": [
-            "availability"
-          ]
-        },
-        {
-          "id": "chatti-porotta",
-          "name": "Chatti Porotta",
-          "desc": "Kerala porotta, chicken or mutton fry, naadan curry, ulli chutney, and a bull's eye egg in an authentic chatti.",
-          "price": 25,
-          "tags": [
-            "availability"
-          ]
-        },
-        {
-          "id": "thalassery-biryani",
-          "name": "Thalassery Biryani",
-          "mal": "തലശ്ശേരി ബിരിയാണി",
-          "desc": "Short-grain rice layered with spiced meat, fried onion and ghee.",
-          "price": 22.9,
-          "tags": [
-            "signature"
-          ]
         }
       ]
     },
@@ -864,6 +809,7 @@
           "id": "new-item-1787202065805",
           "name": "Goan Village Curry",
           "desc": "Chef's secret spices with potato and carrot.",
+          "price": 25.95,
           "tags": [
             "signature"
           ]
@@ -872,6 +818,7 @@
           "id": "new-item-1787202115273",
           "name": "Duck Curry/Roast",
           "desc": "Kerala style duck roast simmered in an aromatic spicy masala.",
+          "price": 25.95,
           "tags": [
             "availability"
           ]
@@ -879,27 +826,66 @@
         {
           "id": "new-item-1787202148137",
           "name": "Beef Roast",
-          "desc": "Kerala style beef roast simmered in an aromatic spicy masala."
+          "desc": "Kerala style beef roast simmered in an aromatic spicy masala.",
+          "price": 26.95
         },
         {
           "id": "new-item-1787202798205",
           "name": "Nadan Chicken Curry",
-          "desc": "Special Kerala masala."
+          "desc": "Special Kerala masala.",
+          "price": 22.95
         },
         {
           "id": "new-item-1787202854835",
           "name": "Buffallo Curry",
-          "desc": "Kerala style buffalo dish."
+          "desc": "Kerala style buffalo dish.",
+          "price": 25.95
         },
         {
           "id": "new-item-1787202886613",
           "name": "Chilly Beef",
-          "desc": "Crispy strips of beef in a tangy spicy sauce."
+          "desc": "Crispy strips of beef in a tangy spicy sauce.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787204497589",
+          "name": "Porotta",
+          "desc": "Flaky, layered Kerala-style flatbread, hand-stretched and cooked to golden perfection. Soft inside, crisp and flaky outside.",
+          "price": 4.95
+        },
+        {
+          "id": "new-item-1787204558328",
+          "name": "Chakka",
+          "desc": "Tender jackfruit boiled to perfection, lightly seasoned for a simple, wholesome and authentic Kerala-style taste.",
+          "price": 14.95
         },
         {
           "id": "new-item-1787204225074",
           "name": "Kappa",
-          "desc": "Kerala style tapioca dish."
+          "desc": "Kerala style tapioca dish.",
+          "price": 12.95
+        },
+        {
+          "id": "new-item-1787204652122",
+          "name": "Appam",
+          "desc": "Fermented rice batters from the griddle and steamer.",
+          "price": 3
+        },
+        {
+          "id": "new-item-1787204749973",
+          "name": "Idiappam",
+          "desc": "Steamed South Indian rice noodle made from rice flour.",
+          "price": 1.95
+        },
+        {
+          "id": "new-item-1787204778612",
+          "name": "Masala Mash Potato",
+          "price": 9.95
+        },
+        {
+          "id": "new-item-1787204354470",
+          "name": "Pothichoru",
+          "desc": "Kerala meal wrapped in toasted banana leaf."
         },
         {
           "id": "new-item-1787204245070",
@@ -910,11 +896,6 @@
           "id": "new-item-1787204285510",
           "name": "Chatti Choru",
           "desc": "Rice, a variety of curries, and non-veg items served in a wide earthen pot."
-        },
-        {
-          "id": "new-item-1787204354470",
-          "name": "Pothichoru",
-          "desc": "Kerala meal wrapped in toasted banana leaf."
         }
       ]
     },
