@@ -383,74 +383,6 @@
           ]
         },
         {
-          "id": "lamb-rogan-josh",
-          "name": "Lamb Rogan Josh",
-          "desc": "All-time favourite with tomatoes and a blend of spices.",
-          "price": 23.9
-        },
-        {
-          "id": "lamb-korma",
-          "name": "Lamb Korma",
-          "desc": "Lamb simmered with freshly ground coconut, cashew nut paste, and exotic spices.",
-          "price": 23.9
-        },
-        {
-          "id": "lamb-pepper-masala",
-          "name": "Lamb Pepper Masala",
-          "desc": "Diced lamb in country style with fresh herbs and peppercorn.",
-          "price": 23.9,
-          "tags": [
-            "spicy"
-          ]
-        },
-        {
-          "id": "lamb-saagwala",
-          "name": "Lamb Saagwala",
-          "desc": "Tender goat cooked on the bone in the chef's secret recipe.",
-          "price": 23.9
-        },
-        {
-          "id": "goat-curry",
-          "name": "Goat Curry",
-          "desc": "Roasted coconut sauce with whole spices blended with coconut.",
-          "price": 23.9
-        },
-        {
-          "id": "cochin-beef",
-          "name": "Cochin Beef",
-          "desc": "Home-style stew from Cochin — tender beef cooked with special roasted masala.",
-          "price": 23.9
-        },
-        {
-          "id": "beef-curry",
-          "name": "Beef Curry",
-          "desc": "Traditional beef curry with shallots and Kerala garam masala.",
-          "price": 23.9
-        },
-        {
-          "id": "beef-nilgiri",
-          "name": "Beef Nilgiri",
-          "desc": "Popular South Indian beef curry cooked with green masala.",
-          "price": 23.9
-        },
-        {
-          "id": "beef-korma",
-          "name": "Beef Korma",
-          "desc": "Beef seared and simmered in a broth with spices and coconut milk.",
-          "price": 23.9
-        },
-        {
-          "id": "beef-ulathiyathu",
-          "name": "Beef Ulathiyathu",
-          "mal": "ബീഫ് ഉലർത്തിയത്",
-          "desc": "Chef's special with meat masala and spices.",
-          "price": 23.9,
-          "tags": [
-            "spicy",
-            "signature"
-          ]
-        },
-        {
           "id": "kizhi-porotta",
           "name": "Kizhi Porotta",
           "mal": "കിഴി പൊറോട്ട",
@@ -573,6 +505,73 @@
           "tags": [
             "availability"
           ]
+        }
+      ]
+    },
+    {
+      "id": "new-section-1787201092643",
+      "title": "Main Course Meat",
+      "blurb": "Hearty meat dishes prepared with authentic spices, slow-cooked or roasted for rich, traditional flavour.",
+      "items": [
+        {
+          "id": "new-item-1787201277867",
+          "name": "Lamb Rogan Josh",
+          "desc": "All-time favourite with tomatoes and a blend of spices.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201414189",
+          "name": "Lamb Korma",
+          "desc": "Lamb simmered with freshly ground coconut, cashew nut paste, and exotic spices.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201489398",
+          "name": "Lamb Pepper Masala",
+          "desc": "Diced lamb in country style with fresh herbs and peppercorn.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201462904",
+          "name": "Lamb Saagwala",
+          "desc": "Tender goat cooked on the bone in the chef's secret recipe.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201573954",
+          "name": "Goat Curry",
+          "desc": "Roasted coconut sauce with whole spices blended with coconut.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201578020",
+          "name": "Cochin Beef",
+          "desc": "Home-style stew from Cochin — tender beef cooked with special roasted masala.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201674138",
+          "name": "Beef Curry",
+          "desc": "Traditional beef curry with shallots and Kerala garam masala.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201714731",
+          "name": "Beef Niligiri",
+          "desc": "Popular South Indian beef curry cooked with green masala.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201730713",
+          "name": "Beef Korma",
+          "desc": "Beef seared and simmered in a broth with spices and coconut milk.",
+          "price": 25.95
+        },
+        {
+          "id": "new-item-1787201790499",
+          "name": "Beef Ulathiyathu",
+          "desc": "Chef's special with meat masala and spices.",
+          "price": 25.95
         }
       ]
     },
