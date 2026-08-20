@@ -2,7 +2,7 @@
   "sections": [
     {
       "id": "starters",
-      "title": "Starters Veg",
+      "title": "Starters",
       "blurb": "Light bites and shareable plates to open the meal.",
       "items": [
         {
@@ -84,7 +84,7 @@
           "id": "tandoori-chicken-half",
           "name": "Tandoori Chicken Half",
           "desc": "Smoky chicken appetiser cooked in the tandoor.",
-          "price": 13.9,
+          "price": 18.9,
           "tags": [
             "signature"
           ]
@@ -93,7 +93,7 @@
           "id": "tandoori-chicken-full",
           "name": "Tandoori Chicken Full",
           "desc": "Smoky chicken appetiser cooked in the tandoor.",
-          "price": 21.9
+          "price": 24.9
         },
         {
           "id": "chicken-tikka",
@@ -114,7 +114,7 @@
           "id": "lamb-chops",
           "name": "Lamb Chops (4 pcs)",
           "desc": "Lamb chops marinated for hours and cooked on tawa or in the oven.",
-          "price": 28.9
+          "price": 29.9
         },
         {
           "id": "sheek-kabab",
@@ -126,18 +126,9 @@
           "id": "mix-non-veg-platter",
           "name": "Mix Non-Veg Platter (2 pcs each)",
           "desc": "Assorted tikkas, tandoor, and grills.",
-          "price": 24.9,
+          "price": 36.9,
           "tags": [
             "spicy"
-          ]
-        },
-        {
-          "id": "fish-tikka",
-          "name": "Fish Tikka (2 pcs)",
-          "desc": "Fish marinated in classic Indian tandoori masala, crisped to perfection.",
-          "price": 24.9,
-          "tags": [
-            "signature"
           ]
         },
         {
