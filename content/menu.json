@@ -554,37 +554,44 @@
         {
           "id": "new-item-1787205013734",
           "name": "Roti",
-          "desc": "Wholemeal Indian bread cooked in the tandoori oven."
+          "desc": "Wholemeal Indian bread cooked in the tandoori oven.",
+          "price": 3.95
         },
         {
           "id": "new-item-1787205031767",
           "name": "Naan",
-          "desc": "Indian bread made with all-purpose flour."
+          "desc": "Indian bread made with all-purpose flour.",
+          "price": 3.95
         },
         {
           "id": "new-item-1787205059544",
           "name": "Butter Naan / Garlic Naan",
-          "desc": "All-purpose flour naan tossed with butter and garlic."
+          "desc": "All-purpose flour naan tossed with butter and garlic.",
+          "price": 4.95
         },
         {
           "id": "new-item-1787205079856",
           "name": "Cheese Naan",
-          "desc": "All-purpose flour naan stuffed with cheese."
+          "desc": "All-purpose flour naan stuffed with cheese.",
+          "price": 5.95
         },
         {
           "id": "new-item-1787205091257",
           "name": "Garlic Cheese Naan",
-          "desc": "All-purpose flour naan stuffed with cheese and Garlic."
+          "desc": "All-purpose flour naan stuffed with cheese and Garlic.",
+          "price": 5.95
         },
         {
           "id": "new-item-1787205166982",
           "name": "Kashmiri Naan",
-          "desc": "Naan with fruits, nuts, raisins, and cottage cheese."
+          "desc": "Naan with fruits, nuts, raisins, and cottage cheese.",
+          "price": 5.95
         },
         {
           "id": "new-item-1787205184327",
           "name": "Aloo Paratha",
-          "desc": "Wholewheat stuffed with spicy potato filling, served hot with yogurt and pickles."
+          "desc": "Wholewheat stuffed with spicy potato filling, served hot with yogurt and pickles.",
+          "price": 5.95
         }
       ]
     },
