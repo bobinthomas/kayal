@@ -453,20 +453,20 @@
     },
     {
       "id": "seafood",
-      "title": "Seafood",
+      "title": "Main Course - From The Ocean",
       "blurb": "Fish and prawns from the backwater — bold spice, coconut, and banana leaf.",
       "items": [
         {
           "id": "goan-fish-curry",
           "name": "Goan Fish Curry",
           "desc": "Fish curry with coconut from the beaches of Goa.",
-          "price": 22.9
+          "price": 24.9
         },
         {
           "id": "madras-fish-curry",
           "name": "Madras Fish Curry",
           "desc": "Fish cooked with fenugreek, green chillies, and tamarind.",
-          "price": 22.9,
+          "price": 24.9,
           "tags": [
             "spicy"
           ]
@@ -475,14 +475,14 @@
           "id": "fish-mollie",
           "name": "Fish Mollie",
           "desc": "Kerala style fish curry cooked in a coconut milk-based gravy.",
-          "price": 22.9
+          "price": 24.9
         },
         {
           "id": "kerala-fish-curry",
           "name": "Kerala Fish Curry",
           "mal": "മീൻ കറി",
           "desc": "Kerala style fish curry.",
-          "price": 22.9,
+          "price": 24.9,
           "tags": [
             "signature"
           ]
@@ -491,7 +491,7 @@
           "id": "prawn-masala",
           "name": "Prawn Masala",
           "desc": "Prawns cooked in thick gravy with tomatoes, green chillies, capsicum, and coriander.",
-          "price": 24.9,
+          "price": 26.9,
           "tags": [
             "spicy"
           ]
@@ -500,7 +500,7 @@
           "id": "malabar-prawn-curry",
           "name": "Malabar Prawn Curry",
           "desc": "King prawns simmered in coconut gravy with tamarind spices.",
-          "price": 24.9
+          "price": 26.9
         },
         {
           "id": "meen-pollichathu",
@@ -1000,6 +1000,48 @@
           "id": "new-item-1787202886613",
           "name": "Chilly Beef",
           "desc": "Crispy strips of beef in a tangy spicy sauce."
+        }
+      ]
+    },
+    {
+      "id": "new-section-1787203267439",
+      "title": "Seafood Specials",
+      "blurb": "Fish and prawns from the backwater — bold spice, coconut, and banana leaf.",
+      "items": [
+        {
+          "id": "new-item-1787203306987",
+          "name": "Crab Roast",
+          "price": 29.95
+        },
+        {
+          "id": "new-item-1787203412429",
+          "name": "Chemeen Roast",
+          "desc": "Prawns in red chilli and tamarind-based red curry sauce.",
+          "price": 29.95
+        },
+        {
+          "id": "new-item-1787203463346",
+          "name": "Mussels Varatty (Kallummakai, 10 pcs)",
+          "desc": "Stir fried mussels in authentic spices.",
+          "price": 19.95
+        },
+        {
+          "id": "new-item-1787203488867",
+          "name": "Kakkayirachi (Clams)",
+          "desc": "Stir fried clams with authentic Kerala spices.",
+          "price": 19.95
+        },
+        {
+          "id": "new-item-1787203510890",
+          "name": "Pan Fried Fish",
+          "desc": "Fish fried with Kerala spices.",
+          "price": 25
+        },
+        {
+          "id": "new-item-1787203383989",
+          "name": "Meen Pollichathu",
+          "desc": "Signature dish — fish wrapped in banana leaf, giving a unique flavour.",
+          "price": 30
         }
       ]
     }
