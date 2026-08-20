@@ -705,10 +705,10 @@
           ]
         },
         {
-          "id": "lemon-lime-bitter",
-          "name": "Lemon Lime Bitter",
-          "desc": "Lemonade, lime cordial, and Angostura bitters.",
-          "price": 8.99,
+          "id": "orange-juice",
+          "name": "Orange Juice",
+          "desc": "Fresh orange juice.",
+          "price": 12.95,
           "tags": [
             "veg"
           ]
@@ -717,6 +717,15 @@
           "id": "watermelon-juice",
           "name": "Watermelon Juice",
           "desc": "Fresh watermelon juice.",
+          "price": 12.95,
+          "tags": [
+            "veg"
+          ]
+        },
+        {
+          "id": "lemon-lime-bitter",
+          "name": "Fresh Lime Juice",
+          "desc": "Lemonade, lime cordial, and Angostura bitters.",
           "price": 9.99,
           "tags": [
             "veg"
@@ -724,18 +733,9 @@
         },
         {
           "id": "pineapple-juice",
-          "name": "Pineapple Juice",
-          "desc": "Fresh pineapple juice.",
-          "price": 9.99,
-          "tags": [
-            "veg"
-          ]
-        },
-        {
-          "id": "orange-juice",
-          "name": "Orange Juice",
-          "desc": "Fresh orange juice.",
-          "price": 9.99,
+          "name": "Fresh Lime Soda",
+          "desc": "Fresh juice.",
+          "price": 11.99,
           "tags": [
             "veg"
           ]
