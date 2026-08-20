@@ -354,6 +354,17 @@
           "tags": [
             "spicy"
           ]
+        },
+        {
+          "id": "kizhi-porotta",
+          "name": "Kizhi Porotta",
+          "mal": "കിഴി പൊറോട്ട",
+          "desc": "Kizhi Porotta (Chicken / Beef) — traditional Kerala bundle: porotta stuffed with curry meat, wrapped and steamed in banana leaf.",
+          "price": 25,
+          "tags": [
+            "signature",
+            "availability"
+          ]
         }
       ]
     },
@@ -601,6 +612,16 @@
           "tags": [
             "signature"
           ]
+        },
+        {
+          "id": "thalassery-biryani",
+          "name": "Thalassery Biryani",
+          "mal": "തലശ്ശേരി ബിരിയാണി",
+          "desc": "Short-grain rice layered with spiced meat, fried onion and ghee.",
+          "price": 22.9,
+          "tags": [
+            "signature"
+          ]
         }
       ]
     },
@@ -610,7 +631,7 @@
       "blurb": "All the below items are as per availability",
       "items": [
         {
-          "id": "new-item-1787197799017",
+          "id": "thattukada-chicken-fry",
           "name": "Thattukada Chicken Fry",
           "desc": "Crispy, spicy chicken fry tossed with aromatic South Indian spices, just like a classic thattukada favourite",
           "price": 19.95,
@@ -725,17 +746,17 @@
           "price": 9.95
         },
         {
-          "id": "new-item-1787204354470",
+          "id": "pothichoru",
           "name": "Pothichoru",
           "desc": "Kerala meal wrapped in toasted banana leaf."
         },
         {
-          "id": "new-item-1787204245070",
+          "id": "kappa-biryani",
           "name": "Kappa Biriyani",
           "desc": "Spicy beef masala cooked with tapioca, flavoured with roasted coconut."
         },
         {
-          "id": "new-item-1787204285510",
+          "id": "chatti-choru",
           "name": "Chatti Choru",
           "desc": "Rice, a variety of curries, and non-veg items served in a wide earthen pot."
         }
@@ -776,7 +797,7 @@
           "price": 25
         },
         {
-          "id": "new-item-1787203383989",
+          "id": "meen-pollichathu",
           "name": "Meen Pollichathu",
           "desc": "Signature dish — fish wrapped in banana leaf, giving a unique flavour.",
           "price": 30
