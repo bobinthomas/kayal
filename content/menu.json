@@ -506,7 +506,7 @@
     },
     {
       "id": "biryani-rice",
-      "title": "Biryani & Rice",
+      "title": "Rice & Breads",
       "blurb": "Fragrant basmati and Kerala rice dishes, layered and slow-cooked.",
       "items": [
         {
@@ -529,7 +529,7 @@
         },
         {
           "id": "matta-rice",
-          "name": "Kerala Matta Rice",
+          "name": "Matta Rice",
           "desc": "Special Kerala matta rice.",
           "price": 12.95,
           "tags": [
@@ -577,46 +577,6 @@
           "name": "Prawn Biriyani",
           "desc": "Chef's special dum biriyani.",
           "price": 24.9
-        },
-        {
-          "id": "kappa",
-          "name": "Kappa",
-          "desc": "Kerala style tapioca dish.",
-          "price": 12,
-          "tags": [
-            "veg",
-            "availability"
-          ]
-        },
-        {
-          "id": "kappa-biryani",
-          "name": "Kappa Biriyani",
-          "desc": "Spicy beef masala cooked with tapioca, flavoured with roasted coconut.",
-          "price": 19.9,
-          "tags": [
-            "spicy",
-            "availability"
-          ]
-        },
-        {
-          "id": "chatti-choru",
-          "name": "Chatti Choru",
-          "mal": "ചട്ടി ചോർ",
-          "desc": "Rice, a variety of curries, and non-veg items served in a wide earthen pot.",
-          "price": 25,
-          "tags": [
-            "signature",
-            "availability"
-          ]
-        },
-        {
-          "id": "pothichoru",
-          "name": "Pothichoru",
-          "desc": "Kerala meal wrapped in toasted banana leaf.",
-          "price": 25,
-          "tags": [
-            "availability"
-          ]
         },
         {
           "id": "kappachatti",
@@ -935,6 +895,26 @@
           "id": "new-item-1787202886613",
           "name": "Chilly Beef",
           "desc": "Crispy strips of beef in a tangy spicy sauce."
+        },
+        {
+          "id": "new-item-1787204225074",
+          "name": "Kappa",
+          "desc": "Kerala style tapioca dish."
+        },
+        {
+          "id": "new-item-1787204245070",
+          "name": "Kappa Biriyani",
+          "desc": "Spicy beef masala cooked with tapioca, flavoured with roasted coconut."
+        },
+        {
+          "id": "new-item-1787204285510",
+          "name": "Chatti Choru",
+          "desc": "Rice, a variety of curries, and non-veg items served in a wide earthen pot."
+        },
+        {
+          "id": "new-item-1787204354470",
+          "name": "Pothichoru",
+          "desc": "Kerala meal wrapped in toasted banana leaf."
         }
       ]
     },
