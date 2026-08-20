@@ -635,31 +635,37 @@
         {
           "id": "new-item-1787205744328",
           "name": "Mint Sauce",
+          "desc": "Refreshing mint sauce made with fresh mint, herbs and a hint of spice, perfect as a cool accompaniment to your meal.\n",
           "price": 3.95
         },
         {
           "id": "new-item-1787205762650",
           "name": "Raita",
+          "desc": "Creamy yogurt mixed with fresh cucumber, herbs and mild spices for a cool, refreshing accompaniment.\n",
           "price": 3.95
         },
         {
           "id": "new-item-1787205775366",
           "name": "Gulab Jamun",
+          "desc": "Soft, melt-in-the-mouth milk dumplings soaked in fragrant sugar syrup, served warm for a classic Indian sweet treat.\n",
           "price": 6.95
         },
         {
           "id": "new-item-1787205798205",
           "name": "Ice cream(2 Scoops)",
+          "desc": "Two scoops of creamy, delicious ice cream, served chilled for a simple and satisfying sweet treat.\n",
           "price": 9.95
         },
         {
           "id": "new-item-1787205824149",
           "name": "Fruit Salad",
+          "desc": "Fresh seasonal fruits, chilled and tossed together for a naturally sweet, juicy and refreshing dessert.\n",
           "price": 9.95
         },
         {
           "id": "new-item-1787205839633",
           "name": "Fruit Salad with Ice Cream",
+          "desc": "Fresh seasonal fruits served chilled with creamy vanilla ice cream for a refreshing and indulgent dessert.",
           "price": 14.95
         },
         {
