@@ -394,24 +394,6 @@
           ]
         },
         {
-          "id": "goat-village-curry",
-          "name": "Goat Village Curry",
-          "desc": "Chef's secret spices with potato and carrot.",
-          "price": 23.9,
-          "tags": [
-            "availability"
-          ]
-        },
-        {
-          "id": "duck-curry-roast",
-          "name": "Duck Curry / Roast",
-          "desc": "Kerala style duck roast simmered in an aromatic spicy masala.",
-          "price": 23.9,
-          "tags": [
-            "availability"
-          ]
-        },
-        {
           "id": "beef-roast",
           "name": "Beef Roast",
           "desc": "Kerala style beef roast simmered in an aromatic spicy masala.",
@@ -1088,6 +1070,27 @@
           "name": "Panni Ularthiyathu",
           "desc": "Pork slow-cooked and stir-fried with aromatic Kerala spices, curry leaves and roasted coconut for a rich, spicy and authentic flavour.",
           "price": 22.95
+        },
+        {
+          "id": "new-item-1787202065805",
+          "name": "Goan Village Curry",
+          "desc": "Chef's secret spices with potato and carrot.",
+          "tags": [
+            "signature"
+          ]
+        },
+        {
+          "id": "new-item-1787202115273",
+          "name": "Duck Curry/Roast",
+          "desc": "Kerala style duck roast simmered in an aromatic spicy masala.",
+          "tags": [
+            "availability"
+          ]
+        },
+        {
+          "id": "new-item-1787202148137",
+          "name": "Beef Roast",
+          "desc": "Kerala style beef roast simmered in an aromatic spicy masala."
         }
       ]
     }
