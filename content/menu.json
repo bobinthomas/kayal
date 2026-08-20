@@ -403,34 +403,6 @@
           ]
         },
         {
-          "id": "nadan-chicken-curry",
-          "name": "Nadan Chicken Curry",
-          "desc": "Special Kerala masala.",
-          "price": 21.9,
-          "tags": [
-            "availability"
-          ]
-        },
-        {
-          "id": "buffalo-curry",
-          "name": "Buffalo Curry",
-          "desc": "Kerala style buffalo dish.",
-          "price": 23.9,
-          "tags": [
-            "spicy",
-            "availability"
-          ]
-        },
-        {
-          "id": "chilli-beef",
-          "name": "Chilli Beef",
-          "desc": "Crispy strips of beef in a tangy spicy sauce.",
-          "price": 24.9,
-          "tags": [
-            "availability"
-          ]
-        },
-        {
           "id": "thattukada-chicken-fry",
           "name": "Thattukada Chicken Fry",
           "desc": "Spicy chicken fry cooked thattukada style.",
@@ -1091,6 +1063,21 @@
           "id": "new-item-1787202148137",
           "name": "Beef Roast",
           "desc": "Kerala style beef roast simmered in an aromatic spicy masala."
+        },
+        {
+          "id": "new-item-1787202798205",
+          "name": "Nadan Chicken Curry",
+          "desc": "Special Kerala masala."
+        },
+        {
+          "id": "new-item-1787202854835",
+          "name": "Buffallo Curry",
+          "desc": "Kerala style buffalo dish."
+        },
+        {
+          "id": "new-item-1787202886613",
+          "name": "Chilly Beef",
+          "desc": "Crispy strips of beef in a tangy spicy sauce."
         }
       ]
     }
