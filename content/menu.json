@@ -1046,6 +1046,51 @@
           ]
         }
       ]
+    },
+    {
+      "id": "0",
+      "title": "Specials",
+      "blurb": "All the below items are as per availability",
+      "items": [
+        {
+          "id": "new-item-1787197799017",
+          "name": "Thattukada Chicken Fry",
+          "desc": "Crispy, spicy chicken fry tossed with aromatic South Indian spices, just like a classic thattukada favourite",
+          "price": 19.95,
+          "tags": [
+            "signature",
+            "spicy"
+          ]
+        },
+        {
+          "id": "new-item-1787198056617",
+          "name": "Kattupothu (Buffalo) Ularthiyathu",
+          "desc": "Slow-cooked buffalo meat stir-fried with aromatic spices, curry leaves and roasted coconut for a rich, authentic Kerala-style flavour.",
+          "price": 25,
+          "tags": [
+            "spicy",
+            "signature"
+          ]
+        },
+        {
+          "id": "new-item-1787198214241",
+          "name": "Maan (Deer) Ularthiyathu",
+          "desc": "Tender deer meat slow-cooked and stir-fried with aromatic Kerala spices, curry leaves and roasted coconut for a rich, rustic flavour.",
+          "price": 29.95
+        },
+        {
+          "id": "new-item-1787198304197",
+          "name": "Muyal (Rabbit) Piralan",
+          "desc": "Tender rabbit meat cooked and stir-fried with aromatic Kerala spices, onions and curry leaves for a deliciously rustic, traditional flavour.",
+          "price": 29.95
+        },
+        {
+          "id": "new-item-1787198376885",
+          "name": "Panni Ularthiyathu",
+          "desc": "Pork slow-cooked and stir-fried with aromatic Kerala spices, curry leaves and roasted coconut for a rich, spicy and authentic flavour.",
+          "price": 22.95
+        }
+      ]
     }
   ],
   "disclaimer": "Prices in AUD, subject to change. Specials and game meats are served as per availability — message us on WhatsApp to check today's pot."
