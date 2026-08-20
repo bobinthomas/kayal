@@ -316,26 +316,26 @@
     },
     {
       "id": "chicken-meat",
-      "title": "Chicken & Meat",
+      "title": "Main Course Poultry",
       "blurb": "Woodfire curries, roasts and ularthiyathu from the village repertoire.",
       "items": [
         {
           "id": "butter-chicken",
           "name": "Butter Chicken",
           "desc": "Marinated chicken fillets cooked in tandoor, sauteed in butter tomato sauce.",
-          "price": 21.9
+          "price": 23.9
         },
         {
           "id": "chicken-korma",
           "name": "Chicken Korma",
           "desc": "Chicken simmered in freshly ground coconut, cashew nut paste, and exotic spice.",
-          "price": 21.9
+          "price": 23.9
         },
         {
           "id": "chicken-vindaloo",
           "name": "Chicken Vindaloo",
           "desc": "A very popular spicy dish from Goa.",
-          "price": 21.9,
+          "price": 23.9,
           "tags": [
             "spicy"
           ]
@@ -344,25 +344,25 @@
           "id": "mango-chicken",
           "name": "Mango Chicken",
           "desc": "Chicken fillets cooked in a delicious mango gravy.",
-          "price": 21.9
+          "price": 23.9
         },
         {
           "id": "kadai-chicken",
           "name": "Kadai Chicken",
           "desc": "Thigh fillets marinated in yoghurt, wok fried with spices, tomatoes, onion, and capsicum.",
-          "price": 21.9
+          "price": 23.9
         },
         {
           "id": "madras-chicken",
           "name": "Madras Chicken",
           "desc": "Chicken cooked with fried coconut and red spices.",
-          "price": 21.9
+          "price": 23.9
         },
         {
           "id": "chicken-chettinad",
           "name": "Chicken Chettinadu",
           "desc": "Boneless chicken in authentic South Indian style with black pepper, onion, and tomatoes.",
-          "price": 21.9,
+          "price": 23.9,
           "tags": [
             "spicy"
           ]
@@ -371,13 +371,13 @@
           "id": "chicken-tikka-masala",
           "name": "Chicken Tikka Masala",
           "desc": "Grilled chicken sauteed with onion, capsicum, tomato, spices, and fenugreek leaves.",
-          "price": 21.9
+          "price": 23.9
         },
         {
           "id": "chilly-chicken",
           "name": "Chilly Chicken",
           "desc": "Strips of marinated chicken sauteed with onions and capsicum.",
-          "price": 21.9,
+          "price": 23.9,
           "tags": [
             "spicy"
           ]
