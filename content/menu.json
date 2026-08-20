@@ -549,7 +549,10 @@
           "id": "prawn-biriyani",
           "name": "Prawn Biriyani",
           "desc": "Chef's special dum biriyani.",
-          "price": 24.9
+          "price": 24.9,
+          "tags": [
+            "signature"
+          ]
         },
         {
           "id": "new-item-1787205013734",
@@ -567,7 +570,10 @@
           "id": "new-item-1787205059544",
           "name": "Butter Naan / Garlic Naan",
           "desc": "All-purpose flour naan tossed with butter and garlic.",
-          "price": 4.95
+          "price": 4.95,
+          "tags": [
+            "availability"
+          ]
         },
         {
           "id": "new-item-1787205079856",
@@ -591,42 +597,76 @@
           "id": "new-item-1787205184327",
           "name": "Aloo Paratha",
           "desc": "Wholewheat stuffed with spicy potato filling, served hot with yogurt and pickles.",
-          "price": 5.95
+          "price": 5.95,
+          "tags": [
+            "signature"
+          ]
         }
       ]
     },
     {
       "id": "sides-pickles",
-      "title": "Sides & Pickles",
+      "title": "Sides",
       "blurb": "Papadam, salads and the sharp bite of pickle.",
       "items": [
         {
           "id": "pappadam",
-          "name": "Papadam",
+          "name": "Papadam/ Pickle (Each)",
           "desc": "Traditional South Indian pappadam.",
-          "price": 3,
+          "price": 3.95,
           "tags": [
             "veg"
-          ]
-        },
-        {
-          "id": "mango-pickle",
-          "name": "Pickle",
-          "desc": "Pickle made from raw mangoes, lemons, or chillies.",
-          "price": 3,
-          "tags": [
-            "veg",
-            "spicy"
           ]
         },
         {
           "id": "green-salad",
           "name": "Green Salad",
           "desc": "Fresh vegetable salad.",
-          "price": 7.9,
+          "price": 7.95,
           "tags": [
             "veg"
           ]
+        },
+        {
+          "id": "new-item-1787205716333",
+          "name": "Onion Slice",
+          "price": 3.95
+        },
+        {
+          "id": "new-item-1787205744328",
+          "name": "Mint Sauce",
+          "price": 3.95
+        },
+        {
+          "id": "new-item-1787205762650",
+          "name": "Raita",
+          "price": 3.95
+        },
+        {
+          "id": "new-item-1787205775366",
+          "name": "Gulab Jamun",
+          "price": 6.95
+        },
+        {
+          "id": "new-item-1787205798205",
+          "name": "Ice cream(2 Scoops)",
+          "price": 9.95
+        },
+        {
+          "id": "new-item-1787205824149",
+          "name": "Fruit Salad",
+          "price": 9.95
+        },
+        {
+          "id": "new-item-1787205839633",
+          "name": "Fruit Salad with Ice Cream",
+          "price": 14.95
+        },
+        {
+          "id": "new-item-1787205871631",
+          "name": "Falooda",
+          "desc": "Classic Indian falooda layered with silky vermicelli, basil seeds, creamy milk and sweet, refreshing flavours, topped with ice cream.",
+          "price": 14.95
         }
       ]
     },
