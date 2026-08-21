@@ -16,7 +16,6 @@ export const hfBentoDishes = [
   { item: byId("meen-pollichathu"), image: homeShowcaseJson.signatureDishes["meen-pollichathu"] },
   { item: byId("thalassery-biryani"), image: homeShowcaseJson.signatureDishes["thalassery-biryani"] },
   { item: byId("kerala-fish-curry"), image: homeShowcaseJson.signatureDishes["kerala-fish-curry"] },
-  { item: byId("fish-tikka"), image: homeShowcaseJson.signatureDishes["fish-tikka"] },
 ] as const;
 
 /** Mango-hero slider — matches the Figma "MangoHero" component's 4-variant
