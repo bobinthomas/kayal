@@ -224,6 +224,28 @@ export const HomeShowcaseFileSchema = z.object({
   }),
 });
 
+const emptyToUndefined = (value: unknown) => (value === "" ? undefined : value);
+
+export const PopupFileSchema = z
+  .object({
+    enabled: z.boolean(),
+    image: z.preprocess(
+      emptyToUndefined,
+      z.string().regex(/^\/images\/.+/, "must be a /images/... path").optional(),
+    ),
+    text: z.preprocess(emptyToUndefined, z.string().max(280).optional()),
+    linkUrl: z.preprocess(
+      emptyToUndefined,
+      z.string().regex(/^(\/|https?:\/\/)\S+$/, "must be a relative path or absolute URL").optional(),
+    ),
+  })
+  .refine((data) => !data.enabled || Boolean(data.image) || Boolean(data.text), {
+    message: "Enabling the popup requires an image or text",
+    path: ["enabled"],
+  });
+
+export type PopupFile = z.infer<typeof PopupFileSchema>;
+
 export type MenuFile = z.infer<typeof MenuFileSchema>;
 export type MenuMetaFile = z.infer<typeof MenuMetaFileSchema>;
 export type SpecialsFile = z.infer<typeof SpecialsFileSchema>;
@@ -243,6 +265,7 @@ export const CONTENT_SCHEMAS = {
   copy: CopyFileSchema,
   "home-hero": HomeHeroFileSchema,
   "home-showcase": HomeShowcaseFileSchema,
+  popup: PopupFileSchema,
 } as const;
 
 export type ContentKey = keyof typeof CONTENT_SCHEMAS;

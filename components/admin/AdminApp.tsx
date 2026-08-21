@@ -10,6 +10,7 @@ import SpecialsEditor from "./SpecialsEditor";
 import RestaurantEditor from "./RestaurantEditor";
 import ReviewsEditor from "./ReviewsEditor";
 import CopyEditor from "./CopyEditor";
+import PopupEditor from "./PopupEditor";
 
 const TABS = [
   { id: "hero", label: "Home hero" },
@@ -20,6 +21,7 @@ const TABS = [
   { id: "restaurant", label: "Restaurant info" },
   { id: "reviews", label: "Reviews" },
   { id: "copy", label: "Site copy" },
+  { id: "popup", label: "Homepage popup" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -137,6 +139,7 @@ export default function AdminApp() {
       {tab === "restaurant" && <RestaurantEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "reviews" && <ReviewsEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "copy" && <CopyEditor password={password} onUnauthorized={handleUnauthorized} />}
+      {tab === "popup" && <PopupEditor password={password} onUnauthorized={handleUnauthorized} />}
     </div>
   );
 }

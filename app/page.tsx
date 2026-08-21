@@ -8,6 +8,7 @@ import HfPhilosophy from "@/components/home-figma/HfPhilosophy";
 import HfSpotlights from "@/components/home-figma/HfSpotlights";
 import HfTestimonials from "@/components/home-figma/HfTestimonials";
 import HfNewsletter from "@/components/home-figma/HfNewsletter";
+import PromoPopup from "@/components/PromoPopup";
 
 export const metadata: Metadata = {
   title: "Kayal Foods — Authentic Kerala Restaurant in Moorebank, Sydney",
@@ -29,6 +30,7 @@ export default function HomePage() {
       <HfSpotlights />
       <HfTestimonials />
       <HfNewsletter />
+      <PromoPopup />
     </div>
   );
 }
