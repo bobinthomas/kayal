@@ -4,22 +4,35 @@
       "id": "fish-tikka",
       "theme": "dark",
       "heroWord": "taste",
-      "menuItemId": "pothichoru",
-      "image": "/images/home-figma/uploads/2996a085-b07e-4776-bab3-d234a547e721.jpg"
+      "image": "/images/home-figma/uploads/2996a085-b07e-4776-bab3-d234a547e721.jpg",
+      "kind": "dish",
+      "menuItemId": "pothichoru"
     },
     {
       "id": "kerala-fish-curry",
       "theme": "dark",
       "heroWord": "food",
-      "menuItemId": "kerala-fish-curry",
-      "image": "/images/home-figma/uploads/5cdf5a0a-f13b-4b31-a2d1-481e263a1656.jpg"
+      "image": "/images/home-figma/uploads/5cdf5a0a-f13b-4b31-a2d1-481e263a1656.jpg",
+      "kind": "dish",
+      "menuItemId": "kerala-fish-curry"
     },
     {
       "id": "thalassery-biryani",
       "theme": "dark",
       "heroWord": "recipes",
-      "menuItemId": "thalassery-biryani",
-      "image": "/images/home-figma/hero-bg.jpg"
+      "image": "/images/home-figma/hero-bg.jpg",
+      "kind": "dish",
+      "menuItemId": "thalassery-biryani"
+    },
+    {
+      "id": "new-slide",
+      "theme": "dark",
+      "heroWord": "Ona Sadhya",
+      "image": "/images/home-figma/uploads/3662cd13-faf6-4e34-8964-54a100d8a2a5.jpg",
+      "kind": "custom",
+      "description": "Ona Sadhya 2026 Booking are open",
+      "linkUrl": "https://onam.kayal.com.au/",
+      "linkLabel": "Book Now"
     }
   ]
 }
