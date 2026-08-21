@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
@@ -50,14 +49,10 @@ export default function PromoPopup() {
   const body = (
     <>
       {image && (
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-hf-bg">
-          <Image
-            src={image}
-            alt=""
-            fill
-            sizes="(min-width: 640px) 420px, 90vw"
-            className="object-cover"
-          />
+        <div className="w-full overflow-hidden rounded-t-3xl bg-hf-bg">
+          {/* eslint-disable-next-line @next/next/no-img-element -- intrinsic
+              size, unknown ahead of time (admin-uploaded); must never crop */}
+          <img src={image} alt="" className="block w-full object-contain" />
         </div>
       )}
       {text && (
@@ -73,11 +68,12 @@ export default function PromoPopup() {
       role="dialog"
       aria-modal="true"
       aria-label="Announcement"
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 px-4 py-8 backdrop-blur-sm"
       onClick={() => setOpen(false)}
     >
       <div
-        className="relative w-full max-w-[420px] overflow-hidden rounded-3xl bg-white shadow-2xl"
+        className="relative flex w-full max-w-[504px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl"
+        style={{ maxHeight: "calc(100vh - 4rem)" }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -89,19 +85,21 @@ export default function PromoPopup() {
           <X className="h-4 w-4" />
         </button>
 
-        {linkUrl ? (
-          isExternal ? (
-            <a href={linkUrl} target="_blank" rel="noopener noreferrer" className="block">
-              {body}
-            </a>
+        <div className="overflow-y-auto">
+          {linkUrl ? (
+            isExternal ? (
+              <a href={linkUrl} target="_blank" rel="noopener noreferrer" className="block">
+                {body}
+              </a>
+            ) : (
+              <Link href={linkUrl} className="block">
+                {body}
+              </Link>
+            )
           ) : (
-            <Link href={linkUrl} className="block">
-              {body}
-            </Link>
-          )
-        ) : (
-          body
-        )}
+            body
+          )}
+        </div>
       </div>
     </div>
   );
