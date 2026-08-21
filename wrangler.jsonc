@@ -14,5 +14,12 @@
     "GITHUB_OWNER": "bobinthomas",
     "GITHUB_REPO": "kayal",
     "GITHUB_BRANCH": "main"
-  }
+  },
+  "ratelimits": [
+    {
+      "name": "ADMIN_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 30, "period": 60 }
+    }
+  ]
 }

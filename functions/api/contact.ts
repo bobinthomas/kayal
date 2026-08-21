@@ -1,14 +1,20 @@
 /**
  * Cloudflare Pages Function: handles contact + catering form submissions.
  * Spam defence: honeypot field ("website") + optional Turnstile verification.
- * Delivery: MailChannels (free on Workers) → hello@kayal.com.au.
+ * Delivery: Resend (https://resend.com) → hello@kayal.com.au.
  *
- * Environment variables (set in the Cloudflare Pages dashboard):
+ * Previously used MailChannels' free unauthenticated Workers endpoint, which
+ * MailChannels shut down permanently on 2024-08-31 — every submission was
+ * silently failing with a 502 until this was caught in an audit.
+ *
+ * Environment variables (set via `wrangler secret put` / the dashboard):
+ *   RESEND_API_KEY        — required; from resend.com, domain must be verified
  *   TURNSTILE_SECRET_KEY  — optional; enables Turnstile verification
  *   CONTACT_TO_EMAIL      — optional override; defaults to hello@kayal.com.au
  */
 
 interface Env {
+  RESEND_API_KEY: string;
   TURNSTILE_SECRET_KEY?: string;
   CONTACT_TO_EMAIL?: string;
 }
@@ -95,25 +101,27 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     message,
   ].filter(Boolean) as string[];
 
-  const mail = await fetch("https://api.mailchannels.net/tx/v1/send", {
+  if (!env.RESEND_API_KEY) {
+    return json({ ok: false, error: "Mail delivery is not configured." }, 502);
+  }
+
+  const mail = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      personalizations: [{ to: [{ email: toEmail, name: "Kayal Foods" }] }],
-      from: { email: FROM_EMAIL, name: "kayal.com.au website" },
-      reply_to: email ? { email, name } : undefined,
+      from: `kayal.com.au website <${FROM_EMAIL}>`,
+      to: [toEmail],
+      reply_to: email || undefined,
       subject: subjectLine,
-      content: [
-        { type: "text/plain", value: lines.join("\n") },
-        {
-          type: "text/html",
-          value: `<pre style="font-family:sans-serif">${escapeHtml(lines.join("\n"))}</pre>`,
-        },
-      ],
+      text: lines.join("\n"),
+      html: `<pre style="font-family:sans-serif">${escapeHtml(lines.join("\n"))}</pre>`,
     }),
   });
 
-  if (!mail.ok && mail.status !== 202) {
+  if (!mail.ok) {
     return json({ ok: false, error: "Mail delivery failed." }, 502);
   }
   return json({ ok: true });
