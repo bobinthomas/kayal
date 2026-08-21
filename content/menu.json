@@ -750,6 +750,55 @@
           "id": "chatti-choru",
           "name": "Chatti Choru",
           "desc": "Rice, a variety of curries, and non-veg items served in a wide earthen pot."
+        },
+        {
+          "id": "new-item-1787304856679",
+          "name": "Nadan Oonu ( Lunch Only )",
+          "desc": "A traditional Kerala-style vegetarian lunch served on a banana leaf, featuring fragrant rice, sambar, avial, thoran, olan, rasam, pachadi, pickles, papad, and other seasonal accompaniments.",
+          "price": 25,
+          "tags": [
+            "signature"
+          ]
+        },
+        {
+          "id": "new-item-1787304909375",
+          "name": "Pothichoru  ( Lunch Only )",
+          "desc": "A traditional Kerala packed lunch wrapped in a banana leaf, featuring steamed rice, flavorful curries, vegetable sides, pickle, papad, and other homestyle accompaniments. The leaf wrapping allows the flavors to blend beautifully, creating an authentic and comforting Kerala meal.",
+          "price": 25,
+          "tags": [
+            "signature",
+            "availability"
+          ]
+        },
+        {
+          "id": "new-item-1787304941236",
+          "name": "Chattichoru  ( Lunch Only )",
+          "desc": "A traditional Kerala-style rice meal served in a clay pot with flavorful curries and homestyle accompaniments.",
+          "price": 29.95,
+          "tags": [
+            "signature",
+            "availability"
+          ]
+        },
+        {
+          "id": "new-item-1787304968777",
+          "name": "Kappa Biryani",
+          "desc": "A flavorful Kerala dish combining tender tapioca with spiced meat and aromatic herbs.",
+          "price": 24.95,
+          "tags": [
+            "spicy",
+            "signature"
+          ]
+        },
+        {
+          "id": "new-item-1787304992593",
+          "name": "Kizhi Porortta ( Chicken/Beef/Veg)",
+          "desc": "Flaky porotta wrapped in a banana leaf with flavorful meat curry and spices, then steamed to perfection.",
+          "price": 25,
+          "tags": [
+            "signature",
+            "availability"
+          ]
         }
       ]
     },
