@@ -1,6 +1,7 @@
 import { menuSections, formatPrice, type MenuItem } from "./menu";
 import homeHeroJson from "@/content/home-hero.json";
 import homeShowcaseJson from "@/content/home-showcase.json";
+import type { HomeHeroSlide } from "@/lib/content/schemas";
 
 const allItems = menuSections.flatMap((section) => section.items);
 const byId = (id: string): MenuItem => {
@@ -91,16 +92,28 @@ export const hfMangoBlurb =
 /** Hero slider — real signature dishes, matching the Figma "God's Own ___"
  * slide set (node 62:1100). "light" mirrors the Default variant (white bg,
  * plated dish on the right); "dark" mirrors variants 2/3 (full-bleed photo).
- * Admin-editable via content/home-hero.json — slide/word/dish/image are all
- * managed from /admin, resolved here against the live menu so price/desc
- * stay in sync with whatever the Menu editor has. */
-export const hfHeroSlides = homeHeroJson.slides.map((slide) => ({
-  id: slide.id,
-  theme: slide.theme as "light" | "dark",
-  heroWord: slide.heroWord,
-  item: byId(slide.menuItemId),
-  image: slide.image,
-}));
+ * Admin-editable via content/home-hero.json — slide/word/image are managed
+ * from /admin. "dish" slides resolve against the live menu so price/desc
+ * stay in sync with whatever the Menu editor has; "custom" slides carry
+ * their own description and link instead of a dish (e.g. an event promo). */
+export const hfHeroSlides = (homeHeroJson.slides as HomeHeroSlide[]).map((slide) => {
+  const base = {
+    id: slide.id,
+    theme: slide.theme,
+    heroWord: slide.heroWord,
+    image: slide.image,
+  };
+  if (slide.kind === "custom") {
+    return {
+      ...base,
+      kind: "custom" as const,
+      description: slide.description,
+      linkUrl: slide.linkUrl,
+      linkLabel: slide.linkLabel,
+    };
+  }
+  return { ...base, kind: "dish" as const, item: byId(slide.menuItemId) };
+});
 
 /** "From Our Kitchen" spotlight — repurposed from the template's generic blog
  * section, since the site has no blog. Real dish/site content, no invented posts. */

@@ -85,7 +85,7 @@ async function crossReferenceIssues(
   if (key === "home-hero") {
     const homeHero = data as z.infer<typeof HomeHeroFileSchema>;
     for (const slide of homeHero.slides) {
-      if (!itemIds.has(slide.menuItemId)) {
+      if (slide.kind === "dish" && !itemIds.has(slide.menuItemId)) {
         issues.push(`slides: "${slide.id}" references unknown menu item id "${slide.menuItemId}"`);
       }
     }
@@ -105,7 +105,12 @@ export const onRequestGet: PagesFunction<AdminEnv, "key"> = async ({ request, en
   try {
     const file = await getFile(env, CONTENT_PATHS[key]);
     if (!file) return json({ ok: true, data: null, sha: null });
-    return json({ ok: true, data: JSON.parse(file.content), sha: file.sha });
+    const parsed = JSON.parse(file.content);
+    // Slides saved before hero slides had a "kind" field are all dish
+    // slides — normalize on read so the editor UI (which switches on
+    // slide.kind) doesn't misread old data as empty "custom" slides.
+    const data = key === "home-hero" ? HomeHeroFileSchema.parse(parsed) : parsed;
+    return json({ ok: true, data, sha: file.sha });
   } catch (err) {
     if (err instanceof GitHubAuthError) {
       return json({ ok: false, error: "github_auth" }, 502);

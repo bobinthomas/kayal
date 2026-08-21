@@ -5,7 +5,7 @@ import { useAdminContent } from "./useAdminContent";
 import { fetchContent, uploadImage } from "./adminApi";
 import { resizeImageFile } from "./resizeImage";
 import SaveBar from "./SaveBar";
-import type { HomeHeroFile, MenuFile } from "@/lib/content/schemas";
+import type { HomeHeroFile, HomeHeroSlide, MenuFile } from "@/lib/content/schemas";
 
 const DEFAULT_IMAGE = "/images/home-figma/hero-bg.jpg";
 
@@ -25,13 +25,13 @@ function slugify(value: string): string {
   return base || "slide";
 }
 
-function emptySlide(existingIds: string[], firstItemId: string) {
+function emptySlide(existingIds: string[], firstItemId: string): HomeHeroSlide {
   let id = slugify("new-slide");
   let n = 2;
   while (existingIds.includes(id)) {
     id = `${slugify("new-slide")}-${n++}`;
   }
-  return { id, theme: "dark" as const, heroWord: "flavour", menuItemId: firstItemId, image: DEFAULT_IMAGE };
+  return { id, theme: "dark", heroWord: "flavour", image: DEFAULT_IMAGE, kind: "dish", menuItemId: firstItemId };
 }
 
 export default function HeroEditor({
@@ -71,9 +71,24 @@ export default function HeroEditor({
 
   const slides = data.slides;
 
-  function update(index: number, patch: Partial<(typeof slides)[number]>) {
+  // Common fields (id/theme/heroWord/image) are shared by both slide kinds,
+  // so a shallow merge is safe here even though slides is a discriminated
+  // union — this never crosses from one kind's fields into the other.
+  function update(index: number, patch: Record<string, unknown>) {
     const next = slides.slice();
-    next[index] = { ...next[index], ...patch };
+    next[index] = { ...next[index], ...patch } as HomeHeroSlide;
+    setData({ slides: next });
+  }
+
+  function setKind(index: number, kind: "dish" | "custom") {
+    const slide = slides[index];
+    if (slide.kind === kind) return;
+    const common = { id: slide.id, theme: slide.theme, heroWord: slide.heroWord, image: slide.image };
+    const next = slides.slice();
+    next[index] =
+      kind === "dish"
+        ? { ...common, kind: "dish", menuItemId: allItems?.[0]?.id ?? "" }
+        : { ...common, kind: "custom", description: "", linkUrl: "", linkLabel: "Learn more" };
     setData({ slides: next });
   }
 
@@ -123,8 +138,10 @@ export default function HeroEditor({
       <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-4 p-4">
         <p className="text-sm text-neutral-500">
-          The home page hero carousel (top of the site) — order, headline word, featured dish, and photo for
-          each slide. Description and price come from the linked menu item automatically.
+          The home page hero carousel (top of the site) — order, headline word, and photo for each slide.
+          A <strong>Dish</strong> slide pulls its description and price from a linked menu item automatically.
+          A <strong>Custom</strong> slide has no dish — write your own description and pick where its button
+          links (e.g. an event or promo page).
         </p>
         {uploadError && <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{uploadError}</div>}
         {slides.map((slide, i) => (
@@ -209,23 +226,87 @@ export default function HeroEditor({
               </label>
             </div>
 
-            <label className="block space-y-1">
-              <span className="text-xs font-medium text-neutral-500">Featured dish</span>
-              <select
-                value={slide.menuItemId}
-                onChange={(e) => update(i, { menuItemId: e.target.value })}
-                className="w-full rounded-lg border border-neutral-300 p-2 text-sm"
-              >
-                {!nameFor(slide.menuItemId) && allItems && (
-                  <option value={slide.menuItemId}>Unknown item ({slide.menuItemId})</option>
-                )}
-                {allItems?.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name} — {item.section}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div className="space-y-1">
+              <span className="text-xs font-medium text-neutral-500">Slide type</span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setKind(i, "dish")}
+                  className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium ${
+                    slide.kind === "dish"
+                      ? "border-emerald-800 bg-emerald-800 text-white"
+                      : "border-neutral-300 text-neutral-600"
+                  }`}
+                >
+                  Dish
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setKind(i, "custom")}
+                  className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium ${
+                    slide.kind === "custom"
+                      ? "border-emerald-800 bg-emerald-800 text-white"
+                      : "border-neutral-300 text-neutral-600"
+                  }`}
+                >
+                  Custom
+                </button>
+              </div>
+            </div>
+
+            {slide.kind === "dish" ? (
+              <label className="block space-y-1">
+                <span className="text-xs font-medium text-neutral-500">Featured dish</span>
+                <select
+                  value={slide.menuItemId}
+                  onChange={(e) => update(i, { menuItemId: e.target.value })}
+                  className="w-full rounded-lg border border-neutral-300 p-2 text-sm"
+                >
+                  {!nameFor(slide.menuItemId) && allItems && (
+                    <option value={slide.menuItemId}>Unknown item ({slide.menuItemId})</option>
+                  )}
+                  {allItems?.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name} — {item.section}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : (
+              <div className="space-y-3">
+                <label className="block space-y-1">
+                  <span className="text-xs font-medium text-neutral-500">Description</span>
+                  <textarea
+                    value={slide.description}
+                    onChange={(e) => update(i, { description: e.target.value })}
+                    maxLength={200}
+                    rows={3}
+                    placeholder="e.g. Onam Sadhya bookings are open — 20-item feast, limited seats."
+                    className="w-full rounded-lg border border-neutral-300 p-2 text-sm"
+                  />
+                </label>
+                <div className="flex gap-2">
+                  <label className="flex-1 space-y-1">
+                    <span className="text-xs font-medium text-neutral-500">Button label</span>
+                    <input
+                      value={slide.linkLabel}
+                      onChange={(e) => update(i, { linkLabel: e.target.value })}
+                      placeholder="e.g. Book now"
+                      className="w-full rounded-lg border border-neutral-300 p-2 text-sm"
+                    />
+                  </label>
+                  <label className="flex-1 space-y-1">
+                    <span className="text-xs font-medium text-neutral-500">Link</span>
+                    <input
+                      value={slide.linkUrl}
+                      onChange={(e) => update(i, { linkUrl: e.target.value })}
+                      placeholder="/specials/ or https://…"
+                      className="w-full rounded-lg border border-neutral-300 p-2 text-sm"
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
           </div>
         ))}
         {slides.length < 6 && (

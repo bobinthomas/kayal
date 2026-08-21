@@ -73,7 +73,7 @@ export default function HfHero() {
               type="button"
               role="tab"
               aria-selected={i === active}
-              aria-label={`Show ${slide.item.name}`}
+              aria-label={`Show ${slide.kind === "dish" ? slide.item.name : slide.heroWord}`}
               onClick={() => goTo(i)}
               className={`h-2 rounded-full transition-all ${
                 i === active ? "w-6 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
@@ -109,18 +109,47 @@ function Eyebrow({ color }: { color: string }) {
   );
 }
 
-function Ctas({ dark }: { dark: boolean }) {
+function Ctas({
+  dark,
+  primary,
+}: {
+  dark: boolean;
+  primary?: { label: string; href: string; external: boolean };
+}) {
+  const primaryClass = `inline-flex items-center rounded-full px-7 py-3 text-sm font-semibold transition-transform hover:scale-[1.03] ${
+    dark ? "bg-white text-hf-ink" : "bg-hf-ink text-white"
+  }`;
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Link
-        href="/menu/"
-        onClick={() => track("menu_view", { placement: "hf_hero" })}
-        className={`inline-flex items-center rounded-full px-7 py-3 text-sm font-semibold transition-transform hover:scale-[1.03] ${
-          dark ? "bg-white text-hf-ink" : "bg-hf-ink text-white"
-        }`}
-      >
-        Menu
-      </Link>
+      {primary ? (
+        primary.external ? (
+          <a
+            href={primary.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track("hero_link_tap", { placement: "hf_hero" })}
+            className={primaryClass}
+          >
+            {primary.label}
+          </a>
+        ) : (
+          <Link
+            href={primary.href}
+            onClick={() => track("hero_link_tap", { placement: "hf_hero" })}
+            className={primaryClass}
+          >
+            {primary.label}
+          </Link>
+        )
+      ) : (
+        <Link
+          href="/menu/"
+          onClick={() => track("menu_view", { placement: "hf_hero" })}
+          className={primaryClass}
+        >
+          Menu
+        </Link>
+      )}
       <a
         href={`tel:${restaurant.phone.tel}`}
         onClick={() => track("call_tap", { placement: "hf_hero" })}
@@ -130,6 +159,13 @@ function Ctas({ dark }: { dark: boolean }) {
       </a>
     </div>
   );
+}
+
+function heroPrimaryCta(
+  slide: (typeof hfHeroSlides)[number],
+): { label: string; href: string; external: boolean } | undefined {
+  if (slide.kind !== "custom") return undefined;
+  return { label: slide.linkLabel, href: slide.linkUrl, external: slide.linkUrl.startsWith("http") };
 }
 
 const HEADLINE_CLASS =
@@ -145,7 +181,7 @@ function HeroHeadline({ heroWord, dark }: { heroWord: string; dark: boolean }) {
 }
 
 function DarkSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
-  const { item, heroWord, image } = slide;
+  const { heroWord, image } = slide;
   return (
     <div className="relative flex h-full items-center pb-16 pt-28 lg:pb-16 lg:pt-24">
       <div className="absolute inset-0">
@@ -160,9 +196,15 @@ function DarkSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
           <Eyebrow color="text-hf-amber" />
           <HeroHeadline heroWord={heroWord} dark />
           <p className="max-w-md text-base leading-relaxed text-white/80">
-            {item.desc} {item.price !== undefined && `${formatPrice(item.price)}.`}
+            {slide.kind === "dish" ? (
+              <>
+                {slide.item.desc} {slide.item.price !== undefined && `${formatPrice(slide.item.price)}.`}
+              </>
+            ) : (
+              slide.description
+            )}
           </p>
-          <Ctas dark />
+          <Ctas dark primary={heroPrimaryCta(slide)} />
         </div>
       </div>
     </div>
@@ -170,7 +212,7 @@ function DarkSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
 }
 
 function LightSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
-  const { item, heroWord, image: dishImage } = slide;
+  const { heroWord, image: dishImage } = slide;
   return (
     <div className="flex h-full items-center bg-white pb-16 pt-28 lg:pb-16 lg:pt-24">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col-reverse items-center gap-8 px-6 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-16">
@@ -178,16 +220,22 @@ function LightSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
           <Eyebrow color="text-hf-amber" />
           <HeroHeadline heroWord={heroWord} dark={false} />
           <p className="max-w-md text-base leading-relaxed text-hf-body">
-            {item.desc} {item.price !== undefined && `${formatPrice(item.price)}.`}
+            {slide.kind === "dish" ? (
+              <>
+                {slide.item.desc} {slide.item.price !== undefined && `${formatPrice(slide.item.price)}.`}
+              </>
+            ) : (
+              slide.description
+            )}
           </p>
-          <Ctas dark={false} />
+          <Ctas dark={false} primary={heroPrimaryCta(slide)} />
         </div>
 
         {dishImage && (
           <div className="relative h-[200px] w-full max-w-[320px] shrink-0 sm:h-[260px] lg:h-[360px] lg:w-[400px]">
             <Image
               src={dishImage}
-              alt={item.name}
+              alt={slide.kind === "dish" ? slide.item.name : slide.heroWord}
               fill
               priority
               sizes="(min-width: 1024px) 400px, 80vw"

@@ -191,16 +191,37 @@ export const CopyFileSchema = z.object({
   ),
 });
 
-export const HomeHeroSlideSchema = z.object({
+const HomeHeroSlideBaseFields = {
   id: z
     .string()
     .min(1)
     .regex(/^[a-z0-9-]+$/, "lowercase-kebab-case id"),
   theme: z.enum(["light", "dark"]),
   heroWord: z.string().min(1).max(30),
-  menuItemId: z.string().min(1),
   image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
+};
+
+export const HomeHeroDishSlideSchema = z.object({
+  ...HomeHeroSlideBaseFields,
+  kind: z.literal("dish"),
+  menuItemId: z.string().min(1),
 });
+
+export const HomeHeroCustomSlideSchema = z.object({
+  ...HomeHeroSlideBaseFields,
+  kind: z.literal("custom"),
+  description: z.string().min(1).max(200),
+  linkUrl: z.string().regex(/^(\/|https?:\/\/)\S+$/, "must be a relative path or absolute URL"),
+  linkLabel: z.string().min(1).max(30),
+});
+
+// Slides saved before "kind" existed are all dish slides — default it in so
+// old content/home-hero.json data keeps validating unchanged.
+export const HomeHeroSlideSchema = z.preprocess(
+  (slide) =>
+    slide && typeof slide === "object" && !("kind" in slide) ? { ...slide, kind: "dish" } : slide,
+  z.discriminatedUnion("kind", [HomeHeroDishSlideSchema, HomeHeroCustomSlideSchema]),
+);
 
 export const HomeHeroFileSchema = z.object({
   slides: z.array(HomeHeroSlideSchema).min(1).max(6),

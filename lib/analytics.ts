@@ -11,7 +11,8 @@ export type AnalyticsEvent =
   | "booking_form_submit"
   | "menu_view"
   | "directions_tap"
-  | "catering_enquiry";
+  | "catering_enquiry"
+  | "hero_link_tap";
 
 export function track(event: AnalyticsEvent, detail?: Record<string, string>) {
   if (typeof window === "undefined") return;
