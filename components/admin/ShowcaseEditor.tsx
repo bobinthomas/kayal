@@ -84,7 +84,7 @@ export default function ShowcaseEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<HomeShowcaseFile>("home-showcase", password, onUnauthorized);
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -121,7 +121,7 @@ export default function ShowcaseEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-6 p-4">
         <p className="text-sm text-neutral-500">
           Photos for the &quot;Signature Dishes&quot; bento grid and the mango-slide showcase on the home page. Everything

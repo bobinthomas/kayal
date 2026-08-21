@@ -41,7 +41,7 @@ export default function HeroEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<HomeHeroFile>("home-hero", password, onUnauthorized);
   const [allItems, setAllItems] = useState<{ id: string; name: string; section: string }[] | null>(null);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
@@ -135,7 +135,7 @@ export default function HeroEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-4 p-4">
         <p className="text-sm text-neutral-500">
           The home page hero carousel (top of the site) — order, headline word, and photo for each slide.

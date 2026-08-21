@@ -8,6 +8,7 @@ export interface UseAdminContentResult<T> {
   loading: boolean;
   saving: boolean;
   error: string | null;
+  issues: unknown[] | null;
   dirty: boolean;
   conflict: boolean;
   setData: (data: T) => void;
@@ -36,6 +37,7 @@ export function useAdminContent<T>(
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [issues, setIssues] = useState<unknown[] | null>(null);
   const [conflict, setConflict] = useState(false);
 
   const load = useCallback(async (ignore = false) => {
@@ -76,12 +78,14 @@ export function useAdminContent<T>(
   const setData = useCallback((next: T) => {
     setState((prev) => ({ ...prev, data: next }));
     setConflict(false);
+    setIssues(null);
   }, []);
 
   const save = useCallback(async () => {
     if (state.data === null) return;
     setSaving(true);
     setError(null);
+    setIssues(null);
     try {
       const result = await saveContent(key, password, state.data, state.sha);
       if (result.ok) {
@@ -90,6 +94,7 @@ export function useAdminContent<T>(
         setConflict(true);
       } else {
         setError(result.error ?? "save_failed");
+        setIssues(result.issues ?? null);
       }
     } catch (err) {
       if (err instanceof AdminUnauthorizedError) {
@@ -110,5 +115,5 @@ export function useAdminContent<T>(
 
   const dirty = state.data !== null && JSON.stringify(state.data) !== state.original;
 
-  return { data: state.data, loading, saving, error, dirty, conflict, setData, reload, save };
+  return { data: state.data, loading, saving, error, issues, dirty, conflict, setData, reload, save };
 }

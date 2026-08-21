@@ -1,18 +1,29 @@
 "use client";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  validation: "Some fields aren't valid — check the highlighted errors below.",
-  cross_reference: "This references something that doesn't exist in the menu.",
+  validation: "Some fields aren't valid:",
+  cross_reference: "This references something that doesn't exist in the menu:",
   github_auth: "The GitHub token is invalid or expired — content can't be saved right now.",
   github_error: "GitHub couldn't be reached — try again in a moment.",
   network_error: "Couldn't reach the server — check your connection and try again.",
   save_failed: "Save failed for an unknown reason — try again.",
 };
 
+function formatIssue(issue: unknown): string {
+  if (typeof issue === "string") return issue;
+  if (issue && typeof issue === "object" && "message" in issue) {
+    const record = issue as { message: unknown; path?: unknown };
+    const path = Array.isArray(record.path) ? record.path.join(".") : "";
+    return path ? `${path}: ${String(record.message)}` : String(record.message);
+  }
+  return JSON.stringify(issue);
+}
+
 export default function SaveBar({
   dirty,
   saving,
   error,
+  issues,
   conflict,
   onSave,
   onReload,
@@ -20,6 +31,7 @@ export default function SaveBar({
   dirty: boolean;
   saving: boolean;
   error: string | null;
+  issues?: unknown[] | null;
   conflict: boolean;
   onSave: () => void;
   onReload: () => void;
@@ -49,7 +61,14 @@ export default function SaveBar({
       )}
       {error && !conflict && (
         <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
-          {ERROR_MESSAGES[error] ?? error}
+          <p>{ERROR_MESSAGES[error] ?? error}</p>
+          {issues && issues.length > 0 && (
+            <ul className="mt-1 list-disc space-y-0.5 pl-4">
+              {issues.map((issue, i) => (
+                <li key={i}>{formatIssue(issue)}</li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>

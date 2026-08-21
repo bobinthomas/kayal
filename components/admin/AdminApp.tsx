@@ -26,25 +26,23 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-function hasStoredPassword(): boolean {
-  if (typeof window === "undefined") return false;
-  return Boolean(sessionStorage.getItem(ADMIN_PASSWORD_KEY));
-}
-
 function PasswordGate({ onUnlocked }: { onUnlocked: (password: string) => void }) {
   const [password, setPassword] = useState("");
-  const [checking, setChecking] = useState(hasStoredPassword);
+  // Starts false unconditionally (matching the static-export prerendered
+  // HTML, which never sees sessionStorage) — checking a stored password is
+  // deferred to the effect below so hydration never observes a mismatch
+  // between the build-time render and a browser that already has one.
+  const [checking, setChecking] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!checking) return;
-    const stored = sessionStorage.getItem(ADMIN_PASSWORD_KEY) ?? "";
+    const stored = sessionStorage.getItem(ADMIN_PASSWORD_KEY);
+    if (!stored) return;
     checkSession(stored).then((ok) => {
       if (ok) {
         onUnlocked(stored);
       } else {
         sessionStorage.removeItem(ADMIN_PASSWORD_KEY);
-        setChecking(false);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

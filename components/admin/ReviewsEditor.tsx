@@ -15,7 +15,7 @@ export default function ReviewsEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<ReviewsFile>("reviews", password, onUnauthorized);
 
   if (loading) return <p className="p-4 text-neutral-500">Loading…</p>;
@@ -48,7 +48,7 @@ export default function ReviewsEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-4 p-4">
         {reviews.map((review, i) => (
           <div key={i} className="space-y-2 rounded-xl border border-neutral-200 p-4">

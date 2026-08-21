@@ -35,7 +35,7 @@ export default function CopyEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<CopyFile>("copy", password, onUnauthorized);
 
   if (loading) return <p className="p-4 text-neutral-500">Loading…</p>;
@@ -56,7 +56,7 @@ export default function CopyEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-6 p-4">
         <Field label="About paragraph" value={data.aboutParagraph} onChange={(v) => setData({ ...data, aboutParagraph: v })} />
         <Field

@@ -44,7 +44,7 @@ export interface ContentPutResult {
   sha?: string;
   commitUrl?: string;
   error?: string;
-  issues?: unknown;
+  issues?: unknown[];
 }
 
 export interface UploadImageResult {

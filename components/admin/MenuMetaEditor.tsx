@@ -36,7 +36,7 @@ export default function MenuMetaEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<MenuMetaFile>("menu-meta", password, onUnauthorized);
   const [sections, setSections] = useState<MenuFile["sections"] | null>(null);
 
@@ -77,7 +77,7 @@ export default function MenuMetaEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-6 p-4">
         <fieldset className="space-y-3 rounded-xl border border-neutral-200 p-4">
           <legend className="px-1 text-sm font-semibold text-neutral-700">Page intro</legend>

@@ -33,7 +33,7 @@ export default function MenuEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<MenuFile>("menu", password, onUnauthorized);
 
   if (loading) return <p className="p-4 text-neutral-500">Loading…</p>;
@@ -104,7 +104,7 @@ export default function MenuEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-3xl space-y-4 p-4">
         <label className="block space-y-1 rounded-xl border border-neutral-200 p-4">
           <span className="text-sm font-semibold text-neutral-700">Menu disclaimer</span>

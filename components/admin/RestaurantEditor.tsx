@@ -45,7 +45,7 @@ export default function RestaurantEditor({
   password: string;
   onUnauthorized: () => void;
 }) {
-  const { data, loading, saving, error, dirty, conflict, setData, reload, save } =
+  const { data, loading, saving, error, issues, dirty, conflict, setData, reload, save } =
     useAdminContent<RestaurantFile>("restaurant", password, onUnauthorized);
 
   if (loading) return <p className="p-4 text-neutral-500">Loading…</p>;
@@ -68,7 +68,7 @@ export default function RestaurantEditor({
 
   return (
     <div>
-      <SaveBar dirty={dirty} saving={saving} error={error} conflict={conflict} onSave={save} onReload={reload} />
+      <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-4 p-4">
         <Section title="Identity">
           <Input label="Name" value={data.name} onChange={(v) => setData({ ...data, name: v })} />
