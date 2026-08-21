@@ -260,7 +260,7 @@
           "id": "chakka",
           "name": "Chakka",
           "desc": "Kerala style jackfruit dish.",
-          "price": 14.99,
+          "price": 14.95,
           "tags": [
             "veg",
             "availability"
@@ -270,7 +270,7 @@
           "id": "masala-mash-potato",
           "name": "Masala Mash Potato",
           "desc": "Mash potato prepared in Kerala recipe.",
-          "price": 9,
+          "price": 9.95,
           "tags": [
             "veg",
             "availability"

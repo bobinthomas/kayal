@@ -73,7 +73,6 @@ export default function HfTestimonials() {
           className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-flow-col lg:grid-cols-none lg:grid-rows-2"
         >
           <BrandCard className="lg:row-span-2" />
-          <Photo src="/images/home-figma/dish-fish-tikka.png" alt="Fish tikka" className="min-h-[220px] lg:row-span-2" />
           <QuoteCard review={reviews[0]} />
           <RatingCard />
           <QuoteCard review={reviews[1]} className="lg:row-span-2" />
