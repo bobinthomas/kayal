@@ -5,13 +5,20 @@ const SESSION_LABEL = { lunch: "Lunch", dinner: "Dinner" } as const;
 export default function StepDineInTimeSlot({
   eventDate,
   timeSlot,
+  blockedSlots,
   onSelect,
 }: {
   eventDate: string;
   timeSlot: string | null;
+  blockedSlots: Set<string>;
   onSelect: (timeSlot: string) => void;
 }) {
-  const sessions = dineInSessionsForDate(eventDate);
+  const sessions = dineInSessionsForDate(eventDate)
+    .map((group) => ({
+      ...group,
+      slots: group.slots.filter((slot) => !blockedSlots.has(`${eventDate}|${slot}`)),
+    }))
+    .filter((group) => group.slots.length > 0);
 
   return (
     <div>

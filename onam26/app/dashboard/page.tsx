@@ -7,6 +7,7 @@ import PasswordGate from "@/components/dashboard/PasswordGate";
 import SummaryCounts from "@/components/dashboard/SummaryCounts";
 import BookingsTable from "@/components/dashboard/BookingsTable";
 import AnalyticsSummary from "@/components/dashboard/AnalyticsSummary";
+import AvailabilityManager from "@/components/dashboard/AvailabilityManager";
 
 export default function DashboardPage() {
   const [unlocked, setUnlocked] = useState(false);
@@ -14,6 +15,7 @@ export default function DashboardPage() {
   const [events, setEvents] = useState<AnalyticsEvent[] | null>(null);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [eventsLoading, setEventsLoading] = useState(false);
+  const [showAvailability, setShowAvailability] = useState(false);
 
   function handleUnlocked() {
     setUnlocked(true);
@@ -52,6 +54,26 @@ export default function DashboardPage() {
       {bookings !== null && (
         <div className="mt-6 space-y-6">
           <SummaryCounts bookings={bookings} />
+
+          <div className="border-t border-leaf/10 pt-6">
+            <button
+              type="button"
+              onClick={() => setShowAvailability((prev) => !prev)}
+              className="flex items-center gap-2 text-sm font-semibold text-leaf hover:underline"
+            >
+              <span className={`inline-block transition-transform ${showAvailability ? "rotate-90" : ""}`}>
+                ▸
+              </span>
+              {showAvailability ? "Hide" : "Manage"} availability
+            </button>
+
+            {showAvailability && (
+              <div className="mt-4">
+                <AvailabilityManager />
+              </div>
+            )}
+          </div>
+
           <BookingsTable
             bookings={bookings}
             onStatusChange={(id, status) =>

@@ -2,12 +2,14 @@ import { datesForService, formatEventDate, onamEvent, type ServiceType } from "@
 
 export default function StepDate({
   serviceType,
+  blockedDates,
   onSelect,
 }: {
   serviceType: ServiceType;
+  blockedDates: Set<string>;
   onSelect: (eventDate: string) => void;
 }) {
-  const dates = datesForService(serviceType);
+  const dates = datesForService(serviceType).filter((date) => !blockedDates.has(date));
 
   return (
     <div>
@@ -36,6 +38,11 @@ export default function StepDate({
           );
         })}
       </div>
+      {serviceType === "takeaway" && (
+        <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+          Take away closed for 23rd August. Contact us on 0297349634 if you want to book.
+        </p>
+      )}
     </div>
   );
 }

@@ -115,6 +115,48 @@ export async function fetchEvents(): Promise<
   return { ok: true, events: data.events };
 }
 
+// Shape of a row returned by /api/list-availability — mirrors the D1
+// `availability_blocks` table columns. An empty time_slot means the whole
+// date is blocked for that service type; a non-empty one blocks just that
+// dine-in slot.
+export type AvailabilityBlock = {
+  id: string;
+  service_type: ServiceType;
+  event_date: string;
+  time_slot: string;
+};
+
+export async function fetchAvailability(): Promise<
+  { ok: true; blocks: AvailabilityBlock[] } | { ok: false }
+> {
+  const res = await fetch("/api/list-availability");
+  if (!res.ok) return { ok: false };
+  const data = (await res.json()) as { ok: boolean; blocks: AvailabilityBlock[] };
+  return { ok: true, blocks: data.blocks };
+}
+
+export async function blockAvailability(
+  serviceType: ServiceType,
+  eventDate: string,
+  timeSlot?: string,
+): Promise<boolean> {
+  const res = await fetch("/api/block-availability", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...dashboardHeaders() },
+    body: JSON.stringify({ serviceType, eventDate, timeSlot }),
+  });
+  return res.ok;
+}
+
+export async function unblockAvailability(id: string): Promise<boolean> {
+  const res = await fetch("/api/unblock-availability", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...dashboardHeaders() },
+    body: JSON.stringify({ id }),
+  });
+  return res.ok;
+}
+
 // Opens a booking's uploaded receipt in a new tab. Fetches it with the
 // dashboard auth header (R2 files aren't public) and hands the browser a
 // blob URL, since a plain <a href> can't carry a custom auth header.

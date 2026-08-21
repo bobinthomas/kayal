@@ -127,6 +127,20 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     packageSize = size;
   }
 
+  // Admin-managed availability blocks (see AvailabilityManager on /dashboard)
+  // take precedence over the static date/slot lists checked above — this is
+  // the authoritative check, since the client's copy of the block list may
+  // be stale.
+  const blocked = await env.DB.prepare(
+    `SELECT 1 FROM availability_blocks
+     WHERE service_type = ? AND event_date = ? AND (time_slot = '' OR time_slot = ?)`,
+  )
+    .bind(serviceType, eventDate, timeSlot ?? "")
+    .first();
+  if (blocked) {
+    return json({ ok: false, error: "That date/time is no longer available." }, 400);
+  }
+
   // Optional Turnstile verification.
   if (env.TURNSTILE_SECRET_KEY) {
     const token = String(payload["cf-turnstile-response"] || "");

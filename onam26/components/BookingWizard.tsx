@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { submitBooking, uploadReceipt } from "@/lib/api";
+import { useEffect, useMemo, useState } from "react";
+import { fetchAvailability, submitBooking, uploadReceipt, type AvailabilityBlock } from "@/lib/api";
 import { track } from "@/lib/analytics";
 import StepServiceType from "./booking-wizard/StepServiceType";
 import StepDate from "./booking-wizard/StepDate";
@@ -30,6 +30,7 @@ export default function BookingWizard() {
   const [state, setState] = useState<WizardState>(initialWizardState);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [blocks, setBlocks] = useState<AvailabilityBlock[]>([]);
 
   function patch(update: Partial<WizardState>) {
     setState((prev) => ({ ...prev, ...update }));
@@ -38,6 +39,34 @@ export default function BookingWizard() {
   useEffect(() => {
     track("step_view", { step });
   }, [step]);
+
+  useEffect(() => {
+    // Fails open (empty blocks) while loading — submit-booking.ts is the
+    // authoritative check, so a brief stale/loading window here is harmless.
+    fetchAvailability().then((result) => {
+      if (result.ok) setBlocks(result.blocks);
+    });
+  }, []);
+
+  const blockedDates = useMemo(() => {
+    const dineIn = new Set<string>();
+    const takeaway = new Set<string>();
+    for (const b of blocks) {
+      if (b.time_slot !== "") continue;
+      (b.service_type === "dine_in" ? dineIn : takeaway).add(b.event_date);
+    }
+    return { dine_in: dineIn, takeaway } as const;
+  }, [blocks]);
+
+  const blockedSlots = useMemo(() => {
+    const set = new Set<string>();
+    for (const b of blocks) {
+      if (b.service_type === "dine_in" && b.time_slot !== "") {
+        set.add(`${b.event_date}|${b.time_slot}`);
+      }
+    }
+    return set;
+  }, [blocks]);
 
   async function handleSubmit(file: File | null) {
     setSubmitStatus("submitting");
@@ -129,6 +158,7 @@ export default function BookingWizard() {
       {step === "date" && state.serviceType && (
         <StepDate
           serviceType={state.serviceType}
+          blockedDates={blockedDates[state.serviceType]}
           onSelect={(eventDate) => {
             track("date_selected", { step: "date", detail: eventDate });
             patch({ eventDate });
@@ -141,6 +171,7 @@ export default function BookingWizard() {
         <StepDineInTimeSlot
           eventDate={state.eventDate!}
           timeSlot={state.timeSlot}
+          blockedSlots={blockedSlots}
           onSelect={(timeSlot) => {
             track("time_slot_selected", { step: "timeslot", detail: timeSlot });
             patch({ timeSlot });
