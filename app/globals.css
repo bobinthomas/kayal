@@ -473,30 +473,9 @@ h3 {
   transform: translateY(0);
 }
 
-/* ---------- Load curtain ---------- */
-@keyframes curtain-exit {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-.load-curtain {
-  animation: curtain-enter 0.5s var(--ease-out-expo) both;
-}
-.load-curtain-exit {
-  animation: curtain-exit 0.7s var(--ease-out-expo) forwards;
-}
-@keyframes curtain-enter {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-.load-curtain-counter {
-  font-variant-numeric: tabular-nums;
-}
+/* ---------- Load curtain ----------
+   Entrance/exit and word-cycling for LoadCurtain are driven by GSAP inline
+   styles (see components/motion/LoadCurtain.tsx), not CSS classes. */
 
 /* ---------- Mist blobs — idle drift + scroll parallax ---------- */
 @keyframes mist-idle {
@@ -630,8 +609,34 @@ h3 {
 .menu-hero {
   background: var(--paper);
 }
+.menu-hero-media {
+  position: relative;
+}
+.menu-hero-image-wrap {
+  position: relative;
+  height: clamp(320px, 46vw, 480px);
+  width: 100%;
+  background: var(--lagoon-2);
+}
+.menu-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.5) 55%,
+    rgba(0, 0, 0, 0.6)
+  );
+}
 .menu-hero-text {
-  padding: clamp(2.5rem, 6vw, 4rem) 1.5rem 1.5rem;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
   text-align: center;
 }
 .menu-hero-title-row {
@@ -646,7 +651,7 @@ h3 {
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  color: color-mix(in srgb, white 75%, transparent);
 }
 .menu-hero-side-label--right {
   text-align: left;
@@ -660,7 +665,7 @@ h3 {
   line-height: 1;
   letter-spacing: 0.08em;
   text-transform: lowercase;
-  color: var(--ink);
+  color: white;
 }
 .menu-hero-letter {
   display: inline-block;
@@ -672,16 +677,7 @@ h3 {
   font-size: clamp(1rem, 2.5vw, 1.25rem);
   font-style: italic;
   line-height: 1.5;
-  color: color-mix(in srgb, var(--ink) 65%, transparent);
-}
-.menu-hero-media {
-  position: relative;
-}
-.menu-hero-image-wrap {
-  position: relative;
-  height: clamp(280px, 48vw, 520px);
-  width: 100%;
-  background: var(--lagoon-2);
+  color: color-mix(in srgb, white 85%, transparent);
 }
 .menu-category-shell {
   position: sticky;
@@ -1748,13 +1744,11 @@ h3 {
   .ripple-layer,
   .mote,
   .marquee-row,
-  .mist-blob,
-  .load-curtain {
+  .mist-blob {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
-  .load-curtain { display: none !important; }
   .split-line-inner {
     opacity: 1;
     transform: none;

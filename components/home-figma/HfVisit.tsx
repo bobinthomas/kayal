@@ -1,9 +1,33 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { restaurant } from "@/data/restaurant";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import HfReveal from "./HfReveal";
 
+const VISIT_IMAGES = [
+  { src: "/images/home-figma/kayal-restaurant.jpg", alt: "Inside Kayal Foods" },
+  { src: "/images/home-figma/kayal-restaurant1.jpg", alt: "Inside Kayal Foods" },
+  { src: "/images/home-figma/kayal-restaurant2.jpg", alt: "Inside Kayal Foods" },
+  { src: "/images/home-figma/kayal-restaurant3.jpg", alt: "Inside Kayal Foods" },
+  { src: "/images/home-figma/kayal-restaurant4.jpg", alt: "Inside Kayal Foods" },
+  { src: "/images/home-figma/kayal-restaurant5.jpg", alt: "Inside Kayal Foods" },
+];
+const SLIDE_MS = 4000;
+
 export default function HfVisit() {
+  const [active, setActive] = useState(0);
+  const reduced = useReducedMotion();
+  const count = VISIT_IMAGES.length;
+
+  useEffect(() => {
+    if (reduced || count <= 1) return;
+    const id = setInterval(() => setActive((i) => (i + 1) % count), SLIDE_MS);
+    return () => clearInterval(id);
+  }, [reduced, count]);
+
   return (
     <section className="bg-white py-20 lg:py-24">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-10 px-6 sm:px-10 lg:flex-row lg:justify-between lg:px-16">
@@ -12,20 +36,32 @@ export default function HfVisit() {
         variant="left"
         className="relative h-[320px] w-full max-w-[600px] shrink-0 overflow-hidden rounded-3xl lg:h-[400px]"
       >
-        <Link href="/about/" className="group absolute inset-0 block" aria-label="Read our story on the About page">
+        {VISIT_IMAGES.map((img, i) => (
           <Image
-            src="/images/home-figma/restaurant-interior.png"
-            alt="Inside Kayal Foods"
+            key={img.src}
+            src={img.src}
+            alt={img.alt}
             fill
+            priority={i === 0}
+            aria-hidden={i !== active}
             sizes="(min-width: 1024px) 600px, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={`object-cover transition-opacity duration-1000 ease-out ${
+              i === active ? "opacity-100" : "opacity-0"
+            }`}
           />
-          <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_8px_12px_rgba(0,0,0,0.1)]">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 7.5 17 12 9 16.5V7.5Z" fill="var(--hf-green)" />
-            </svg>
-          </span>
-        </Link>
+        ))}
+        {count > 1 && (
+          <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-2">
+            {VISIT_IMAGES.map((img, i) => (
+              <span
+                key={img.src}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === active ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </HfReveal>
 
       <HfReveal as="div" variant="right" delayMs={120} className="flex w-full max-w-[520px] flex-col gap-6">

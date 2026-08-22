@@ -4,6 +4,7 @@ import ContactForm from "@/components/ContactForm";
 import JsonLd from "@/components/JsonLd";
 import CallCta from "@/components/CallCta";
 import WhatsAppCta from "@/components/WhatsAppCta";
+import PageHero from "@/components/PageHero";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 import { cateringCategories } from "@/data/copy";
 
@@ -24,18 +25,11 @@ export default function CateringPage() {
           { name: "Catering", path: "/catering/" },
         ])}
       />
-      <div className="bg-hf-footer py-14 text-white">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h1 className="font-hf-heading text-4xl font-semibold sm:text-5xl">
-            The village table, brought to yours.
-          </h1>
-          <p className="mt-3 max-w-2xl text-lg text-white/80">
-            Onam sadya for two hundred. A chatti choru spread for the office.
-            Wedding buffets that smell like home. We cater across Sydney —
-            quote-based, built around your event.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        title="The village table, brought to yours."
+        subtitle="Onam sadya for two hundred. A chatti choru spread for the office. Wedding buffets that smell like home. We cater across Sydney — quote-based, built around your event."
+        image={{ src: "/images/home-figma/menu-hero.jpg", alt: "Kayal Foods — authentic naadan cooking" }}
+      />
 
       <section aria-labelledby="catering-categories" className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <h2 id="catering-categories" className="font-hf-heading text-3xl font-semibold text-hf-ink">

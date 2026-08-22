@@ -34,6 +34,7 @@ export default function SpecialsPage() {
           </>
         }
         subtitle="These dishes follow the catch, the season and the supplier's ute. If it's on this page, it's worth a phone call."
+        image={{ src: "/images/home-figma/menu-hero.jpg", alt: "Kayal Foods — authentic naadan cooking" }}
       >
         <CallCta placement="specials_hero" label={`Call to check today's pot — ${restaurant.phone.display}`} />
       </PageHero>
