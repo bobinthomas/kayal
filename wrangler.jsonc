@@ -7,6 +7,7 @@
     "directory": "./out",
     "binding": "ASSETS"
   },
+  "workers_dev": true,
   "routes": [
     { "pattern": "kayal.com.au", "custom_domain": true },
     { "pattern": "www.kayal.com.au", "custom_domain": true }
