@@ -52,7 +52,11 @@ export default function PromoPopup() {
         <div className="w-full overflow-hidden rounded-t-3xl bg-hf-bg">
           {/* eslint-disable-next-line @next/next/no-img-element -- intrinsic
               size, unknown ahead of time (admin-uploaded); must never crop */}
-          <img src={image} alt="" className="block w-full object-contain" />
+          <img
+            src={image}
+            alt={text || "Kayal Foods promotion"}
+            className="block w-full object-contain"
+          />
         </div>
       )}
       {text && (

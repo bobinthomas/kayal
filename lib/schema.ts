@@ -32,10 +32,15 @@ export function buildRestaurantSchema() {
     "@type": "Restaurant",
     "@id": `${restaurant.url}/#restaurant`,
     name: restaurant.name,
-    image: `${restaurant.url}/og/home.png`,
+    // Real interior photo, not the branded/text OG card — schema.org Restaurant
+    // "image" is meant to show the place itself.
+    image: `${restaurant.url}/images/home-figma/kayal-restaurant.jpg`,
+    // Current brand mark (wired in 2026-08-22), not the "legacy" pre-rebuild logo.
+    logo: `${restaurant.url}/apple-icon.png`,
     url: restaurant.url,
     telephone: restaurant.phone.tel,
     email: restaurant.email,
+    currenciesAccepted: "AUD",
     servesCuisine: [...restaurant.cuisine],
     priceRange: restaurant.priceRange,
     acceptsReservations: "True",
@@ -55,6 +60,19 @@ export function buildRestaurantSchema() {
     openingHoursSpecification: buildOpeningHours(),
     sameAs: [restaurant.socials.facebook, restaurant.socials.instagram],
     hasMenu: `${restaurant.url}/menu/`,
+  };
+}
+
+/** Service entity for /catering/ — references the Restaurant by @id rather
+ * than redeclaring the business, so Google doesn't read it as a second org. */
+export function buildCateringServiceSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Kerala catering and event buffets",
+    provider: { "@id": `${restaurant.url}/#restaurant` },
+    areaServed: { "@type": "City", name: "Sydney" },
+    url: `${restaurant.url}/catering/`,
   };
 }
 
@@ -83,6 +101,18 @@ export function buildMenuSchema() {
             }
           : {}),
       })),
+    })),
+  };
+}
+
+export function buildFaqSchema(faqs: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
   };
 }

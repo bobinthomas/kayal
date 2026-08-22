@@ -360,7 +360,7 @@
       ]
     },
     {
-      "id": "new-section-1787201092643",
+      "id": "main-course-meat",
       "title": "Main Course Meat",
       "blurb": "Hearty meat dishes prepared with authentic spices, slow-cooked or roasted for rich, traditional flavour.",
       "items": [
@@ -617,7 +617,7 @@
       ]
     },
     {
-      "id": "0",
+      "id": "specials",
       "title": "Specials",
       "blurb": "All the below items are as per availability",
       "items": [
@@ -803,7 +803,7 @@
       ]
     },
     {
-      "id": "new-section-1787203267439",
+      "id": "seafood-specials",
       "title": "Seafood Specials",
       "blurb": "Fish and prawns from the backwater — bold spice, coconut, and banana leaf.",
       "items": [

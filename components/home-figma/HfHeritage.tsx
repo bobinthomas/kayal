@@ -17,6 +17,7 @@ export default function HfHeritage() {
           <Image
             src="/images/home-figma/restaurant-interior.png"
             alt=""
+            role="presentation"
             width={96}
             height={64}
             className="mx-2 inline-block h-8 w-16 rounded-lg object-cover align-middle sm:h-11 sm:w-20"
@@ -27,6 +28,7 @@ export default function HfHeritage() {
           <Image
             src="/images/home-figma/chatti-choru-bowl.png"
             alt=""
+            role="presentation"
             width={96}
             height={64}
             className="mx-2 inline-block h-8 w-16 rounded-lg object-cover align-middle sm:h-11 sm:w-20"

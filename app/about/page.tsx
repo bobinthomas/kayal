@@ -8,12 +8,20 @@ import { buildBreadcrumbSchema } from "@/lib/schema";
 import { legacyPhoto } from "@/data/legacy-site";
 import { kizhiPorottaStory, chattiChoruStory, aboutParagraph } from "@/data/copy";
 
+// "11 years" is genuine — confirmed live at components/home-figma/HfHeritage.tsx:16
+// ("For over 11 years, Kayal Foods has brought Kerala's village table to
+// Sydney"), not the same claim as the chef's "seventeen years of cooking in
+// Kerala" further down this page (his personal experience, still unconfirmed).
+const TITLE = "About Kayal Foods | 11 Years of Naadan Kerala Cooking";
+const DESCRIPTION =
+  "Eleven years of naadan Kerala cooking in Moorebank, Sydney. The story behind Kayal Foods, our clay-pot kitchen and the village recipes we cook from.";
+
 export const metadata: Metadata = {
-  title: "Our Story — The Backwater That Raised Our Kitchen",
-  description:
-    "Kayal means backwater — Kerala's lagoons where the kettuvallam drift. Our story, the chatti, the kizhi porotta and the village kitchen behind Kayal Foods, Moorebank.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: "/about" },
-  openGraph: { images: [{ url: "/og/about.png", width: 1200, height: 630 }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/about.png", width: 1200, height: 630 }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og/about.png"] },
 };
 
 export default function AboutPage() {
@@ -22,13 +30,14 @@ export default function AboutPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "About", path: "/about/" },
+          { name: "Kayal means backwater. It's where our food comes from.", path: "/about/" },
         ])}
       />
       <div className="relative isolate overflow-hidden bg-hf-footer text-white">
         <Image
           src={legacyPhoto(3).src}
           alt=""
+          role="presentation"
           fill
           priority
           className="object-cover opacity-45"

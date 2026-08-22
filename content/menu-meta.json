@@ -6,13 +6,11 @@
     "intro": "A symphony of flavours, crafted with care. At Kayal Foods, every dish reflects tradition and creativity — from the spices that awaken your senses to the sweetness that lingers at the end. Pair your meal with fresh breads and lassi, and let the journey unfold."
   },
   "navLabels": {
-    "0": "Specials",
+    "specials": "Specials",
     "starters": "Starters",
-    "dosa-appam": "Dosa & Appam",
     "vegetarian": "Vegetarian",
     "chicken-meat": "Chicken & Meat",
     "seafood": "Seafood",
-    "biryani-rice": "Biryani & Rice",
     "breads": "Breads",
     "sides-pickles": "Sides & Pickles",
     "desserts-drinks": "Desserts & Drinks"
@@ -41,7 +39,7 @@
           "detail": "Papadam, pickle, and a sweet finish from our dessert list."
         }
       ],
-      "href": "#biryani-rice"
+      "href": "#rice"
     },
     {
       "id": "lunch-specials",

@@ -8,12 +8,16 @@ import WhatsAppCta from "@/components/WhatsAppCta";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
 
+const TITLE = "Contact & Book a Table | Kayal Foods, Moorebank NSW";
+const DESCRIPTION =
+  "Find Kayal Foods at 128 Nuwarra Road, Moorebank NSW. Open Mon–Fri 12–3pm & 5–10pm, weekends from 11am. Dine-in by booking — call (02) 9734 9634.";
+
 export const metadata: Metadata = {
-  title: "Contact & Bookings — Find the White House in Moorebank",
-  description:
-    "Book a table at Kayal Foods: (02) 9734 9634 or WhatsApp. 128 Nuwarra Road, Moorebank NSW 2170 — look for the white house. Hours, parking and directions.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: "/contact" },
-  openGraph: { images: [{ url: "/og/contact.png", width: 1200, height: 630 }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/contact.png", width: 1200, height: 630 }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og/contact.png"] },
 };
 
 export default function ContactPage() {
@@ -22,7 +26,7 @@ export default function ContactPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Contact", path: "/contact/" },
+          { name: "Book a table. Find the house.", path: "/contact/" },
         ])}
       />
       <div className="bg-hf-footer py-14 text-white">

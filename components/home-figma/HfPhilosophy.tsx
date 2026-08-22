@@ -20,7 +20,7 @@ export default function HfPhilosophy() {
         <div className="absolute bottom-0 right-0 h-[260px] w-[260px] overflow-hidden rounded-3xl sm:h-[340px] sm:w-[340px]">
           <Image
             src="/images/home-figma/prep-overlap.png"
-            alt=""
+            alt="Dining room at Kayal Foods, warmly lit for evening service"
             fill
             sizes="340px"
             className="object-cover"

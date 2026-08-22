@@ -8,12 +8,16 @@ import { restaurant } from "@/data/restaurant";
 import PageHero from "@/components/PageHero";
 import CallCta from "@/components/CallCta";
 
+const TITLE = "Rabbit, Duck & Buffalo Curry — Kerala Specials | Kayal";
+const DESCRIPTION =
+  "Muyal piralan, maan ularthiyathu, duck roast and buffalo — rare naadan dishes you won't find elsewhere in Sydney. Served as per availability, Moorebank.";
+
 export const metadata: Metadata = {
-  title: "Naadan Specials — Game Meats, Chatti & Kizhi Porotta",
-  description:
-    "Availability-based Kerala specials in Sydney: kizhi porotta, chatti choru, meen pollichathu, rabbit, quail, buffalo and wild venison. Call to check today's pot.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: "/specials" },
-  openGraph: { images: [{ url: "/og/specials.png", width: 1200, height: 630 }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/specials.png", width: 1200, height: 630 }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og/specials.png"] },
 };
 
 export default function SpecialsPage() {
@@ -22,7 +26,7 @@ export default function SpecialsPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Specials", path: "/specials/" },
+          { name: "From the village, when we can get it.", path: "/specials/" },
         ])}
       />
       <PageHero

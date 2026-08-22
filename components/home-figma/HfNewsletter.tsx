@@ -17,7 +17,7 @@ export default function HfNewsletter() {
         <div className="relative h-[220px] w-full sm:h-auto sm:flex-1">
           <Image
             src="/images/home-figma/newsletter.png"
-            alt=""
+            alt="Naadan sadya spread on a banana leaf at Kayal Foods"
             fill
             sizes="(min-width: 640px) 50vw, 100vw"
             className="object-cover"

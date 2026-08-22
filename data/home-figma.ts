@@ -124,7 +124,7 @@ export const hfSpotlights = [
     image: "/images/home-figma/special-1.png",
     title: "Why Chatti Choru Is Served in Clay",
     body: "Rice and curries slow-finished in a wide earthen pot — the way it's served at village tables across Kerala.",
-    href: "/menu/#biryani-rice",
+    href: "/menu/#rice",
   },
   {
     id: "kizhi-porotta-story",
@@ -132,7 +132,7 @@ export const hfSpotlights = [
     image: "/images/home-figma/special-2.png",
     title: "Kizhi Porotta: The Banana-Leaf Reveal",
     body: "Porotta and curry meat steamed and charred inside a banana-leaf parcel — unwrapped fresh at your table.",
-    href: "/menu/#dosa-appam",
+    href: "/menu/#chicken-meat",
   },
   {
     id: "weekend-specials",

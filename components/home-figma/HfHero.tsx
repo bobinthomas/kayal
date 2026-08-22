@@ -180,13 +180,19 @@ function HeroHeadline({ heroWord, dark }: { heroWord: string; dark: boolean }) {
   );
 }
 
+function heroSlideAlt(slide: (typeof hfHeroSlides)[number]): string {
+  if (slide.kind === "dish" && slide.item) return `${slide.item.name} at Kayal Foods, Moorebank`;
+  if (slide.kind === "custom") return slide.description;
+  return "Kayal Foods, Moorebank";
+}
+
 function DarkSlide({ slide }: { slide: (typeof hfHeroSlides)[number] }) {
   const { heroWord, image } = slide;
   return (
     <div className="relative flex h-full items-center pb-16 pt-28 lg:pb-16 lg:pt-24">
       <div className="absolute inset-0">
         {image && (
-          <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" />
+          <Image src={image} alt={heroSlideAlt(slide)} fill priority sizes="100vw" className="object-cover" />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
       </div>

@@ -7,13 +7,15 @@ import { restaurant } from "@/data/restaurant";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import HfReveal from "./HfReveal";
 
+// Alt text describes what's actually in each frame — the last two are the
+// Moorebank street-front/signage, not the dining room, despite the filenames.
 const VISIT_IMAGES = [
-  { src: "/images/home-figma/kayal-restaurant.jpg", alt: "Inside Kayal Foods" },
-  { src: "/images/home-figma/kayal-restaurant1.jpg", alt: "Inside Kayal Foods" },
-  { src: "/images/home-figma/kayal-restaurant2.jpg", alt: "Inside Kayal Foods" },
-  { src: "/images/home-figma/kayal-restaurant3.jpg", alt: "Inside Kayal Foods" },
-  { src: "/images/home-figma/kayal-restaurant4.jpg", alt: "Inside Kayal Foods" },
-  { src: "/images/home-figma/kayal-restaurant5.jpg", alt: "Inside Kayal Foods" },
+  { src: "/images/home-figma/kayal-restaurant.jpg", alt: "Dining room at Kayal Foods, Moorebank, set for a group with pendant lighting" },
+  { src: "/images/home-figma/kayal-restaurant1.jpg", alt: "Kayal Foods dining room with artwork and bar in view" },
+  { src: "/images/home-figma/kayal-restaurant2.jpg", alt: "A two-seat table by the window at Kayal Foods, Moorebank" },
+  { src: "/images/home-figma/kayal-restaurant3.jpg", alt: "Kayal Foods dining room set for service" },
+  { src: "/images/home-figma/kayal-restaurant4.jpg", alt: "Kayal Foods storefront on Nuwarra Road, Moorebank" },
+  { src: "/images/home-figma/kayal-restaurant5.jpg", alt: "Kayal Foods entrance and signage, Moorebank" },
 ];
 const SLIDE_MS = 4000;
 

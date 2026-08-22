@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { buildRestaurantSchema } from "@/lib/schema";
 import HfHero from "@/components/home-figma/HfHero";
 import HfDishMarquee from "@/components/home-figma/HfDishMarquee";
 import HfHeritage from "@/components/home-figma/HfHeritage";
@@ -10,17 +12,22 @@ import HfTestimonials from "@/components/home-figma/HfTestimonials";
 import HfNewsletter from "@/components/home-figma/HfNewsletter";
 import PromoPopup from "@/components/PromoPopup";
 
+const TITLE = "Kerala Restaurant Moorebank, Sydney | Kayal Foods";
+const DESCRIPTION =
+  "Authentic Kerala food in Moorebank, minutes from Liverpool. Chatti choru, kizhi porotta and naadan specials. Dine-in by booking — call (02) 9734 9634.";
+
 export const metadata: Metadata = {
-  title: "Kayal Foods — Authentic Kerala Restaurant in Moorebank, Sydney",
-  description:
-    "Kerala's village table, in Sydney. Chatti choru, kizhi porotta, toddy & game meats in Moorebank. Dine-in by booking — call (02) 9734 9634.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: "/" },
-  openGraph: { images: [{ url: "/og/home.png", width: 1200, height: 630 }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/home.png", width: 1200, height: 630 }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og/home.png"] },
 };
 
 export default function HomePage() {
   return (
     <div className="hf-page bg-hf-bg font-hf-body text-hf-ink">
+      <JsonLd data={buildRestaurantSchema()} />
       <HfHero />
       <HfHeritage />
       <HfSignatures />

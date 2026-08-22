@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
-import JsonLd from "@/components/JsonLd";
 import TrackingScripts, { GtmNoscript } from "@/components/TrackingScripts";
-import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
 import { tracking } from "@/data/tracking";
 import { googleSansFlex, newsreader } from "./home-figma/fonts";
@@ -78,7 +76,6 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <JsonLd data={buildRestaurantSchema()} />
         <SiteChrome>{children}</SiteChrome>
         <TrackingScripts />
       </body>

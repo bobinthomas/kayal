@@ -25,7 +25,7 @@ export default function HfSpotlights() {
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
                 <Image
                   src={s.image}
-                  alt=""
+                  alt={s.title}
                   fill
                   sizes="(min-width: 640px) 33vw, 100vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"

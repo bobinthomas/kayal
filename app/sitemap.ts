@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/menu/", priority: 0.9 },
     { path: "/specials/", priority: 0.9 },
     { path: "/catering/", priority: 0.7 },
+    { path: "/onam-sadya/", priority: 0.7 },
     { path: "/about/", priority: 0.6 },
     { path: "/contact/", priority: 0.8 },
     { path: "/privacy/", priority: 0.2 },

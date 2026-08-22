@@ -9,12 +9,19 @@ import WhatsAppCta from "@/components/WhatsAppCta";
 import { buildMenuSchema, buildBreadcrumbSchema } from "@/lib/schema";
 import { menuSections, menuDisclaimer, tagLegend } from "@/data/menu";
 
+const TITLE = "Menu & Prices | Kerala Restaurant Moorebank | Kayal Foods";
+// $18.50 is the lowest-priced biryani menu-wide (veg biryani; content/menu.json
+// "veg-biriyani") — not $19.90 (chicken biryani), since this sentence doesn't
+// specify "chicken". Keep this in sync with content/menu.json if prices change.
+const DESCRIPTION =
+  "Full Kerala menu with prices — biryani from $18.50, chatti choru, kizhi porotta, meen pollichathu and rotating specials. Moorebank, Sydney. Book by phone.";
+
 export const metadata: Metadata = {
-  title: "Menu — Kerala Woodfire Kitchen",
-  description:
-    "Full Kayal Foods menu: starters, dosa & appam, seafood, biryani, breads, and naadan signatures. Moorebank, Sydney.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: "/menu" },
-  openGraph: { images: [{ url: "/images/og.jpg", width: 1200, height: 630 }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, images: [{ url: "/og/menu.png", width: 1200, height: 630 }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og/menu.png"] },
 };
 
 export default function MenuPage() {
