@@ -245,7 +245,16 @@ export const HomeShowcaseFileSchema = z.object({
   }),
 });
 
-const emptyToUndefined = (value: unknown) => (value === "" ? undefined : value);
+// Trims whitespace and normalizes lookalike dash characters (en/em dash,
+// etc. — easy to pick up copy-pasting an id out of a rich-text UI) to a
+// plain hyphen before validation, so a pasted "GTM‑XXXXXXX" with a
+// non-ASCII dash or stray trailing space doesn't fail a regex that looks
+// correct to the eye.
+const emptyToUndefined = (value: unknown) => {
+  if (typeof value !== "string") return value;
+  const normalized = value.trim().replace(/[‐-―]/g, "-");
+  return normalized === "" ? undefined : normalized;
+};
 
 export const PopupFileSchema = z
   .object({
