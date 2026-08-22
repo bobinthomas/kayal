@@ -267,6 +267,30 @@ export const PopupFileSchema = z
 
 export type PopupFile = z.infer<typeof PopupFileSchema>;
 
+export const TrackingFileSchema = z.object({
+  gaMeasurementId: z.preprocess(
+    emptyToUndefined,
+    z.string().regex(/^G-[A-Z0-9]+$/, "e.g. G-XXXXXXXXXX").optional(),
+  ),
+  gtmContainerId: z.preprocess(
+    emptyToUndefined,
+    z.string().regex(/^GTM-[A-Z0-9]+$/, "e.g. GTM-XXXXXXX").optional(),
+  ),
+  metaPixelId: z.preprocess(
+    emptyToUndefined,
+    z.string().regex(/^[0-9]{6,20}$/, "digits only").optional(),
+  ),
+  bingUetTagId: z.preprocess(
+    emptyToUndefined,
+    z.string().regex(/^[0-9]{4,12}$/, "digits only").optional(),
+  ),
+  twitterPixelId: z.preprocess(emptyToUndefined, z.string().min(3).max(30).optional()),
+  googleSiteVerification: z.preprocess(emptyToUndefined, z.string().min(3).max(200).optional()),
+  bingSiteVerification: z.preprocess(emptyToUndefined, z.string().min(3).max(200).optional()),
+});
+
+export type TrackingFile = z.infer<typeof TrackingFileSchema>;
+
 export type MenuFile = z.infer<typeof MenuFileSchema>;
 export type MenuMetaFile = z.infer<typeof MenuMetaFileSchema>;
 export type SpecialsFile = z.infer<typeof SpecialsFileSchema>;
@@ -287,6 +311,7 @@ export const CONTENT_SCHEMAS = {
   "home-hero": HomeHeroFileSchema,
   "home-showcase": HomeShowcaseFileSchema,
   popup: PopupFileSchema,
+  tracking: TrackingFileSchema,
 } as const;
 
 export type ContentKey = keyof typeof CONTENT_SCHEMAS;

@@ -3,8 +3,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import JsonLd from "@/components/JsonLd";
+import TrackingScripts, { GtmNoscript } from "@/components/TrackingScripts";
 import { buildRestaurantSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
+import { tracking } from "@/data/tracking";
 import { googleSansFlex, newsreader } from "./home-figma/fonts";
 
 // Self-hosted variable fonts (subsetted from the official google/fonts sources) —
@@ -51,6 +53,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   alternates: { canonical: "/" },
+  ...((tracking.googleSiteVerification || tracking.bingSiteVerification) && {
+    verification: {
+      ...(tracking.googleSiteVerification && { google: tracking.googleSiteVerification }),
+      ...(tracking.bingSiteVerification && {
+        other: { "msvalidate.01": tracking.bingSiteVerification },
+      }),
+    },
+  }),
 };
 
 export default function RootLayout({
@@ -64,11 +74,13 @@ export default function RootLayout({
       className={`${newsreader.variable} ${fraunces.variable} ${manrope.variable} ${notoMalayalam.variable} ${googleSansFlex.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-cream text-ink">
+        <GtmNoscript />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
         <JsonLd data={buildRestaurantSchema()} />
         <SiteChrome>{children}</SiteChrome>
+        <TrackingScripts />
       </body>
     </html>
   );
