@@ -6,11 +6,11 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 type HfRevealVariant = "up" | "fade" | "left" | "right" | "scale";
 
 const HIDDEN_CLASS: Record<HfRevealVariant, string> = {
-  up: "opacity-0 translate-y-8",
+  up: "opacity-0 translate-y-16",
   fade: "opacity-0",
-  left: "opacity-0 -translate-x-8",
-  right: "opacity-0 translate-x-8",
-  scale: "opacity-0 scale-95",
+  left: "opacity-0 -translate-x-16",
+  right: "opacity-0 translate-x-16",
+  scale: "opacity-0 scale-90",
 };
 
 /** Scroll reveal that re-triggers both ways: animates in on enter, reverses
@@ -22,7 +22,7 @@ export default function HfReveal({
   as: Tag = "div",
   variant = "up",
   delayMs = 0,
-  durationMs = 700,
+  durationMs = 900,
   className = "",
   ...rest
 }: {
@@ -43,7 +43,7 @@ export default function HfReveal({
     if (!el || reduced) return;
     const observer = new IntersectionObserver(
       ([entry]) => setVisible(entry.isIntersecting),
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.06 },
+      { rootMargin: "0px 0px -20% 0px", threshold: 0.15 },
     );
     observer.observe(el);
     return () => observer.disconnect();

@@ -3,7 +3,7 @@
  * templates using sharp. Run via `npm run assets` (also part of `npm run build`).
  */
 import sharp from "sharp";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const OUT = path.resolve("public/og");
@@ -47,15 +47,15 @@ for (const [slug, title, subtitle] of pages) {
   console.log(`og/${slug}.png`);
 }
 
-// Apple touch icon from the favicon artwork.
-const iconSvg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#1E4D2B"/>
-  <ellipse cx="32" cy="40" rx="20" ry="9" fill="#B5532A"/>
-  <ellipse cx="32" cy="37" rx="16" ry="6" fill="#FAF5EC"/>
-  <circle cx="27" cy="36" r="3.4" fill="#E9B44C"/>
-  <circle cx="36" cy="38" r="2.8" fill="#D7263D"/>
-  <path d="M14 20c6-3 12-3 18 0s12 3 18 0" stroke="#E9B44C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <path d="M14 26c6-2.4 12-2.4 18 0s12 2.4 18 0" stroke="#E9B44C" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
-</svg>`);
-await sharp(iconSvg).resize(180, 180).png().toFile(path.resolve("app/apple-icon.png"));
+// Apple touch icon: the real logo mark (app/icon.svg), composited onto a
+// solid brand-green square — iOS renders transparent icon backgrounds as
+// solid black, and the logo artwork itself has no background of its own.
+const logoSvg = await readFile(path.resolve("app/icon.svg"));
+const logoPng = await sharp(logoSvg).resize(148, 140, { fit: "inside" }).png().toBuffer();
+await sharp({
+  create: { width: 180, height: 180, channels: 4, background: "#046937" },
+})
+  .composite([{ input: logoPng, gravity: "center" }])
+  .png()
+  .toFile(path.resolve("app/apple-icon.png"));
 console.log("app/apple-icon.png");
