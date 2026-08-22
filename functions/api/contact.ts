@@ -20,7 +20,7 @@ interface Env {
 }
 
 const TO_EMAIL_DEFAULT = "hello@kayal.com.au";
-const FROM_EMAIL = "no-reply@kayal.com.au";
+const FROM_EMAIL = "hello@mail.kayal.com.au";
 
 function json(data: object, status = 200): Response {
   return new Response(JSON.stringify(data), {
