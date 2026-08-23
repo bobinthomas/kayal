@@ -103,7 +103,7 @@ export default function CateringPage() {
         <div className="grid gap-10 sm:grid-cols-2">
           <div>
             <h2 id="catering-who" className="font-hf-heading text-3xl font-semibold text-hf-ink">
-              Who it's for
+              Who it&apos;s for
             </h2>
             <p className="mt-3 leading-relaxed text-hf-body">
               Weddings and engagements,{" "}
@@ -121,7 +121,7 @@ export default function CateringPage() {
             </h2>
             <p className="mt-3 leading-relaxed text-hf-body">
               Call, WhatsApp, or send the form below with your date, guest count
-              and occasion. We'll talk through the menu and quote your event —
+              and occasion. We&apos;ll talk through the menu and quote your event —
               no fixed packages, no guessing at prices online.
             </p>
           </div>
@@ -136,7 +136,7 @@ export default function CateringPage() {
           <div>
             <dt className="text-xs font-bold uppercase tracking-widest text-hf-amber">Minimum guests</dt>
             {/* TODO(bobin): confirm minimum guest count. */}
-            <dd className="mt-1 text-sm text-hf-body">Tell us your guest count and we'll confirm.</dd>
+            <dd className="mt-1 text-sm text-hf-body">Tell us your guest count and we&apos;ll confirm.</dd>
           </div>
           <div>
             <dt className="text-xs font-bold uppercase tracking-widest text-hf-amber">Areas served</dt>

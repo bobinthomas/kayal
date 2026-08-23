@@ -209,7 +209,7 @@ export default function OnamSadyaPage() {
       <section aria-labelledby="onam-leaf" className="bg-hf-bg py-14">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <h2 id="onam-leaf" className="font-hf-heading text-3xl font-semibold text-hf-ink">
-            What's on the leaf
+            What&apos;s on the leaf
           </h2>
           <p className="mt-3 leading-relaxed text-hf-body">
             All 20 dishes, served the traditional way on a banana leaf:
@@ -246,7 +246,7 @@ export default function OnamSadyaPage() {
           </h2>
           <p className="mt-3 leading-relaxed text-white/80">
             Booking happens on our Onam booking site — pick your date, choose
-            dine-in or takeaway, and you're set.
+            dine-in or takeaway, and you&apos;re set.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
