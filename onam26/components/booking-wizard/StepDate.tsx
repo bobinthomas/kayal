@@ -38,11 +38,6 @@ export default function StepDate({
           );
         })}
       </div>
-      {serviceType === "takeaway" && (
-        <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
-          Take away closed for 23rd August. Contact us on 0297349634 if you want to book.
-        </p>
-      )}
     </div>
   );
 }
