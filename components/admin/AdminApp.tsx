@@ -10,6 +10,7 @@ import SpecialsEditor from "./SpecialsEditor";
 import RestaurantEditor from "./RestaurantEditor";
 import ReviewsEditor from "./ReviewsEditor";
 import CopyEditor from "./CopyEditor";
+import AboutEditor from "./AboutEditor";
 import PopupEditor from "./PopupEditor";
 import TrackingEditor from "./TrackingEditor";
 
@@ -22,6 +23,7 @@ const TABS = [
   { id: "restaurant", label: "Restaurant info" },
   { id: "reviews", label: "Reviews" },
   { id: "copy", label: "Site copy" },
+  { id: "about", label: "About page" },
   { id: "popup", label: "Homepage popup" },
   { id: "tracking", label: "Tracking" },
 ] as const;
@@ -139,6 +141,7 @@ export default function AdminApp() {
       {tab === "restaurant" && <RestaurantEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "reviews" && <ReviewsEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "copy" && <CopyEditor password={password} onUnauthorized={handleUnauthorized} />}
+      {tab === "about" && <AboutEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "popup" && <PopupEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "tracking" && <TrackingEditor password={password} onUnauthorized={handleUnauthorized} />}
     </div>

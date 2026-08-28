@@ -179,9 +179,6 @@ export const ReviewsFileSchema = z.object({
 });
 
 export const CopyFileSchema = z.object({
-  kizhiPorottaStory: z.string().min(1),
-  chattiChoruStory: z.string().min(1),
-  aboutParagraph: z.string().min(1),
   marqueeDishes: z.array(z.string().min(1)).min(1),
   cateringCategories: z.array(
     z.object({
@@ -189,6 +186,40 @@ export const CopyFileSchema = z.object({
       blurb: z.string().min(1),
     }),
   ),
+});
+
+const AboutPhotoSchema = z.object({
+  image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
+  alt: z.string().min(1),
+});
+
+export const AboutFileSchema = z.object({
+  hero: z.object({
+    eyebrow: z.string().min(1),
+    title: z.string().min(1),
+    image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
+  }),
+  origin: z.object({
+    heading: z.string().min(1),
+    intro: z.string().min(1),
+    aboutParagraph: z.string().min(1),
+    chefBio: z.string().min(1),
+  }),
+  kizhiPorotta: z.object({
+    heading: z.string().min(1),
+    story: z.string().min(1),
+    photo: AboutPhotoSchema,
+  }),
+  chattiChoru: z.object({
+    heading: z.string().min(1),
+    story: z.string().min(1),
+    bestSellerLine: z.string().min(1),
+    photo: AboutPhotoSchema,
+  }),
+  miniMart: z.object({
+    heading: z.string().min(1),
+    text: z.string().min(1),
+  }),
 });
 
 const HomeHeroSlideBaseFields = {
@@ -306,6 +337,7 @@ export type SpecialsFile = z.infer<typeof SpecialsFileSchema>;
 export type RestaurantFile = z.infer<typeof RestaurantFileSchema>;
 export type ReviewsFile = z.infer<typeof ReviewsFileSchema>;
 export type CopyFile = z.infer<typeof CopyFileSchema>;
+export type AboutFile = z.infer<typeof AboutFileSchema>;
 export type HomeHeroFile = z.infer<typeof HomeHeroFileSchema>;
 export type HomeHeroSlide = z.infer<typeof HomeHeroSlideSchema>;
 export type HomeShowcaseFile = z.infer<typeof HomeShowcaseFileSchema>;
@@ -317,6 +349,7 @@ export const CONTENT_SCHEMAS = {
   restaurant: RestaurantFileSchema,
   reviews: ReviewsFileSchema,
   copy: CopyFileSchema,
+  about: AboutFileSchema,
   "home-hero": HomeHeroFileSchema,
   "home-showcase": HomeShowcaseFileSchema,
   popup: PopupFileSchema,

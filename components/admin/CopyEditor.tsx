@@ -58,17 +58,6 @@ export default function CopyEditor({
     <div>
       <SaveBar dirty={dirty} saving={saving} error={error} issues={issues} conflict={conflict} onSave={save} onReload={reload} />
       <div className="mx-auto max-w-2xl space-y-6 p-4">
-        <Field label="About paragraph" value={data.aboutParagraph} onChange={(v) => setData({ ...data, aboutParagraph: v })} />
-        <Field
-          label="Kizhi Porotta story"
-          value={data.kizhiPorottaStory}
-          onChange={(v) => setData({ ...data, kizhiPorottaStory: v })}
-        />
-        <Field
-          label="Chatti Choru story"
-          value={data.chattiChoruStory}
-          onChange={(v) => setData({ ...data, chattiChoruStory: v })}
-        />
         <Field
           label="Marquee dishes (one per line)"
           rows={8}

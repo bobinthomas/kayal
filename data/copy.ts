@@ -6,10 +6,6 @@
  */
 import copyJson from "@/content/copy.json";
 
-export const kizhiPorottaStory: string = copyJson.kizhiPorottaStory;
-export const chattiChoruStory: string = copyJson.chattiChoruStory;
-export const aboutParagraph: string = copyJson.aboutParagraph;
-
 /** Dish names for the home-page marquee ribbon. */
 export const marqueeDishes: string[] = copyJson.marqueeDishes;
 

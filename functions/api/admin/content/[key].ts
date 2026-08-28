@@ -25,6 +25,7 @@ const CONTENT_PATHS: Record<ContentKey, string> = {
   restaurant: "content/restaurant.json",
   reviews: "content/reviews.json",
   copy: "content/copy.json",
+  about: "content/about.json",
   "home-hero": "content/home-hero.json",
   "home-showcase": "content/home-showcase.json",
   popup: "content/popup.json",
