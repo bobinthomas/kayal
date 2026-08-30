@@ -75,6 +75,13 @@ export function isValidDateForService(serviceType: ServiceType, eventDate: strin
   return datesForService(serviceType).includes(eventDate);
 }
 
+// Whether a service type still has a bookable date today or later. Drives
+// hiding "Dine-in" on the service step once all its dates are past.
+export function hasUpcomingDateForService(serviceType: ServiceType, now: Date = new Date()): boolean {
+  const today = todayAsEventDate(now);
+  return datesForService(serviceType).some((date) => date >= today);
+}
+
 export function allEventDates(): string[] {
   return [...new Set([...onamEvent.dineInDates, ...onamEvent.takeawayDates])].sort();
 }
