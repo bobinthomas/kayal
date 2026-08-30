@@ -147,6 +147,7 @@ export default function BookingWizard() {
 
       {step === "service" && (
         <StepServiceType
+          dineInBlockedDates={blockedDates.dine_in}
           onSelect={(serviceType) => {
             track("service_selected", { step: "service", detail: serviceType });
             patch({ serviceType, eventDate: null });

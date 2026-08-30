@@ -1,11 +1,13 @@
-import { hasUpcomingDateForService, type ServiceType } from "@/data/onam-event";
+import { hasBookableDateForService, type ServiceType } from "@/data/onam-event";
 
 export default function StepServiceType({
+  dineInBlockedDates,
   onSelect,
 }: {
+  dineInBlockedDates: Set<string>;
   onSelect: (serviceType: ServiceType) => void;
 }) {
-  const dineInAvailable = hasUpcomingDateForService("dine_in");
+  const dineInAvailable = hasBookableDateForService("dine_in", dineInBlockedDates);
 
   return (
     <div>
