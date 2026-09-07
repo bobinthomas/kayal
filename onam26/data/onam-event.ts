@@ -34,6 +34,7 @@ export const onamEvent = {
     "2026-08-29",
     "2026-08-30",
     "2026-09-05",
+    "2026-09-13",
   ],
 
   // 'HH:MM', 24-hour — dine-in only. Takeaway keeps the flyer's 12pm–3pm window.
