@@ -4,7 +4,6 @@ import FindingUs from "@/components/FindingUs";
 import HoursTable from "@/components/HoursTable";
 import JsonLd from "@/components/JsonLd";
 import CallCta from "@/components/CallCta";
-import WhatsAppCta from "@/components/WhatsAppCta";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 import { restaurant } from "@/data/restaurant";
 
@@ -39,7 +38,6 @@ export default function ContactPage() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <CallCta placement="contact_hero" />
-            <WhatsAppCta placement="contact_hero" />
           </div>
         </div>
       </div>
