@@ -23,16 +23,6 @@
       "image": "/images/home-figma/hero-bg.jpg",
       "kind": "dish",
       "menuItemId": "thalassery-biryani"
-    },
-    {
-      "id": "new-slide",
-      "theme": "dark",
-      "heroWord": "Ona Sadhya",
-      "image": "/images/home-figma/uploads/3662cd13-faf6-4e34-8964-54a100d8a2a5.jpg",
-      "kind": "custom",
-      "description": "Ona Sadhya 2026 Booking are open",
-      "linkUrl": "https://onam.kayal.com.au/",
-      "linkLabel": "Book Now"
     }
   ]
 }
