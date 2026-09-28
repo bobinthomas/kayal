@@ -1,17 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { hfSpotlights } from "@/data/home-figma";
+import { hfSpotlights, hfSpotlightsSection } from "@/data/home-figma";
 import HfReveal from "./HfReveal";
 
 export default function HfSpotlights() {
+  if (!hfSpotlightsSection.enabled || hfSpotlights.length === 0) return null;
+
   return (
     <section className="bg-white py-20 lg:py-24">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-12 px-6 sm:px-10 lg:px-16">
       <HfReveal as="div" className="flex flex-col items-center gap-4 text-center">
-        <p className="text-xs font-bold uppercase tracking-widest text-hf-amber">From the Kitchen</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-hf-amber">
+          {hfSpotlightsSection.eyebrow}
+        </p>
         <p className="font-hf-heading text-3xl font-bold text-hf-ink sm:text-4xl">
-          Notes on Naadan Cooking
+          {hfSpotlightsSection.heading}
         </p>
       </HfReveal>
 

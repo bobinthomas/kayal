@@ -11,12 +11,14 @@ import RestaurantEditor from "./RestaurantEditor";
 import ReviewsEditor from "./ReviewsEditor";
 import CopyEditor from "./CopyEditor";
 import AboutEditor from "./AboutEditor";
+import HomeSpotlightsEditor from "./HomeSpotlightsEditor";
 import PopupEditor from "./PopupEditor";
 import TrackingEditor from "./TrackingEditor";
 
 const TABS = [
   { id: "hero", label: "Home hero" },
   { id: "showcase", label: "Dish photos" },
+  { id: "home-spotlights", label: "Home spotlights" },
   { id: "menu", label: "Menu" },
   { id: "menu-meta", label: "Menu page" },
   { id: "specials", label: "Featured specials" },
@@ -135,6 +137,9 @@ export default function AdminApp() {
 
       {tab === "hero" && <HeroEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "showcase" && <ShowcaseEditor password={password} onUnauthorized={handleUnauthorized} />}
+      {tab === "home-spotlights" && (
+        <HomeSpotlightsEditor password={password} onUnauthorized={handleUnauthorized} />
+      )}
       {tab === "menu" && <MenuEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "menu-meta" && <MenuMetaEditor password={password} onUnauthorized={handleUnauthorized} />}
       {tab === "specials" && <SpecialsEditor password={password} onUnauthorized={handleUnauthorized} />}

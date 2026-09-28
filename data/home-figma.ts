@@ -1,6 +1,7 @@
 import { menuSections, formatPrice, type MenuItem } from "./menu";
 import homeHeroJson from "@/content/home-hero.json";
 import homeShowcaseJson from "@/content/home-showcase.json";
+import homeSpotlightsJson from "@/content/home-spotlights.json";
 import type { HomeHeroSlide } from "@/lib/content/schemas";
 
 const allItems = menuSections.flatMap((section) => section.items);
@@ -126,34 +127,15 @@ export const hfHeroSlides = (homeHeroJson.slides as HomeHeroSlide[])
   })
   .filter((slide) => slide !== undefined);
 
-/** "From Our Kitchen" spotlight — repurposed from the template's generic blog
- * section, since the site has no blog. Real dish/site content, no invented posts. */
-export const hfSpotlights = [
-  {
-    id: "chatti-choru-story",
-    category: "Heritage",
-    image: "/images/home-figma/special-1.png",
-    title: "Why Chatti Choru Is Served in Clay",
-    body: "Rice and curries slow-finished in a wide earthen pot — the way it's served at village tables across Kerala.",
-    href: "/menu/#rice",
-  },
-  {
-    id: "kizhi-porotta-story",
-    category: "Signature",
-    image: "/images/home-figma/special-2.png",
-    title: "Kizhi Porotta: The Banana-Leaf Reveal",
-    body: "Porotta and curry meat steamed and charred inside a banana-leaf parcel — unwrapped fresh at your table.",
-    href: "/menu/#chicken-meat",
-  },
-  {
-    id: "weekend-specials",
-    category: "Specials",
-    image: "/images/home-figma/special-3.png",
-    title: "Weekend & Game-Meat Specials",
-    body: "Rabbit, duck and buffalo done the naadan way — availability changes, so book ahead.",
-    href: "/specials/",
-  },
-] as const;
+/** "From the Kitchen" spotlight cards — admin-editable via
+ * content/home-spotlights.json (see /admin "Home spotlights"), including an
+ * on/off switch for the whole section. */
+export const hfSpotlightsSection = {
+  enabled: homeSpotlightsJson.enabled,
+  eyebrow: homeSpotlightsJson.eyebrow,
+  heading: homeSpotlightsJson.heading,
+};
+export const hfSpotlights = homeSpotlightsJson.cards;
 
 export const hfNavLinks = [
   { href: "/menu/", label: "Menu" },

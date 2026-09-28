@@ -259,6 +259,35 @@ export const HomeHeroFileSchema = z.object({
   slides: z.array(HomeHeroSlideSchema).min(1).max(6),
 });
 
+export const HomeSpotlightCardSchema = z.object({
+  id: z
+    .string()
+    .min(1)
+    .regex(/^[a-z0-9-]+$/, "lowercase-kebab-case id"),
+  category: z.string().min(1).max(24),
+  image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
+  title: z.string().min(1).max(80),
+  body: z.string().min(1).max(240),
+  href: z.string().regex(/^(\/|https?:\/\/)\S+$/, "must be a relative path or absolute URL"),
+});
+
+export const HomeSpotlightsFileSchema = z
+  .object({
+    enabled: z.boolean(),
+    eyebrow: z.string().min(1).max(40),
+    heading: z.string().min(1).max(80),
+    cards: z.array(HomeSpotlightCardSchema).min(1).max(6),
+  })
+  .superRefine((data, ctx) => {
+    const seen = new Set<string>();
+    data.cards.forEach((card, idx) => {
+      if (seen.has(card.id)) {
+        ctx.addIssue({ code: "custom", message: `Duplicate card id "${card.id}"`, path: ["cards", idx, "id"] });
+      }
+      seen.add(card.id);
+    });
+  });
+
 const ShowcaseImagePathSchema = z.string().regex(/^\/images\/.+/, "must be a /images/... path");
 
 export const HomeShowcaseFileSchema = z.object({
@@ -342,6 +371,7 @@ export type AboutFile = z.infer<typeof AboutFileSchema>;
 export type HomeHeroFile = z.infer<typeof HomeHeroFileSchema>;
 export type HomeHeroSlide = z.infer<typeof HomeHeroSlideSchema>;
 export type HomeShowcaseFile = z.infer<typeof HomeShowcaseFileSchema>;
+export type HomeSpotlightsFile = z.infer<typeof HomeSpotlightsFileSchema>;
 
 export const CONTENT_SCHEMAS = {
   menu: MenuFileSchema,
@@ -353,6 +383,7 @@ export const CONTENT_SCHEMAS = {
   about: AboutFileSchema,
   "home-hero": HomeHeroFileSchema,
   "home-showcase": HomeShowcaseFileSchema,
+  "home-spotlights": HomeSpotlightsFileSchema,
   popup: PopupFileSchema,
   tracking: TrackingFileSchema,
 } as const;
