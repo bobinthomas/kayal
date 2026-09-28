@@ -114,7 +114,7 @@
           "id": "lamb-chops",
           "name": "Lamb Chops (4 pcs)",
           "desc": "Lamb chops marinated for hours and cooked on tawa or in the oven.",
-          "price": 29.9
+          "price": 34.9
         },
         {
           "id": "sheek-kabab",
@@ -151,7 +151,7 @@
           "id": "dal-tadka",
           "name": "Daal Tadka",
           "desc": "Lentils tempered with cumin seed, garlic, and butter.",
-          "price": 14.9,
+          "price": 16.9,
           "tags": [
             "veg"
           ]
@@ -160,7 +160,7 @@
           "id": "daal-makhani",
           "name": "Daal Makhani",
           "desc": "Lentils soaked overnight and simmered with herbs and spices.",
-          "price": 14.9,
+          "price": 16.9,
           "tags": [
             "veg"
           ]
@@ -169,7 +169,7 @@
           "id": "navratan-korma",
           "name": "Navratan Korma",
           "desc": "Mixed vegetables and fruit in a rich curry sauce.",
-          "price": 16.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -178,7 +178,7 @@
           "id": "aloo-gobi",
           "name": "Aloo Gobi",
           "desc": "Cauliflower and potatoes cooked in a rich curry sauce.",
-          "price": 16.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -187,7 +187,7 @@
           "id": "shahi-baingan",
           "name": "Shahi Baingan",
           "desc": "Eggplant cooked in exotic sauce, finished with fennel, fresh coriander, and cream.",
-          "price": 16.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -196,7 +196,7 @@
           "id": "malai-kofta",
           "name": "Malai Kofta",
           "desc": "Potato and cottage cheese dumplings in a cashew sauce.",
-          "price": 16.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -205,7 +205,7 @@
           "id": "paneer-tikka-masala",
           "name": "Paneer Tikka Masala",
           "desc": "Paneer marinated and finished in a semi-dry sauce with coriander.",
-          "price": 18.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -214,7 +214,7 @@
           "id": "shaai-paneer",
           "name": "Shaai Paneer",
           "desc": "Home-made cheese cooked in exotic sauce finished with fennel and fresh coriander.",
-          "price": 18.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -223,7 +223,7 @@
           "id": "butter-paneer-masala",
           "name": "Butter Paneer Masala",
           "desc": "Cottage cheese in a rich tomato cashew gravy.",
-          "price": 18.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -232,7 +232,7 @@
           "id": "palak-paneer",
           "name": "Palak Paneer",
           "desc": "Cottage cheese cooked with spinach and spices.",
-          "price": 18.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -241,7 +241,7 @@
           "id": "kadai-paneer",
           "name": "Kadai Paneer",
           "desc": "Cottage cheese cooked with wok-fried spices, onion, and tomato.",
-          "price": 18.9,
+          "price": 19.9,
           "tags": [
             "veg"
           ]
@@ -478,7 +478,7 @@
           "id": "rice",
           "name": "Rice",
           "desc": "Steamed rice, served with so many things.",
-          "price": 4.95,
+          "price": 6.95,
           "tags": [
             "veg"
           ]
@@ -487,7 +487,7 @@
           "id": "saffron-rice",
           "name": "Saffron Rice",
           "desc": "Aromatic rice with saffron.",
-          "price": 6.95,
+          "price": 9.95,
           "tags": [
             "veg"
           ]
@@ -505,7 +505,7 @@
           "id": "kashmir-veg-pulao",
           "name": "Kashmir / Veg Pulao",
           "desc": "Long basmati rice cooked with fruits and green peas, served with fried onions and coriander.",
-          "price": 12.95,
+          "price": 14.95,
           "tags": [
             "veg"
           ]
@@ -514,13 +514,13 @@
           "id": "fried-rice",
           "name": "Fried Rice — Veg / Non-Veg",
           "desc": "Basmati rice sauteed with soy sauce and spring vegetables.",
-          "price": 18.9
+          "price": 19.95
         },
         {
           "id": "veg-biriyani",
           "name": "Veg Biriyani",
           "desc": "Rice dish with vegetables.",
-          "price": 18.5,
+          "price": 19.95,
           "tags": [
             "veg"
           ]
@@ -529,19 +529,19 @@
           "id": "biriyani-chicken",
           "name": "Biriyani — Chicken",
           "desc": "Kerala specialty. Basmati rice simmered with chicken, chef's special herbs and spices, finished with saffron and cardamom.",
-          "price": 19.9
+          "price": 21.95
         },
         {
           "id": "biriyani-lamb-goat",
           "name": "Biriyani — Lamb / Goat",
           "desc": "Kerala specialty. Basmati rice simmered with lamb or goat, chef's special herbs and spices, finished with saffron and cardamom.",
-          "price": 21.9
+          "price": 23.95
         },
         {
           "id": "prawn-biriyani",
           "name": "Prawn Biriyani",
           "desc": "Chef's special dum biriyani.",
-          "price": 24.9,
+          "price": 24.95,
           "tags": [
             "signature"
           ]
@@ -712,31 +712,7 @@
         },
         {
           "id": "pothichoru",
-          "name": "Pothichoru",
-          "desc": "Kerala meal wrapped in toasted banana leaf."
-        },
-        {
-          "id": "kappa-biryani",
-          "name": "Kappa Biriyani",
-          "desc": "Spicy beef masala cooked with tapioca, flavoured with roasted coconut."
-        },
-        {
-          "id": "chatti-choru",
-          "name": "Chatti Choru",
-          "desc": "Rice, a variety of curries, and non-veg items served in a wide earthen pot."
-        },
-        {
-          "id": "new-item-1787304856679",
-          "name": "Nadan Oonu ( Lunch Only )",
-          "desc": "A traditional Kerala style lunch served featuring Matta rice with curries, sides and seasonal accompaniments.",
-          "price": 25,
-          "tags": [
-            "signature"
-          ]
-        },
-        {
-          "id": "new-item-1787304909375",
-          "name": "Pothichoru  ( Lunch Only )",
+          "name": "Pothichoru ( Lunch Only )",
           "desc": "A traditional Kerala packed lunch wrapped in a banana leaf, featuring steamed rice, flavorful curries, vegetable sides, pickle, papad, and other homestyle accompaniments. The leaf wrapping allows the flavors to blend beautifully, creating an authentic and comforting Kerala meal.",
           "price": 25,
           "tags": [
@@ -745,8 +721,18 @@
           ]
         },
         {
-          "id": "new-item-1787304941236",
-          "name": "Chattichoru  ( Lunch Only )",
+          "id": "kappa-biryani",
+          "name": "Kappa Biryani",
+          "desc": "A flavorful Kerala dish combining tender tapioca with spiced meat and aromatic herbs.",
+          "price": 24.95,
+          "tags": [
+            "spicy",
+            "signature"
+          ]
+        },
+        {
+          "id": "chatti-choru",
+          "name": "Chattichoru ( Lunch Only )",
           "desc": "A traditional Kerala-style rice meal served in a clay pot with flavorful curries and homestyle accompaniments.",
           "price": 29.95,
           "tags": [
@@ -755,12 +741,11 @@
           ]
         },
         {
-          "id": "new-item-1787304968777",
-          "name": "Kappa Biryani",
-          "desc": "A flavorful Kerala dish combining tender tapioca with spiced meat and aromatic herbs.",
-          "price": 24.95,
+          "id": "new-item-1787304856679",
+          "name": "Nadan Oonu ( Lunch Only )",
+          "desc": "A traditional Kerala style lunch served featuring Matta rice with curries, sides and seasonal accompaniments.",
+          "price": 25,
           "tags": [
-            "spicy",
             "signature"
           ]
         },
@@ -808,13 +793,13 @@
           "id": "new-item-1787203510890",
           "name": "Pan Fried Fish",
           "desc": "Fish fried with Kerala spices.",
-          "price": 25
+          "price": 30
         },
         {
           "id": "meen-pollichathu",
           "name": "Meen Pollichathu",
           "desc": "Signature dish — fish wrapped in banana leaf, giving a unique flavour.",
-          "price": 30
+          "price": 40
         }
       ]
     },
