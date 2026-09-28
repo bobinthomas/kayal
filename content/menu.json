@@ -596,8 +596,7 @@
         },
         {
           "id": "thalassery-biryani",
-          "name": "Thalassery Biryani",
-          "mal": "തലശ്ശേരി ബിരിയാണി",
+          "name": "Sultan Biriyani in Kaima Rice (Chicken/ Goat)",
           "desc": "Short-grain rice layered with spiced meat, fried onion and ghee.",
           "price": 22.9,
           "tags": [
@@ -648,15 +647,6 @@
           "name": "Panni Ularthiyathu",
           "desc": "Pork slow-cooked and stir-fried with aromatic Kerala spices, curry leaves and roasted coconut for a rich, spicy and authentic flavour.",
           "price": 22.95
-        },
-        {
-          "id": "new-item-1787202065805",
-          "name": "Goan Village Curry",
-          "desc": "Chef's secret spices with potato and carrot.",
-          "price": 25.95,
-          "tags": [
-            "signature"
-          ]
         },
         {
           "id": "new-item-1787202115273",
@@ -714,12 +704,6 @@
           "name": "Appam",
           "desc": "Fermented rice batters from the griddle and steamer.",
           "price": 3
-        },
-        {
-          "id": "new-item-1787204749973",
-          "name": "Idiappam",
-          "desc": "Steamed South Indian rice noodle made from rice flour.",
-          "price": 1.95
         },
         {
           "id": "new-item-1787204778612",
