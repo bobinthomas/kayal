@@ -4,20 +4,25 @@ import homeShowcaseJson from "@/content/home-showcase.json";
 import type { HomeHeroSlide } from "@/lib/content/schemas";
 
 const allItems = menuSections.flatMap((section) => section.items);
-const byId = (id: string): MenuItem => {
-  const item = allItems.find((i) => i.id === id);
-  if (!item) throw new Error(`home-figma: missing menu item "${id}"`);
-  return item;
-};
+// A deleted-from-menu id (via /admin) must not take the whole site build down —
+// every list below drops the slide/dish/link instead of throwing.
+const byId = (id: string): MenuItem | undefined => allItems.find((i) => i.id === id);
 
 /** Bento grid — signature dishes section. Real menu data; photo per dish is
  * admin-editable via content/home-showcase.json (see /admin). */
-export const hfBentoDishes = [
-  { item: byId("kizhi-porotta"), image: homeShowcaseJson.signatureDishes["kizhi-porotta"] },
-  { item: byId("meen-pollichathu"), image: homeShowcaseJson.signatureDishes["meen-pollichathu"] },
-  { item: byId("thalassery-biryani"), image: homeShowcaseJson.signatureDishes["thalassery-biryani"] },
-  { item: byId("kerala-fish-curry"), image: homeShowcaseJson.signatureDishes["kerala-fish-curry"] },
-] as const;
+export const hfBentoDishes = (
+  [
+    { id: "kizhi-porotta", image: homeShowcaseJson.signatureDishes["kizhi-porotta"] },
+    { id: "meen-pollichathu", image: homeShowcaseJson.signatureDishes["meen-pollichathu"] },
+    { id: "thalassery-biryani", image: homeShowcaseJson.signatureDishes["thalassery-biryani"] },
+    { id: "kerala-fish-curry", image: homeShowcaseJson.signatureDishes["kerala-fish-curry"] },
+  ] as const
+)
+  .map(({ id, image }) => {
+    const item = byId(id);
+    return item ? { item, image } : undefined;
+  })
+  .filter((dish): dish is { item: MenuItem; image: string } => dish !== undefined);
 
 /** Mango-hero slider — matches the Figma "MangoHero" component's 4-variant
  * carousel (node 40:835). Each slide's giant Malayalam wordmark uses the
@@ -30,12 +35,11 @@ export const hfBentoDishes = [
  * fixed 1440x900 canvas coordinates (e.g. left:110px -> 110/1440 = 7.6%), so
  * the slide is laid out at `aspect-[1440/900]` and everything scales
  * together exactly as in the design. */
-export const hfMangoSlides = [
+const mangoSlideDefs = [
   {
     id: "chatti-choru",
     wordmarkSvg: "/images/home-figma/wordmarks/chatti-choru-wordmark.svg",
     wordmarkAspect: 977 / 309,
-    item: byId("chatti-choru"),
     image: homeShowcaseJson.mangoSlides["chatti-choru"],
     imageAspect: 1472 / 990,
     gradient: { from: "#2baae2", to: "#046937" },
@@ -49,7 +53,6 @@ export const hfMangoSlides = [
     id: "kappa-biryani",
     wordmarkSvg: "/images/home-figma/wordmarks/kappa-biryani-wordmark.svg",
     wordmarkAspect: 1152 / 440,
-    item: byId("kappa-biryani"),
     image: homeShowcaseJson.mangoSlides["kappa-biryani"],
     imageAspect: 777 / 409,
     gradient: { from: "#2b1105", to: "#542103" },
@@ -61,7 +64,6 @@ export const hfMangoSlides = [
     id: "thalassery-biryani",
     wordmarkSvg: "/images/home-figma/wordmarks/thalassery-biryani-wordmark.svg",
     wordmarkAspect: 1152 / 520,
-    item: byId("thalassery-biryani"),
     image: homeShowcaseJson.mangoSlides["thalassery-biryani"],
     imageAspect: 782 / 463,
     gradient: { from: "#034e35", to: "#012c1e" },
@@ -73,7 +75,6 @@ export const hfMangoSlides = [
     id: "avial",
     wordmarkSvg: "/images/home-figma/wordmarks/avial-wordmark.svg",
     wordmarkAspect: 622 / 468,
-    item: byId("avial"),
     image: homeShowcaseJson.mangoSlides.avial,
     imageAspect: 720 / 403,
     gradient: { from: "#5b120b", to: "#3b0803" },
@@ -82,6 +83,13 @@ export const hfMangoSlides = [
     dishTop: 54.1,
   },
 ] as const;
+
+export const hfMangoSlides = mangoSlideDefs
+  .map((slide) => {
+    const item = byId(slide.id);
+    return item ? { ...slide, item } : undefined;
+  })
+  .filter((slide): slide is (typeof mangoSlideDefs)[number] & { item: MenuItem } => slide !== undefined);
 
 /** Shared blurb under the MangoHero price/CTA row — replaces the template's
  * "At Banana Bliss..." placeholder (a different restaurant's name) across
@@ -96,24 +104,27 @@ export const hfMangoBlurb =
  * from /admin. "dish" slides resolve against the live menu so price/desc
  * stay in sync with whatever the Menu editor has; "custom" slides carry
  * their own description and link instead of a dish (e.g. an event promo). */
-export const hfHeroSlides = (homeHeroJson.slides as HomeHeroSlide[]).map((slide) => {
-  const base = {
-    id: slide.id,
-    theme: slide.theme,
-    heroWord: slide.heroWord,
-    image: slide.image,
-  };
-  if (slide.kind === "custom") {
-    return {
-      ...base,
-      kind: "custom" as const,
-      description: slide.description,
-      linkUrl: slide.linkUrl,
-      linkLabel: slide.linkLabel,
+export const hfHeroSlides = (homeHeroJson.slides as HomeHeroSlide[])
+  .map((slide) => {
+    const base = {
+      id: slide.id,
+      theme: slide.theme,
+      heroWord: slide.heroWord,
+      image: slide.image,
     };
-  }
-  return { ...base, kind: "dish" as const, item: byId(slide.menuItemId) };
-});
+    if (slide.kind === "custom") {
+      return {
+        ...base,
+        kind: "custom" as const,
+        description: slide.description,
+        linkUrl: slide.linkUrl,
+        linkLabel: slide.linkLabel,
+      };
+    }
+    const item = byId(slide.menuItemId);
+    return item ? { ...base, kind: "dish" as const, item } : undefined;
+  })
+  .filter((slide) => slide !== undefined);
 
 /** "From Our Kitchen" spotlight — repurposed from the template's generic blog
  * section, since the site has no blog. Real dish/site content, no invented posts. */
@@ -152,11 +163,10 @@ export const hfNavLinks = [
   { href: "/contact/", label: "Contact" },
 ] as const;
 
-export const hfFooterMenuLinks = [
-  byId("chatti-choru"),
-  byId("kizhi-porotta"),
-  byId("thalassery-biryani"),
-  byId("meen-pollichathu"),
-] as const;
+export const hfFooterMenuLinks = (
+  ["chatti-choru", "kizhi-porotta", "thalassery-biryani", "meen-pollichathu"] as const
+)
+  .map(byId)
+  .filter((item): item is MenuItem => item !== undefined);
 
 export { formatPrice };
