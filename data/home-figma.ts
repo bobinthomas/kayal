@@ -1,8 +1,6 @@
 import { menuSections, formatPrice, type MenuItem } from "./menu";
 import homeHeroJson from "@/content/home-hero.json";
-import homeShowcaseJson from "@/content/home-showcase.json";
-import homeSpotlightsJson from "@/content/home-spotlights.json";
-import type { HomeHeroSlide } from "@/lib/content/schemas";
+import homeShowcaseJson from "@/content/home-showcase.json";import type { HomeHeroSlide } from "@/lib/content/schemas";
 
 const allItems = menuSections.flatMap((section) => section.items);
 // A deleted-from-menu id (via /admin) must not take the whole site build down —
@@ -126,16 +124,6 @@ export const hfHeroSlides = (homeHeroJson.slides as HomeHeroSlide[])
     return item ? { ...base, kind: "dish" as const, item } : undefined;
   })
   .filter((slide) => slide !== undefined);
-
-/** "From the Kitchen" spotlight cards — admin-editable via
- * content/home-spotlights.json (see /admin "Home spotlights"), including an
- * on/off switch for the whole section. */
-export const hfSpotlightsSection = {
-  enabled: homeSpotlightsJson.enabled,
-  eyebrow: homeSpotlightsJson.eyebrow,
-  heading: homeSpotlightsJson.heading,
-};
-export const hfSpotlights = homeSpotlightsJson.cards;
 
 export const hfNavLinks = [
   { href: "/menu/", label: "Menu" },

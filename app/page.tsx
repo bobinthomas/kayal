@@ -7,7 +7,7 @@ import HfHeritage from "@/components/home-figma/HfHeritage";
 import HfSignatures from "@/components/home-figma/HfSignatures";
 import HfVisit from "@/components/home-figma/HfVisit";
 import HfPhilosophy from "@/components/home-figma/HfPhilosophy";
-import HfSpotlights from "@/components/home-figma/HfSpotlights";
+import HfBlogPosts from "@/components/home-figma/HfBlogPosts";
 import HfTestimonials from "@/components/home-figma/HfTestimonials";
 import HfNewsletter from "@/components/home-figma/HfNewsletter";
 import PromoPopup from "@/components/PromoPopup";
@@ -34,7 +34,7 @@ export default function HomePage() {
       <HfDishMarquee />
       <HfVisit />
       <HfPhilosophy />
-      <HfSpotlights />
+      <HfBlogPosts />
       <HfTestimonials />
       <HfNewsletter />
       <PromoPopup />

@@ -5,7 +5,7 @@ import CallCta from "@/components/CallCta";
 import WhatsAppCta from "@/components/WhatsAppCta";
 
 const [exploreLinks, visitLinks] = [
-  hfNavLinks.slice(0, 3),
+  [...hfNavLinks.slice(0, 3), { href: "/blog/", label: "Blog" }],
   [...hfNavLinks.slice(3), { href: "/privacy", label: "Privacy policy" }],
 ];
 

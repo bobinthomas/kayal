@@ -259,35 +259,6 @@ export const HomeHeroFileSchema = z.object({
   slides: z.array(HomeHeroSlideSchema).min(1).max(6),
 });
 
-export const HomeSpotlightCardSchema = z.object({
-  id: z
-    .string()
-    .min(1)
-    .regex(/^[a-z0-9-]+$/, "lowercase-kebab-case id"),
-  category: z.string().min(1).max(24),
-  image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
-  title: z.string().min(1).max(80),
-  body: z.string().min(1).max(240),
-  href: z.string().regex(/^(\/|https?:\/\/)\S+$/, "must be a relative path or absolute URL"),
-});
-
-export const HomeSpotlightsFileSchema = z
-  .object({
-    enabled: z.boolean(),
-    eyebrow: z.string().min(1).max(40),
-    heading: z.string().min(1).max(80),
-    cards: z.array(HomeSpotlightCardSchema).min(1).max(6),
-  })
-  .superRefine((data, ctx) => {
-    const seen = new Set<string>();
-    data.cards.forEach((card, idx) => {
-      if (seen.has(card.id)) {
-        ctx.addIssue({ code: "custom", message: `Duplicate card id "${card.id}"`, path: ["cards", idx, "id"] });
-      }
-      seen.add(card.id);
-    });
-  });
-
 const ShowcaseImagePathSchema = z.string().regex(/^\/images\/.+/, "must be a /images/... path");
 
 export const HomeShowcaseFileSchema = z.object({
@@ -337,6 +308,50 @@ export const PopupFileSchema = z
 
 export type PopupFile = z.infer<typeof PopupFileSchema>;
 
+// Blog posts — one page per post at /blog/<slug>/. `body` is plain text:
+// blank line = new paragraph, "## " = subheading, "- " lines = bullet list,
+// [text](url) = link (see lib/blog.ts).
+export const BlogPostSchema = z.object({
+  slug: z
+    .string()
+    .min(1)
+    .max(80)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, numbers and single hyphens only"),
+  title: z.string().min(1).max(110),
+  category: z.string().min(1).max(24),
+  image: z.string().regex(/^\/images\/.+/, "must be a /images/... path"),
+  imageAlt: z.preprocess(emptyToUndefined, z.string().max(140).optional()),
+  publishedAt: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "YYYY-MM-DD")
+    .refine((value) => !Number.isNaN(Date.parse(`${value}T00:00:00Z`)), "not a real date"),
+  excerpt: z.string().min(1).max(240),
+  body: z.string().min(1).max(20000),
+  seoTitle: z.preprocess(emptyToUndefined, z.string().max(70).optional()),
+  seoDescription: z.preprocess(emptyToUndefined, z.string().max(160).optional()),
+});
+
+export const BlogFileSchema = z
+  .object({
+    showOnHome: z.boolean(),
+    homeEyebrow: z.string().min(1).max(40),
+    homeHeading: z.string().min(1).max(80),
+    posts: z.array(BlogPostSchema).min(1),
+  })
+  .superRefine((data, ctx) => {
+    const seen = new Set<string>();
+    data.posts.forEach((post, idx) => {
+      if (seen.has(post.slug)) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Duplicate web address "${post.slug}" — each post needs its own`,
+          path: ["posts", idx, "slug"],
+        });
+      }
+      seen.add(post.slug);
+    });
+  });
+
 export const TrackingFileSchema = z.object({
   gaMeasurementId: z.preprocess(
     emptyToUndefined,
@@ -371,7 +386,8 @@ export type AboutFile = z.infer<typeof AboutFileSchema>;
 export type HomeHeroFile = z.infer<typeof HomeHeroFileSchema>;
 export type HomeHeroSlide = z.infer<typeof HomeHeroSlideSchema>;
 export type HomeShowcaseFile = z.infer<typeof HomeShowcaseFileSchema>;
-export type HomeSpotlightsFile = z.infer<typeof HomeSpotlightsFileSchema>;
+export type BlogFile = z.infer<typeof BlogFileSchema>;
+export type BlogPost = z.infer<typeof BlogPostSchema>;
 
 export const CONTENT_SCHEMAS = {
   menu: MenuFileSchema,
@@ -383,7 +399,7 @@ export const CONTENT_SCHEMAS = {
   about: AboutFileSchema,
   "home-hero": HomeHeroFileSchema,
   "home-showcase": HomeShowcaseFileSchema,
-  "home-spotlights": HomeSpotlightsFileSchema,
+  blog: BlogFileSchema,
   popup: PopupFileSchema,
   tracking: TrackingFileSchema,
 } as const;

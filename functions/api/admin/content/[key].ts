@@ -28,7 +28,7 @@ const CONTENT_PATHS: Record<ContentKey, string> = {
   about: "content/about.json",
   "home-hero": "content/home-hero.json",
   "home-showcase": "content/home-showcase.json",
-  "home-spotlights": "content/home-spotlights.json",
+  blog: "content/blog.json",
   popup: "content/popup.json",
   tracking: "content/tracking.json",
 };

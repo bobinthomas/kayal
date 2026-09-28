@@ -1,5 +1,6 @@
 import { restaurant, dayOrder } from "@/data/restaurant";
 import { menuSections } from "@/data/menu";
+import type { BlogPost } from "@/lib/content/schemas";
 
 const dayToSchema: Record<string, string> = {
   monday: "Monday",
@@ -113,6 +114,45 @@ export function buildFaqSchema(faqs: { question: string; answer: string }[]) {
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+}
+
+/** One blog post. Author/publisher reference the Restaurant by @id (see
+ * buildCateringServiceSchema) rather than redeclaring the business. */
+export function buildBlogPostingSchema(post: BlogPost) {
+  const url = `${restaurant.url}/blog/${post.slug}/`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#post`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    headline: post.title,
+    description: post.seoDescription ?? post.excerpt,
+    image: `${restaurant.url}${post.image}`,
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    articleSection: post.category,
+    inLanguage: "en-AU",
+    author: { "@id": `${restaurant.url}/#restaurant` },
+    publisher: { "@id": `${restaurant.url}/#restaurant` },
+  };
+}
+
+export function buildBlogSchema(posts: BlogPost[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${restaurant.url}/blog/#blog`,
+    name: `${restaurant.name} — Notes on Naadan Cooking`,
+    url: `${restaurant.url}/blog/`,
+    inLanguage: "en-AU",
+    publisher: { "@id": `${restaurant.url}/#restaurant` },
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      url: `${restaurant.url}/blog/${post.slug}/`,
+      datePublished: post.publishedAt,
     })),
   };
 }
