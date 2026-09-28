@@ -15,6 +15,7 @@
     "sides-pickles": "Sides & Pickles",
     "desserts-drinks": "Desserts & Drinks"
   },
+  "spotlightsEnabled": false,
   "spotlights": [
     {
       "id": "chatti-experience",

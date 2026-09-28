@@ -1,10 +1,12 @@
 "use client";
 
 import { formatPrice } from "@/data/menu";
-import { menuFeaturedSpotlights } from "@/data/menu-meta";
+import { menuFeaturedSpotlights, menuSpotlightsEnabled } from "@/data/menu-meta";
 import { scrollToSection } from "@/lib/scrollToSection";
 
 export default function MenuFeaturedSpotlights() {
+  if (!menuSpotlightsEnabled) return null;
+
   return (
     <section
       aria-labelledby="menu-spotlights-heading"

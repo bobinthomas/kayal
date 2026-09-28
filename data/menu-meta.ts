@@ -14,6 +14,8 @@ export const menuPageCopy: {
 
 export const menuNavLabels: Record<string, string> = menuMetaJson.navLabels;
 
+export const menuSpotlightsEnabled: boolean = menuMetaJson.spotlightsEnabled;
+
 export type MenuSpotlightStep = { label: string; title: string; detail: string };
 export type MenuSpotlightChoiceGroup = { label: string; options: string[] };
 export type MenuSpotlight = {

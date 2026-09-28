@@ -90,6 +90,7 @@ export const MenuMetaFileSchema = z.object({
     intro: z.string().min(1),
   }),
   navLabels: z.record(z.string(), z.string().min(1)),
+  spotlightsEnabled: z.boolean(),
   spotlights: z.array(MenuSpotlightSchema),
 });
 

@@ -122,6 +122,17 @@ export default function MenuMetaEditor({
 
         <fieldset className="space-y-4 rounded-xl border border-neutral-200 p-4">
           <legend className="px-1 text-sm font-semibold text-neutral-700">Featured spotlights</legend>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={data.spotlightsEnabled}
+              onChange={(e) => setData({ ...data, spotlightsEnabled: e.target.checked })}
+              className="h-4 w-4"
+            />
+            <span className="text-sm font-medium text-neutral-700">
+              Show the Chatti Experience / Lunch Thali cards on the menu page
+            </span>
+          </label>
           {data.spotlights.map((spotlight, i) => (
             <div key={spotlight.id} className="space-y-2 rounded-lg border border-neutral-200 p-3">
               <p className="text-xs font-medium text-neutral-400">{spotlight.id}</p>
