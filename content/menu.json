@@ -193,16 +193,6 @@
           ]
         },
         {
-          "id": "avial",
-          "name": "Avial",
-          "desc": "Mixed vegetables in coconut and yoghurt — a festival classic.",
-          "price": 18.9,
-          "tags": [
-            "veg",
-            "signature"
-          ]
-        },
-        {
           "id": "malai-kofta",
           "name": "Malai Kofta",
           "desc": "Potato and cottage cheese dumplings in a cashew sauce.",
