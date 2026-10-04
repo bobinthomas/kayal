@@ -118,7 +118,7 @@ export default function InfoView({ menu }: { menu: MenuData }) {
 
 function HowOrderingWorks() {
   return (
-    <section aria-labelledby="how-ordering" className="mt-5 rounded-3xl bg-brand-soft p-5 md:p-8">
+    <section aria-labelledby="how-ordering" className="mt-5 rounded-3xl bg-brand-soft p-4 sm:p-5 md:p-8">
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-dark">Simple &amp; fresh</p>
       <h2 id="how-ordering" className="mt-1 text-xl font-bold text-night md:text-2xl">
         How Ordering Works
@@ -127,26 +127,26 @@ function HowOrderingWorks() {
         Order what you need. We confirm the actual quantity and price, then prepare your order once payment is received.
       </p>
 
-      <ol className="mt-5 grid gap-2.5 md:mt-6 md:grid-cols-4 md:gap-5">
+      <ol className="mt-4 grid grid-cols-2 gap-2 sm:gap-2.5 md:mt-6 md:grid-cols-4 md:gap-5">
         {STEPS.map((s, i) => (
           <li
             key={s.title}
-            className="relative flex items-start gap-3.5 rounded-[20px] bg-white p-4 shadow-[0_1px_3px_rgba(20,20,20,0.06)] md:flex-col md:gap-0 md:p-5"
+            className="relative flex flex-col rounded-[20px] bg-white p-3 shadow-[0_1px_3px_rgba(20,20,20,0.06)] sm:p-3.5 md:p-5"
           >
             <span className="relative shrink-0">
-              <span role="img" aria-label={s.iconLabel} className="grid h-11 w-11 place-items-center rounded-2xl bg-brand-soft text-brand-dark">
+              <span role="img" aria-label={s.iconLabel} className="grid h-10 w-10 place-items-center rounded-2xl bg-brand-soft text-brand-dark md:h-11 md:w-11">
                 {s.icon}
               </span>
               <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brand text-[11px] font-bold text-white ring-2 ring-white">
                 {i + 1}
               </span>
             </span>
-            <span className="min-w-0 md:mt-4">
-              <span className="block text-[15px] font-semibold leading-snug text-night">
+            <span className="mt-3 min-w-0 md:mt-4">
+              <span className="block text-sm font-semibold leading-snug text-night md:text-[15px]">
                 <span className="sr-only">Step {i + 1}: </span>
                 {s.title}
               </span>
-              <span className="mt-0.5 block text-[13px] leading-snug text-night/65 md:mt-1.5">{s.text}</span>
+              <span className="mt-1 block text-xs leading-snug text-night/65 md:mt-1.5 md:text-[13px]">{s.text}</span>
             </span>
             {i < STEPS.length - 1 && (
               <span
