@@ -59,7 +59,7 @@ export default function MenuHome({
 
   return (
     <main className="min-h-dvh overflow-x-clip bg-white pb-44">
-      <div className="mx-auto max-w-md px-5 pt-6 md:max-w-5xl">
+      <div className="mx-auto max-w-md px-5 pt-1 md:max-w-5xl">
         {/* Location */}
         <label className="block">
           <span className="text-xs text-muted">{location.fulfilment === "pickup" ? "Collecting from" : "Deliver to"}</span>
@@ -90,13 +90,9 @@ export default function MenuHome({
           </span>
         </label>
 
-        <h1 className="mt-5 text-[1.75rem] font-bold leading-tight text-night">
-          Discover <span className="text-brand">Kerala</span> flavours
-        </h1>
-
         {/* Search + veg filter */}
-        <div className="mt-5 flex items-center gap-3">
-          <label className="flex h-12 flex-1 items-center gap-3 rounded-full bg-surface px-5 text-muted focus-within:ring-2 focus-within:ring-brand/30">
+        <div className="mt-3 flex items-center gap-2">
+          <label className="flex h-10 flex-1 items-center gap-2 rounded-full bg-surface px-4 text-muted focus-within:ring-2 focus-within:ring-brand/30">
             {Icon.search}
             <input
               ref={searchRef}
@@ -111,17 +107,17 @@ export default function MenuHome({
             type="button"
             onClick={() => setVegOnly((v) => !v)}
             aria-pressed={vegOnly}
-            className={`flex h-12 items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition ${
+            className={`flex h-10 items-center gap-1 rounded-full px-3 text-xs font-semibold transition ${
               vegOnly ? "bg-brand text-white" : "bg-surface text-night/70"
             }`}
           >
             {Icon.leaf}
-            Veg
+            <span className="hidden sm:inline">Veg</span>
           </button>
         </div>
 
         {/* Category pills */}
-        <div className="no-scrollbar -mx-5 mt-5 flex gap-2.5 overflow-x-auto px-5 pb-1">
+        <div className="no-scrollbar -mx-5 mt-3 flex gap-2 overflow-x-auto px-5 pb-1">
           <Pill active={category === "all"} onClick={() => setCategory("all")}>
             All
           </Pill>
