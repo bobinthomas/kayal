@@ -45,13 +45,13 @@ export default function MenuHome({
     );
   }, [menu.items, query, category, vegOnly]);
 
-  // "Popular" carousel: signature dishes first, then dishes with a photo,
-  // topped up from the rest of the menu so it always has a few slides.
+  // "Popular today" carousel: items tagged "popular", with photos first,
+  // topped up with other available dishes.
   const popular = useMemo(() => {
-    const sig = menu.items.filter((i) => i.tags.includes("signature"));
-    const withPhoto = menu.items.filter((i) => i.image_url && !sig.includes(i));
-    const rest = menu.items.filter((i) => !sig.includes(i) && !withPhoto.includes(i));
-    return [...sig, ...withPhoto, ...rest].slice(0, 6);
+    const marked = menu.items.filter((i) => i.tags.includes("popular"));
+    const withPhoto = menu.items.filter((i) => i.image_url && !marked.includes(i));
+    const rest = menu.items.filter((i) => !marked.includes(i) && !withPhoto.includes(i));
+    return [...marked, ...withPhoto, ...rest].slice(0, 6);
   }, [menu.items]);
 
   const browsing = !query && category === "all" && !vegOnly;

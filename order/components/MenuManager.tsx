@@ -171,6 +171,19 @@ function ItemRow({ item, catName, act }: { item: AdminMenuItem; catName: string;
       </div>
       <div className="flex flex-wrap gap-2">
         <button
+          className={`rounded-full px-3 py-1 ${
+            item.tags.includes("popular") ? "bg-leaf text-cream" : "border"
+          }`}
+          onClick={() => {
+            const newTags = item.tags.includes("popular")
+              ? item.tags.filter((t) => t !== "popular")
+              : [...item.tags, "popular"];
+            act(menuAction({ action: "update", id: item.id, name: item.name, description: item.description ?? "", priceCents: item.price_cents, imageUrl: item.image_url ?? "", tags: newTags }));
+          }}
+        >
+          {item.tags.includes("popular") ? "★ Popular" : "Mark popular"}
+        </button>
+        <button
           className="rounded-full border px-3 py-1"
           onClick={() => act(menuAction({ action: "availability", id: item.id, available: !item.available }))}
         >
