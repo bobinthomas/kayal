@@ -1,6 +1,6 @@
 "use client";
 
-import { money } from "@/lib/api";
+import { bySection, money } from "@/lib/api";
 import type { CartLine, Location, Totals } from "@/lib/totals";
 import { CircleButton, Icon, PrimaryButton, Stepper, Thumb } from "./ui";
 
@@ -19,6 +19,7 @@ export default function CartView({
   onBack: () => void;
   onCheckout: () => void;
 }) {
+  const sections = bySection(lines, (l) => l.item.id);
   return (
     <main className="min-h-dvh bg-white pb-10">
       <div className="mx-auto max-w-md px-5 pt-6 md:max-w-lg">
@@ -35,24 +36,34 @@ export default function CartView({
           </div>
         ) : (
           <>
-            <ul className="mt-6 space-y-3">
-              {lines.map(({ item, qty }) => (
-                <li key={item.id} className="flex items-center gap-3.5 rounded-3xl bg-surface p-3">
-                  <Thumb src={item.image_url} categoryId={item.category_id} alt={item.name} size={72} />
-                  <div className="min-w-0 flex-1">
-                    <h2 className="text-[15px] font-semibold leading-snug text-night">{item.name}</h2>
-                    <p className="text-xs text-muted">{money(item.price_cents)} each</p>
-                    <p className="mt-1 font-bold text-night">{money(item.price_cents * qty)}</p>
-                  </div>
-                  <Stepper dark qty={qty} label={item.name} onDec={() => change(item.id, -1)} onInc={() => change(item.id, 1)} />
-                </li>
+            {[
+              { title: "Foods", rows: sections.foods },
+              { title: "Groceries", rows: sections.groceries },
+            ]
+              .filter((s) => s.rows.length > 0)
+              .map((s) => (
+                <section key={s.title} className="mt-6">
+                  <h2 className="mb-2 text-base font-bold text-night">{s.title}</h2>
+                  <ul className="space-y-3">
+                    {s.rows.map(({ item, qty }) => (
+                      <li key={item.id} className="flex items-center gap-3.5 rounded-3xl bg-surface p-3">
+                        <Thumb src={item.image_url} categoryId={item.category_id} alt={item.name} size={72} />
+                        <div className="min-w-0 flex-1">
+                          <h3 className="text-[15px] font-semibold leading-snug text-night">{item.name}</h3>
+                          <p className="text-xs text-muted">{money(item.price_cents)} each</p>
+                          <p className="mt-1 font-bold text-night">{money(item.price_cents * qty)}</p>
+                        </div>
+                        <Stepper dark qty={qty} label={item.name} onDec={() => change(item.id, -1)} onInc={() => change(item.id, 1)} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               ))}
-            </ul>
 
             {location.fulfilment === "delivery" && totals.zone && <FreeDeliveryMeter totals={totals} />}
 
             <section className="mt-5 rounded-3xl border border-line p-5 text-sm">
-              <Row label="Subtotal" value={money(totals.subtotal)} />
+              <BillRows totals={totals} />
               <Row
                 label={location.fulfilment === "pickup" ? "Pickup" : `Delivery · ${totals.zone?.name ?? ""}`}
                 value={location.fulfilment === "pickup" || totals.fee === 0 ? "Free" : money(totals.fee)}
@@ -106,5 +117,17 @@ export function Row({ label, value, strong = false }: { label: string; value: st
       <span className="truncate">{label}</span>
       <span className={strong ? "" : "font-medium text-night"}>{value}</span>
     </p>
+  );
+}
+
+/** Foods and Groceries subtotals (only the sections in the cart); the total stays a single figure. */
+export function BillRows({ totals }: { totals: Totals }) {
+  const both = totals.foodSubtotal > 0 && totals.grocerySubtotal > 0;
+  if (!both) return <Row label="Subtotal" value={money(totals.subtotal)} />;
+  return (
+    <>
+      <Row label="Foods" value={money(totals.foodSubtotal)} />
+      <Row label="Groceries" value={money(totals.grocerySubtotal)} />
+    </>
   );
 }

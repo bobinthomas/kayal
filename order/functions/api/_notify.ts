@@ -6,7 +6,7 @@
  * Leading underscore excludes this file from Pages Functions routing.
  */
 import { sendMail } from "./_mail";
-import { getSetting, lineTotal, money, type OrderItem, type OrderRow } from "./_util";
+import { getSetting, isGrocery, lineTotal, money, type OrderItem, type OrderRow } from "./_util";
 
 export interface NotifyEnv {
   DB: D1Database;
@@ -70,13 +70,17 @@ function invoiceLines(order: OrderRow, payment: PaymentSettings, orderUrl: strin
     if (changes.length) lines.push("", "We adjusted your order to what's fresh and available:", ...changes);
     if (order.adjustment_note) lines.push("", `Note from Kayal: ${order.adjustment_note}`);
   }
-  lines.push(
-    "",
-    "---",
-    ...items.map((i) => `${i.name}  x${qtyText(i.qty)}  ${money(i.unit_cents)} = ${money(lineTotal(i))}`),
-    "---",
-    `Subtotal: ${money(order.subtotal_cents)}`,
-  );
+  const foods = items.filter((i) => !isGrocery(i.id));
+  const groceries = items.filter((i) => isGrocery(i.id));
+  const itemLine = (i: OrderItem) => `${i.name}  x${qtyText(i.qty)}  ${money(i.unit_cents)} = ${money(lineTotal(i))}`;
+  const sum = (rows: OrderItem[]) => rows.reduce((t, i) => t + lineTotal(i), 0);
+  lines.push("", "---");
+  if (foods.length && groceries.length) {
+    lines.push("FOODS", ...foods.map(itemLine), `Foods subtotal: ${money(sum(foods))}`, "", "GROCERIES", ...groceries.map(itemLine), `Groceries subtotal: ${money(sum(groceries))}`, "---");
+  } else {
+    lines.push(...items.map(itemLine), "---");
+  }
+  lines.push(`Subtotal: ${money(order.subtotal_cents)}`);
   if (order.discount_cents) lines.push(`WhatsApp member discount: -${money(order.discount_cents)}`);
   if (order.fee_cents) lines.push(`Delivery fee: ${money(order.fee_cents)}`);
   if (order.tax_cents) lines.push(`Tax: ${money(order.tax_cents)}`);

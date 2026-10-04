@@ -6,8 +6,6 @@ import { fetchAdminMenu, menuAction, money, type AdminMenuItem } from "@/lib/api
 
 type Cat = { id: string; name: string };
 
-const CUSTOM_CATEGORY = "custom"; // seeded in migrations/0002_seed.sql
-const NEW_CATEGORY = "__new";
 type Act = (p: ReturnType<typeof menuAction>) => Promise<boolean>;
 
 export default function MenuManager() {
@@ -87,7 +85,7 @@ export default function MenuManager() {
         )}
       </section>
 
-      <CustomItemForm cats={cats} onCreate={(body) => act(menuAction({ action: "create", ...body }))} />
+      <CustomItemForm onCreate={(body) => act(menuAction({ action: "create", ...body }))} />
 
       <section>
         <h2 className="font-semibold text-leaf">Shown on the main page ({listed.length})</h2>
@@ -161,7 +159,7 @@ function ItemRow({ item, catName, act }: { item: AdminMenuItem; catName: string;
         <div className="min-w-0">
           <p className="font-medium">
             {item.name}
-            {custom && <span className="ml-2 rounded bg-turmeric/40 px-1.5 text-xs">custom</span>}
+            {custom && <span className="ml-2 rounded bg-turmeric/40 px-1.5 text-xs">grocery</span>}
             {!item.available && <span className="ml-2 rounded bg-chilli/15 px-1.5 text-xs text-chilli">sold out</span>}
           </p>
           <p className="text-ink/60">
@@ -199,16 +197,12 @@ function ItemRow({ item, catName, act }: { item: AdminMenuItem; catName: string;
 }
 
 function CustomItemForm({
-  cats,
   onCreate,
 }: {
-  cats: Cat[];
   onCreate: (body: {
     name: string;
     description: string;
     priceCents: number;
-    categoryId: string;
-    newCategory: string;
     imageUrl: string;
     tags: string[];
   }) => Promise<boolean>;
@@ -216,16 +210,11 @@ function CustomItemForm({
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  // Custom items go in the "Custom" category unless the admin picks another
-  // one or creates a new category ("__new").
-  const [categoryId, setCategoryId] = useState(CUSTOM_CATEGORY);
-  const [newCategory, setNewCategory] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [veg, setVeg] = useState(false);
   const [spicy, setSpicy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const input = "w-full rounded-xl border border-leaf/25 bg-white px-3 py-2";
-  const creatingCategory = categoryId === NEW_CATEGORY;
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -239,8 +228,6 @@ function CustomItemForm({
       name,
       description: desc,
       priceCents,
-      categoryId: creatingCategory ? "" : categoryId,
-      newCategory: creatingCategory ? newCategory : "",
       imageUrl: image ?? "",
       tags: [veg && "veg", spicy && "spicy"].filter(Boolean) as string[],
     });
@@ -248,9 +235,7 @@ function CustomItemForm({
       setName("");
       setDesc("");
       setPrice("");
-      setNewCategory("");
       setImage(null);
-      setCategoryId(CUSTOM_CATEGORY);
       setVeg(false);
       setSpicy(false);
     }
@@ -258,23 +243,13 @@ function CustomItemForm({
 
   return (
     <form onSubmit={submit} className="space-y-3 rounded-2xl border border-leaf/15 bg-white p-4">
-      <h2 className="font-semibold text-leaf">Add a custom item</h2>
+      <h2 className="font-semibold text-leaf">Add a grocery item</h2>
+      <p className="text-ink/60">Shown under Groceries on the customer app, billed in its own section.</p>
       <PhotoPicker url={image} hint="Photo (optional)" onChange={(url) => setImage(url)} />
       <input required placeholder="Item name" value={name} onChange={(e) => setName(e.target.value)} className={input} />
       <input placeholder="Description (optional)" value={desc} onChange={(e) => setDesc(e.target.value)} className={input} />
       <div className="flex flex-wrap gap-2">
         <input required placeholder="Price e.g. 12.50" inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} className={`${input} sm:w-40`} />
-        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className={`${input} sm:flex-1`}>
-          {cats.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-          <option value={NEW_CATEGORY}>+ New category…</option>
-        </select>
-        {creatingCategory && (
-          <input required placeholder="New category name" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className={`${input} sm:flex-1`} autoFocus />
-        )}
       </div>
       {error && <p className="font-medium text-chilli">{error}</p>}
       <div className="flex gap-4">
@@ -286,7 +261,7 @@ function CustomItemForm({
         </label>
       </div>
       <button type="submit" className="rounded-full bg-clay px-6 py-2 font-semibold text-white">
-        Add to menu
+        Add to Groceries
       </button>
     </form>
   );

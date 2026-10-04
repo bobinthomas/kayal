@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from
 import {
   STATUS_LABEL,
   fetchOrder,
+  isGrocery,
   lineTotal,
   money,
   qtyText,
@@ -82,6 +83,8 @@ export default function OrderView() {
   const canUpload = order.status === "confirmed" || order.status === "payment_failed";
   const finalised = !reviewing && order.status !== "declined";
   const originalById = new Map((order.original_items ?? []).map((i) => [i.id, i]));
+  const grocerySub = order.items.filter((i) => isGrocery(i.id)).reduce((t, i) => t + lineTotal(i), 0);
+  const foodSub = order.items.reduce((t, i) => t + lineTotal(i), 0) - grocerySub;
   const removed = (order.original_items ?? []).filter((w) => !order.items.some((i) => i.id === w.id));
   const closed = order.status === "declined";
 
@@ -205,8 +208,16 @@ export default function OrderView() {
         )}
 
         <Card title={finalised ? "Final invoice" : "Your order (estimate)"}>
+          {[
+            { title: "Foods", groceries: false },
+            { title: "Groceries", groceries: true },
+          ]
+            .filter((s) => order.items.some((i) => isGrocery(i.id) === s.groceries) || removed.some((w) => isGrocery(w.id) === s.groceries))
+            .map((s) => (
+              <div key={s.title} className="mb-3 last:mb-0">
+                <h3 className="mb-1.5 text-xs font-bold uppercase tracking-wide text-muted">{s.title}</h3>
           <ul className="space-y-1.5 text-sm">
-            {order.items.map((i) => {
+            {order.items.filter((i) => isGrocery(i.id) === s.groceries).map((i) => {
               const was = originalById.get(i.id);
               const edited = order.original_items && (!was || was.qty !== i.qty || was.unit_cents !== i.unit_cents);
               return (
@@ -223,7 +234,7 @@ export default function OrderView() {
                 </li>
               );
             })}
-            {removed.map((w) => (
+            {removed.filter((w) => isGrocery(w.id) === s.groceries).map((w) => (
               <li key={w.id} className="flex justify-between gap-3 text-muted">
                 <span>
                   <span className="line-through">
@@ -235,9 +246,18 @@ export default function OrderView() {
               </li>
             ))}
           </ul>
+              </div>
+            ))}
           <div className="my-3 border-t border-dashed border-line" />
           <div className="text-sm">
-            <Row label="Subtotal" value={money(order.subtotal_cents)} />
+            {grocerySub > 0 && foodSub > 0 ? (
+              <>
+                <Row label="Foods" value={money(foodSub)} />
+                <Row label="Groceries" value={money(grocerySub)} />
+              </>
+            ) : (
+              <Row label="Subtotal" value={money(order.subtotal_cents)} />
+            )}
             {order.discount_cents > 0 && <Row label="WhatsApp member discount" value={`−${money(order.discount_cents)}`} />}
             <Row label={order.fulfilment === "delivery" ? "Delivery" : "Pickup"} value={order.fee_cents ? money(order.fee_cents) : "Free"} />
             {order.tax_cents > 0 && <Row label="GST" value={money(order.tax_cents)} />}

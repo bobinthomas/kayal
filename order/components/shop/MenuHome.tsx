@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { money, type MenuData, type MenuItem } from "@/lib/api";
+import { bySection, money, type MenuData, type MenuItem } from "@/lib/api";
 import type { Location } from "@/lib/totals";
 import PopularCarousel from "./PopularCarousel";
 import { AddButton, Icon, Pill, SquarePhoto, Stepper } from "./ui";
@@ -22,6 +22,7 @@ export default function MenuHome({
   /** Bumped by the bottom bar's Search tab to focus the search box. */
   focusSearch: number;
 }) {
+  const [section, setSection] = useState<"foods" | "groceries">("foods");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
   const [vegOnly, setVegOnly] = useState(false);
@@ -33,29 +34,32 @@ export default function MenuHome({
   }, [focusSearch]);
 
   const catName = (id: string) => menu.categories.find((c) => c.id === id)?.name ?? "";
-  const categories = menu.categories.filter((c) => menu.items.some((i) => i.category_id === c.id));
+  const split = useMemo(() => bySection(menu.items, (i) => i.id), [menu.items]);
+  const grocery = section === "groceries";
+  const sectionItems = grocery ? split.groceries : split.foods;
+  const categories = menu.categories.filter((c) => split.foods.some((i) => i.category_id === c.id));
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return menu.items.filter(
+    return sectionItems.filter(
       (i) =>
-        (category === "all" || i.category_id === category) &&
-        (!vegOnly || i.tags.includes("veg")) &&
+        (grocery || category === "all" || i.category_id === category) &&
+        (grocery || !vegOnly || i.tags.includes("veg")) &&
         (!q || i.name.toLowerCase().includes(q) || (i.description ?? "").toLowerCase().includes(q)),
     );
-  }, [menu.items, query, category, vegOnly]);
+  }, [sectionItems, grocery, query, category, vegOnly]);
 
   // "Popular today": only the dishes the admin marked popular; until any are
   // marked, fall back to dishes with photos.
   const popular = useMemo(() => {
-    const marked = menu.items.filter((i) => i.tags.includes("popular"));
+    const marked = split.foods.filter((i) => i.tags.includes("popular"));
     if (marked.length > 0) return marked.slice(0, 8);
-    const withPhoto = menu.items.filter((i) => i.image_url && !marked.includes(i));
-    const rest = menu.items.filter((i) => !marked.includes(i) && !withPhoto.includes(i));
+    const withPhoto = split.foods.filter((i) => i.image_url && !marked.includes(i));
+    const rest = split.foods.filter((i) => !marked.includes(i) && !withPhoto.includes(i));
     return [...marked, ...withPhoto, ...rest].slice(0, 6);
-  }, [menu.items]);
+  }, [split.foods]);
 
-  const browsing = !query && category === "all" && !vegOnly;
+  const browsing = !query && (grocery || (category === "all" && !vegOnly));
   const locValue = location.fulfilment === "pickup" ? "pickup" : location.zoneId;
 
   return (
@@ -89,6 +93,26 @@ export default function MenuHome({
           </label>
         </div>
 
+        {/* Foods | Groceries */}
+        <div className="mt-3 grid grid-cols-2 gap-1 rounded-full bg-surface p-1" role="tablist" aria-label="Menu section">
+          {(["foods", "groceries"] as const).map((s) => (
+            <button
+              key={s}
+              type="button"
+              role="tab"
+              aria-selected={section === s}
+              onClick={() => {
+                setSection(s);
+                setCategory("all");
+                setVegOnly(false);
+              }}
+              className={`h-10 rounded-full text-sm font-semibold transition ${section === s ? "bg-night text-white" : "text-night/60"}`}
+            >
+              {s === "foods" ? "Foods" : "Groceries"}
+            </button>
+          ))}
+        </div>
+
         {/* Search + veg filter */}
         <div className="mt-3 flex items-center gap-2">
           <label className="flex h-10 flex-1 items-center gap-2 rounded-full bg-surface px-4 text-muted focus-within:ring-2 focus-within:ring-brand/30">
@@ -102,6 +126,7 @@ export default function MenuHome({
               className="w-full bg-transparent text-sm text-night placeholder:text-muted focus:outline-none"
             />
           </label>
+          {!grocery && (
           <button
             type="button"
             onClick={() => setVegOnly((v) => !v)}
@@ -113,9 +138,11 @@ export default function MenuHome({
             {Icon.leaf}
             <span className="hidden sm:inline">Veg</span>
           </button>
+          )}
         </div>
 
         {/* Category pills */}
+        {!grocery && (
         <div className="no-scrollbar -mx-5 mt-3 flex gap-2 overflow-x-auto px-5 pb-1">
           <Pill active={category === "all"} onClick={() => setCategory("all")}>
             All
@@ -126,6 +153,7 @@ export default function MenuHome({
             </Pill>
           ))}
         </div>
+        )}
 
         {menu.items.length === 0 && (
           <p className="mt-10 rounded-3xl bg-surface p-8 text-center text-muted">
@@ -134,7 +162,7 @@ export default function MenuHome({
         )}
 
         {/* Popular */}
-        {browsing && popular.length > 0 && (
+        {browsing && !grocery && popular.length > 0 && (
           <section className="mt-7">
             <div className="flex items-baseline justify-between">
               <h2 className="text-lg font-bold text-night">Popular today</h2>
@@ -153,8 +181,15 @@ export default function MenuHome({
         {/* Full menu */}
         <section ref={listRef} className="mt-7 scroll-mt-4">
           <h2 className="text-lg font-bold text-night">
-            {browsing ? "Full Menu" : `${filtered.length} dish${filtered.length === 1 ? "" : "es"}`}
+            {browsing
+              ? grocery
+                ? "Groceries"
+                : "Full Menu"
+              : `${filtered.length} item${filtered.length === 1 ? "" : "s"}`}
           </h2>
+          {grocery && browsing && filtered.length === 0 && (
+            <p className="mt-3 rounded-3xl bg-surface p-6 text-center text-muted">No grocery items yet — check back soon.</p>
+          )}
           {!browsing && filtered.length === 0 && (
             <p className="mt-3 rounded-3xl bg-surface p-6 text-center text-muted">Nothing matches — try another search.</p>
           )}

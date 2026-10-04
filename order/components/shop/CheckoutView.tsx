@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { money, submitOrder, type MenuData } from "@/lib/api";
+import { bySection, money, submitOrder, type MenuData } from "@/lib/api";
 import { computeTotals, type CartLine, type Location } from "@/lib/totals";
-import { FreeDeliveryMeter, Row, ScreenHeader } from "./CartView";
+import { BillRows, FreeDeliveryMeter, Row, ScreenHeader } from "./CartView";
 import { Icon, PrimaryButton } from "./ui";
 
 const field =
@@ -39,6 +39,7 @@ export default function CheckoutView({
 
   const totals = computeTotals(menu, lines, location, whatsappMember);
   const delivery = location.fulfilment === "delivery";
+  const sections = bySection(lines, (l) => l.item.id);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -146,19 +147,29 @@ export default function CheckoutView({
         {delivery && totals.zone && <FreeDeliveryMeter totals={totals} />}
 
         <Section title="Order summary">
-          <ul className="space-y-1 text-sm">
-            {lines.map((l) => (
-              <li key={l.item.id} className="flex justify-between gap-3 text-night">
-                <span className="truncate">
-                  {l.qty} × {l.item.name}
-                </span>
-                <span>{money(l.item.price_cents * l.qty)}</span>
-              </li>
+          {[
+            { title: "Foods", rows: sections.foods },
+            { title: "Groceries", rows: sections.groceries },
+          ]
+            .filter((s) => s.rows.length > 0)
+            .map((s) => (
+              <div key={s.title} className="mb-3">
+                <h3 className="mb-1 text-xs font-bold uppercase tracking-wide text-muted">{s.title}</h3>
+                <ul className="space-y-1 text-sm">
+                  {s.rows.map((l) => (
+                    <li key={l.item.id} className="flex justify-between gap-3 text-night">
+                      <span className="truncate">
+                        {l.qty} × {l.item.name}
+                      </span>
+                      <span>{money(l.item.price_cents * l.qty)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
           <div className="my-3 border-t border-dashed border-line" />
           <div className="text-sm">
-            <Row label="Subtotal" value={money(totals.subtotal)} />
+            <BillRows totals={totals} />
             {totals.discount > 0 && <Row label="WhatsApp member discount" value={`−${money(totals.discount)}`} />}
             <Row label={delivery ? "Delivery" : "Pickup"} value={!delivery || totals.fee === 0 ? "Free" : money(totals.fee)} />
             {totals.tax > 0 && <Row label="GST" value={money(totals.tax)} />}

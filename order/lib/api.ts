@@ -95,6 +95,12 @@ export const STATUS_LABEL: Record<OrderStatus, string> = {
 
 // Quantities can be fractional after a freshness adjustment (2 -> 2.2 kg).
 export const lineTotal = (i: { qty: number; unit_cents: number }) => Math.round(i.unit_cents * i.qty);
+
+/** Custom items added in the admin are Groceries; everything else is Food. */
+export const isGrocery = (id: string) => id.startsWith("custom-");
+export function bySection<T>(rows: T[], idOf: (r: T) => string): { foods: T[]; groceries: T[] } {
+  return { foods: rows.filter((r) => !isGrocery(idOf(r))), groceries: rows.filter((r) => isGrocery(idOf(r))) };
+}
 export const qtyText = (q: number) => String(Math.round(q * 1000) / 1000);
 
 export function money(cents: number): string {
@@ -271,8 +277,6 @@ export const menuAction = (body: {
   name?: string;
   description?: string;
   priceCents?: number;
-  categoryId?: string;
-  newCategory?: string;
   tags?: string[];
   imageUrl?: string;
 }) => adminPost("/api/admin-menu", body);

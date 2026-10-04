@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import {
   confirmOrder,
+  isGrocery,
   lineTotal,
   memberDiscount,
   money,
@@ -49,6 +50,7 @@ export default function ReviewOrder({
   const [error, setError] = useState<string | null>(null);
 
   const parsed = lines.map((l) => ({ ...l, q: parseFloat(l.qty), cents: Math.round(parseFloat(l.price) * 100) }));
+  const ordered = [...parsed.filter((l) => !isGrocery(l.id)), ...parsed.filter((l) => isGrocery(l.id))];
   const invalid = parsed.find((l) => !(l.q > 0) || !(l.cents >= 0));
   const feeCents = o.fulfilment === "delivery" ? Math.round(parseFloat(fee || "0") * 100) : 0;
 
@@ -96,10 +98,13 @@ export default function ReviewOrder({
       <p className="mt-0.5 text-xs text-muted">Adjust to what you can actually supply, then send the final invoice.</p>
 
       <ul className="mt-3 space-y-2">
-        {parsed.map((l) => {
+        {ordered.map((l, idx) => {
           const edited = !l.orig || l.q !== l.orig.qty || l.cents !== l.orig.unit_cents;
+          const heading = (idx === 0 || isGrocery(ordered[idx - 1].id) !== isGrocery(l.id)) && ordered.some((x) => isGrocery(x.id)) ? (isGrocery(l.id) ? "Groceries" : "Foods") : null;
           return (
-            <li key={l.id} className={`rounded-xl p-2 ${edited ? "bg-turmeric/20" : "bg-surface/60"}`}>
+            <Fragment key={l.id}>
+            {heading && <li className="pt-1 text-[11px] font-bold uppercase tracking-wide text-muted">{heading}</li>}
+            <li className={`rounded-xl p-2 ${edited ? "bg-turmeric/20" : "bg-surface/60"}`}>
               <div className="flex items-start justify-between gap-2">
                 <span className="text-[13px] font-medium leading-snug text-night">
                   {l.name}
@@ -135,6 +140,7 @@ export default function ReviewOrder({
                 </span>
               </div>
             </li>
+            </Fragment>
           );
         })}
       </ul>
@@ -142,7 +148,7 @@ export default function ReviewOrder({
       {addable.length > 0 && (
         <div className="mt-2 flex gap-2">
           <select value={adding} onChange={(e) => setAdding(e.target.value)} className="h-9 min-w-0 flex-1 rounded-lg bg-surface px-2 text-sm text-night">
-            <option value="">+ Add a dish…</option>
+            <option value="">+ Add an item…</option>
             {addable.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.name} — {money(m.price_cents)}

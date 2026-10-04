@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import ReviewOrder from "@/components/ReviewOrder";
 import {
   confirmOrder,
@@ -8,6 +8,7 @@ import {
   fetchAdminOrders,
   fetchSettings,
   fetchZones,
+  isGrocery,
   markWhatsAppAdded,
   lineTotal,
   money,
@@ -262,6 +263,9 @@ function OrderRow({
   const items = JSON.parse(o.items_json) as OrderItem[];
   const original = o.original_items_json ? (JSON.parse(o.original_items_json) as OrderItem[]) : null;
   const originalById = new Map((original ?? []).map((i) => [i.id, i]));
+  const ordered = [...items.filter((i) => !isGrocery(i.id)), ...items.filter((i) => isGrocery(i.id))];
+  const hasGroceries = items.some((i) => isGrocery(i.id));
+  const grocerySub = items.filter((i) => isGrocery(i.id)).reduce((t, i) => t + lineTotal(i), 0);
   const where = o.fulfilment === "pickup" ? "Pickup" : (zoneName?.replace(/\s+\d{4}$/, "") ?? "Delivery");
   const st = SHORT_STATUS[o.status];
 
@@ -275,7 +279,7 @@ function OrderRow({
             <span className="shrink-0 text-xs text-muted">{shortId(o.id)}</span>
           </p>
           <p className="mt-0.5 truncate text-xs text-muted">
-            {when(o.created_at)} · {items.length} dish{items.length === 1 ? "" : "es"} · {where}
+            {when(o.created_at)} · {items.length} item{items.length === 1 ? "" : "s"} · {where}
           </p>
           {(proof || original || (!closed && (o.notes || needsWhatsApp))) && (
             <p className="mt-1.5 flex flex-wrap gap-1.5">
@@ -306,11 +310,14 @@ function OrderRow({
           <div>
             {o.status !== "pending" && (
               <ul className="space-y-1">
-                {items.map((i) => {
+                {ordered.map((i, idx) => {
                   const was = originalById.get(i.id);
                   const edited = original && (!was || was.qty !== i.qty || was.unit_cents !== i.unit_cents);
+                  const heading = (idx === 0 || isGrocery(ordered[idx - 1].id) !== isGrocery(i.id)) && hasGroceries ? (isGrocery(i.id) ? "Groceries" : "Foods") : null;
                   return (
-                    <li key={i.id} className="flex justify-between gap-3">
+                    <Fragment key={i.id}>
+                    {heading && <li className="pt-1 text-[11px] font-bold uppercase tracking-wide text-muted">{heading}</li>}
+                    <li className="flex justify-between gap-3">
                       <span>
                         <span className="font-semibold">{qtyText(i.qty)}×</span> {i.name}
                         {edited && (
@@ -321,6 +328,7 @@ function OrderRow({
                       </span>
                       <span className="text-muted">{money(lineTotal(i))}</span>
                     </li>
+                    </Fragment>
                   );
                 })}
                 {original
@@ -338,7 +346,7 @@ function OrderRow({
             {o.adjustment_note && <p className="mt-2 rounded-2xl bg-brand-soft px-3 py-2">💬 To customer: {o.adjustment_note}</p>}
             {o.notes && <p className="mt-2 rounded-2xl bg-turmeric/20 px-3 py-2">📝 {o.notes}</p>}
             <p className="mt-2 text-xs text-muted">
-              Food {money(o.subtotal_cents)}
+              {hasGroceries ? `Foods ${money(o.subtotal_cents - grocerySub)} · Groceries ${money(grocerySub)}` : `Food ${money(o.subtotal_cents)}`}
               {o.discount_cents > 0 && ` · member −${money(o.discount_cents)}`}
               {o.fulfilment === "delivery" && ` · delivery ${o.fee_cents ? money(o.fee_cents) : "free"}`}
               {o.tax_cents > 0 && ` · GST ${money(o.tax_cents)}`}

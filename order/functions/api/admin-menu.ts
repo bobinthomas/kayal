@@ -21,8 +21,6 @@ interface Body {
   name?: string;
   description?: string;
   priceCents?: number;
-  categoryId?: string;
-  newCategory?: string;
   tags?: string[];
   imageUrl?: string;
 }
@@ -34,9 +32,6 @@ function cleanImageUrl(v: unknown): string | null | false {
   if (!s) return null;
   return /^(\/[^/]|https:\/\/)/.test(s) ? s : false;
 }
-
-const slug = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (!(await checkAdminAuth(request, env))) return json({ ok: false, error: "Unauthorized" }, 401);
@@ -67,20 +62,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       return json({ ok: false, error: "Enter a valid price." }, 400);
     }
 
-    let categoryId = b.categoryId ?? "";
-    const newCat = (b.newCategory ?? "").trim().slice(0, 60);
-    if (newCat) {
-      categoryId = `cat-${slug(newCat) || crypto.randomUUID().slice(0, 6)}`;
-      await db
-        .prepare(
-          `INSERT OR IGNORE INTO categories (id, name, sort) VALUES (?, ?, (SELECT COALESCE(MAX(sort), 0) + 1 FROM categories))`,
-        )
-        .bind(categoryId, newCat)
-        .run();
-    } else {
-      const cat = await db.prepare(`SELECT id FROM categories WHERE id = ?`).bind(categoryId).first();
-      if (!cat) return json({ ok: false, error: "Choose a category." }, 400);
-    }
+    // Custom items are Groceries: always the seeded 'custom' category.
+    const categoryId = "custom";
 
     const image = cleanImageUrl(b.imageUrl);
     if (image === false) return json({ ok: false, error: "Image must be an https:// link or a /images/… path." }, 400);

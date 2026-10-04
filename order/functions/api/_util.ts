@@ -121,6 +121,9 @@ export const HOME_DEFAULTS: HomeSettings = {
 // Quantities can be fractional after a freshness adjustment (2 -> 2.2 kg).
 export const lineTotal = (i: OrderItem) => Math.round(i.unit_cents * i.qty);
 
+/** Custom items added in the admin are Groceries; everything else is Food. */
+export const isGrocery = (id: string) => id.startsWith("custom-");
+
 /**
  * Member discount (on food), GST and total for a given food subtotal and
  * delivery fee. Shared by checkout (submit-order) and the admin's final
