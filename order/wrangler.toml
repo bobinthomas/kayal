@@ -1,0 +1,14 @@
+name = "kayal-order"
+pages_build_output_dir = "out"
+compatibility_date = "2026-01-01"
+
+# Created 2026-10-03 (npx wrangler d1 create kayal-order-db)
+[[d1_databases]]
+binding = "DB"
+database_name = "kayal-order-db"
+database_id = "0615ec42-2646-4637-8041-e1c649ff777d"
+
+# Created 2026-10-03 (npx wrangler r2 bucket create kayal-order-receipts)
+[[r2_buckets]]
+binding = "RECEIPTS"
+bucket_name = "kayal-order-receipts"

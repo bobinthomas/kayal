@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@source not "../out/**";
+@source not "../.next/**";
+
+:root {
+  /* Dashboard palette (Kayal / onam26) */
+  --leaf: #1e4d2b;
+  --clay: #b5532a;
+  --chilli: #d7263d;
+  --turmeric: #e9b44c;
+  --curryleaf: #6fa84b;
+  --cream: #faf5ec;
+  --ink: #1b1b18;
+  --banana-dark: #14331e;
+
+  /* Storefront palette (flat) */
+  --brand: #1f9d55;
+  --brand-dark: #168447;
+  --brand-soft: #e8f6ee;
+  --night: #141414;
+  --surface: #f4f4f4;
+  --line: #ebebeb;
+  --muted: #8b8b8b;
+}
+
+@theme inline {
+  --color-leaf: var(--leaf);
+  --color-clay: var(--clay);
+  --color-chilli: var(--chilli);
+  --color-turmeric: var(--turmeric);
+  --color-curryleaf: var(--curryleaf);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-banana-dark: var(--banana-dark);
+
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--brand-soft);
+  --color-night: var(--night);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Horizontal scrollers (categories, popular) without a visible scrollbar */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+}

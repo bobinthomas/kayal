@@ -1,0 +1,31 @@
+{
+  "name": "kayal-order",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p functions",
+    "seed:menu": "node scripts/gen-menu-seed.mjs",
+    "pages:dev": "wrangler pages dev out --d1 DB --r2 RECEIPTS",
+    "sync:catalog": "node scripts/sync-catalog.mjs"
+  },
+  "dependencies": {
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "wrangler": "^4"
+  }
+}
