@@ -93,6 +93,10 @@ export const STATUS_LABEL: Record<OrderStatus, string> = {
   declined: "Declined",
 };
 
+// Quantities can be fractional after a freshness adjustment (2 -> 2.2 kg).
+export const lineTotal = (i: { qty: number; unit_cents: number }) => Math.round(i.unit_cents * i.qty);
+export const qtyText = (q: number) => String(Math.round(q * 1000) / 1000);
+
 export function money(cents: number): string {
   return `AU$${(cents / 100).toFixed(2)}`;
 }
@@ -146,6 +150,10 @@ export type OrderView = {
   tax_cents: number;
   total_cents: number;
   status: OrderStatus;
+  /** Set once the admin confirmed an adjusted order: what the customer first placed. */
+  original_items: OrderItem[] | null;
+  original_total_cents: number | null;
+  adjustment_note: string | null;
 };
 
 export async function fetchOrder(
@@ -198,6 +206,9 @@ export type AdminOrder = {
   status: OrderStatus;
   whatsapp_member: number;
   whatsapp_added: number;
+  original_items_json: string | null;
+  original_total_cents: number | null;
+  adjustment_note: string | null;
 };
 
 export async function fetchAdminOrders(): Promise<
@@ -224,6 +235,12 @@ export const setOrderStatus = (id: string, status: OrderStatus) =>
 
 export const verifyPayment = (proofId: string, action: "verify" | "reject" | "clarify", note?: string) =>
   adminPost("/api/verify-payment", { proofId, action, note });
+
+/** Confirm a new order and send the final invoice (optionally adjusted). */
+export const confirmOrder = (
+  id: string,
+  changes?: { items: { id: string; qty: number; unit_cents: number }[]; feeCents: number; note: string },
+) => adminPost("/api/confirm-order", { id, ...changes });
 
 export const markWhatsAppAdded = (id: string, added = true) =>
   adminPost("/api/whatsapp-added", { id, added });

@@ -27,6 +27,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (next === "payment_received" || next === "payment_failed") {
     return json({ ok: false, error: "Use verify-payment for payment states." }, 400);
   }
+  // Confirming sends the final invoice, so it has its own endpoint.
+  if (next === "confirmed") {
+    return json({ ok: false, error: "Use confirm-order to confirm and send the final invoice." }, 400);
+  }
 
   const order = await env.DB.prepare(`SELECT * FROM orders WHERE id = ?`)
     .bind(body.id)

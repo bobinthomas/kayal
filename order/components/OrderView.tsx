@@ -5,7 +5,9 @@ import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from
 import {
   STATUS_LABEL,
   fetchOrder,
+  lineTotal,
   money,
+  qtyText,
   submitProof,
   type OrderStatus,
   type OrderView as Order,
@@ -75,6 +77,12 @@ export default function OrderView() {
 
   const { order, proofs, payment } = data;
   const awaitingPayment = order.status === "pending" || order.status === "confirmed" || order.status === "payment_failed";
+  // Pay the final invoice: until we confirm, the amount is an estimate and receipts stay locked.
+  const reviewing = order.status === "pending";
+  const canUpload = order.status === "confirmed" || order.status === "payment_failed";
+  const finalised = !reviewing && order.status !== "declined";
+  const originalById = new Map((order.original_items ?? []).map((i) => [i.id, i]));
+  const removed = (order.original_items ?? []).filter((w) => !order.items.some((i) => i.id === w.id));
   const closed = order.status === "declined";
 
   return (
@@ -111,21 +119,61 @@ export default function OrderView() {
           </p>
         )}
 
+        {reviewing && (
+          <section className="mt-6 rounded-3xl bg-brand-soft p-5">
+            <h2 className="text-base font-bold text-night">We&apos;re confirming your order</h2>
+            <p className="mt-1 text-sm leading-relaxed text-night/75">
+              We&apos;ll check what&apos;s fresh and available, adjust quantities if needed, and send your final invoice.
+              <strong className="text-night"> Please wait for it before paying.</strong>
+            </p>
+          </section>
+        )}
+
+        {order.status === "confirmed" && (
+          <section className="mt-6 rounded-3xl bg-brand-soft p-5">
+            <h2 className="text-base font-bold text-night">Your final invoice is ready</h2>
+            <p className="mt-1 text-sm leading-relaxed text-night/75">
+              {order.original_items
+                ? "We adjusted your order to what's fresh and available — changes are marked below."
+                : "Your order is confirmed as placed."}{" "}
+              Please pay <strong className="text-night">{money(order.total_cents)}</strong> and upload your receipt.
+            </p>
+            {order.adjustment_note && (
+              <p className="mt-3 rounded-2xl bg-white/70 px-4 py-3 text-sm text-night">
+                <span className="font-semibold">Note from Kayal: </span>
+                {order.adjustment_note}
+              </p>
+            )}
+          </section>
+        )}
+
         {awaitingPayment && (
-          <Card title="How to pay">
-            <p className="text-sm text-muted">{payment.instructions}</p>
+          <Card title={reviewing ? "Payment details" : "How to pay"}>
+            <p className="text-sm text-muted">
+              {reviewing ? "For when we send your final invoice — no need to pay yet." : payment.instructions}
+            </p>
             <dl className="mt-4 space-y-2">
               <CopyRow label="Account name" value={payment.bank.accountName} />
               <CopyRow label="BSB" value={payment.bank.bsb} />
               <CopyRow label="Account number" value={payment.bank.accountNumber} />
               {payment.payid && <CopyRow label="PayID" value={payment.payid} />}
               <CopyRow label="Reference" value={order.id} highlight />
-              <CopyRow label="Amount" value={money(order.total_cents)} copyValue={(order.total_cents / 100).toFixed(2)} highlight />
+              <CopyRow
+                label={reviewing ? "Estimated amount (final amount comes with your invoice)" : "Amount to pay"}
+                value={money(order.total_cents)}
+                copyValue={(order.total_cents / 100).toFixed(2)}
+                highlight={!reviewing}
+              />
             </dl>
+            {reviewing && (
+              <p className="mt-4 rounded-2xl bg-surface px-4 py-3 text-sm text-muted">
+                🔒 You can upload your payment receipt once we&apos;ve confirmed your order.
+              </p>
+            )}
           </Card>
         )}
 
-        {awaitingPayment && <ProofForm orderId={ids.id} token={ids.token} onDone={() => load(ids.id, ids.token)} />}
+        {canUpload && <ProofForm orderId={ids.id} token={ids.token} onDone={() => load(ids.id, ids.token)} />}
 
         {proofs.length > 0 && (
           <Card title="Your payment submissions">
@@ -156,14 +204,34 @@ export default function OrderView() {
           </Card>
         )}
 
-        <Card title="Your order">
-          <ul className="space-y-1 text-sm">
-            {order.items.map((i) => (
-              <li key={i.id} className="flex justify-between gap-3 text-night">
+        <Card title={finalised ? "Final invoice" : "Your order (estimate)"}>
+          <ul className="space-y-1.5 text-sm">
+            {order.items.map((i) => {
+              const was = originalById.get(i.id);
+              const edited = order.original_items && (!was || was.qty !== i.qty || was.unit_cents !== i.unit_cents);
+              return (
+                <li key={i.id} className="flex justify-between gap-3 text-night">
+                  <span>
+                    {qtyText(i.qty)} × {i.name}
+                    {edited && (
+                      <span className="mt-0.5 block text-xs text-muted">
+                        {was ? `Adjusted — you ordered ${qtyText(was.qty)}${was.unit_cents !== i.unit_cents ? ` at ${money(was.unit_cents)}` : ""}` : "Added by Kayal"}
+                      </span>
+                    )}
+                  </span>
+                  <span>{money(lineTotal(i))}</span>
+                </li>
+              );
+            })}
+            {removed.map((w) => (
+              <li key={w.id} className="flex justify-between gap-3 text-muted">
                 <span>
-                  {i.qty} × {i.name}
+                  <span className="line-through">
+                    {qtyText(w.qty)} × {w.name}
+                  </span>
+                  <span className="mt-0.5 block text-xs">Not available — removed</span>
                 </span>
-                <span>{money(i.unit_cents * i.qty)}</span>
+                <span>—</span>
               </li>
             ))}
           </ul>
@@ -174,7 +242,10 @@ export default function OrderView() {
             <Row label={order.fulfilment === "delivery" ? "Delivery" : "Pickup"} value={order.fee_cents ? money(order.fee_cents) : "Free"} />
             {order.tax_cents > 0 && <Row label="GST" value={money(order.tax_cents)} />}
             <div className="my-3 border-t border-dashed border-line" />
-            <Row label="Total" value={money(order.total_cents)} strong />
+            <Row label={finalised ? "Total" : "Estimated total"} value={money(order.total_cents)} strong />
+            {order.original_total_cents != null && order.original_total_cents !== order.total_cents && (
+              <Row label="Your original order" value={money(order.original_total_cents)} />
+            )}
           </div>
           <p className="mt-3 text-sm text-muted">
             {order.fulfilment === "delivery" ? `Delivering to ${order.address}` : "Pickup from Kayal"}

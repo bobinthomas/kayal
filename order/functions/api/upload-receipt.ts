@@ -50,6 +50,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (order.status === "declined" || order.status === "completed") {
     return json({ ok: false, error: "This order is closed." }, 400);
   }
+  // Pay the final invoice, not the estimate: receipts open once we confirm.
+  if (order.status === "pending") {
+    return json({ ok: false, error: "Please wait until we confirm your order and send the final invoice." }, 400);
+  }
 
   const hasFile = file instanceof File && file.size > 0;
   if (!hasFile && !txnRef) {

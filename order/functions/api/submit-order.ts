@@ -8,9 +8,8 @@ import {
   deliveryFee,
   getSetting,
   json,
-  memberDiscount,
+  priceOrder,
   randomToken,
-  WHATSAPP_DEFAULTS,
   type OrderItem,
   type OrderRow,
 } from "./_util";
@@ -143,13 +142,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   // Self-declared WhatsApp group member (trust-based, like onam26). The
   // free-delivery threshold above uses the pre-discount subtotal.
   const whatsappMember = p.whatsappMember === true;
-  const wa = await getSetting(env.DB, "whatsapp", WHATSAPP_DEFAULTS);
-  const discount = memberDiscount(wa, whatsappMember, subtotal);
-
-  const tax = await getSetting(env.DB, "tax", { rateBps: 0, inclusive: false });
-  const taxable = subtotal - discount + fee;
-  const taxCents = tax.inclusive ? 0 : Math.round((taxable * tax.rateBps) / 10000);
-  const total = taxable + taxCents;
+  const { discount, tax: taxCents, total } = await priceOrder(env.DB, subtotal, fee, whatsappMember);
 
   // Order number KYL-YYYYMM-NNNNN, atomic per-month counter.
   const month = new Date().toISOString().slice(0, 7).replace("-", "");

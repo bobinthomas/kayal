@@ -1,20 +1,28 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import ReviewOrder from "@/components/ReviewOrder";
 import {
+  confirmOrder,
+  fetchAdminMenu,
   fetchAdminOrders,
+  fetchSettings,
   fetchZones,
   markWhatsAppAdded,
+  lineTotal,
   money,
   normalizePhone,
+  qtyText,
   openReceipt,
   setOrderStatus,
   verifyPayment,
   whatsappLink,
+  type AdminMenuItem,
   type AdminOrder,
   type OrderItem,
   type OrderStatus,
   type Proof,
+  type Settings,
 } from "@/lib/api";
 
 /**
@@ -62,6 +70,9 @@ export default function OrdersBoard() {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [proofs, setProofs] = useState<Proof[]>([]);
   const [zones, setZones] = useState<Record<string, string>>({});
+  // For "Review & confirm": price preview and dishes that can be added.
+  const [pricing, setPricing] = useState<Pick<Settings, "tax" | "whatsapp"> | null>(null);
+  const [menu, setMenu] = useState<AdminMenuItem[]>([]);
   const [bucket, setBucket] = useState<Bucket | null>(null);
   const [open, setOpen] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -81,6 +92,8 @@ export default function OrdersBoard() {
     const t0 = setTimeout(() => {
       load();
       fetchZones().then((r) => r.ok && setZones(Object.fromEntries(r.zones.map((z) => [z.id, z.name]))));
+      fetchSettings().then((r) => r.ok && setPricing({ tax: r.settings.tax, whatsapp: r.settings.whatsapp }));
+      fetchAdminMenu().then((r) => r.ok && setMenu(r.items));
     }, 0);
     const t = setInterval(load, 30000);
     return () => {
@@ -197,6 +210,8 @@ export default function OrdersBoard() {
             onToggle={() => setOpen(open === o.id ? null : o.id)}
             act={act}
             onError={setMsg}
+            pricing={pricing}
+            menu={menu}
           />
         ))}
         {shown.length === 0 && (
@@ -226,8 +241,12 @@ function OrderRow({
   onToggle,
   act,
   onError,
+  pricing,
+  menu,
 }: {
   order: AdminOrder;
+  pricing: Pick<Settings, "tax" | "whatsapp"> | null;
+  menu: AdminMenuItem[];
   zoneName?: string;
   proofs: Proof[];
   needsWhatsApp: boolean;
@@ -241,7 +260,8 @@ function OrderRow({
   const closed = o.status === "completed" || o.status === "declined";
   const proof = proofs.find((p) => p.status === "pending");
   const items = JSON.parse(o.items_json) as OrderItem[];
-  const itemCount = items.reduce((s, i) => s + i.qty, 0);
+  const original = o.original_items_json ? (JSON.parse(o.original_items_json) as OrderItem[]) : null;
+  const originalById = new Map((original ?? []).map((i) => [i.id, i]));
   const where = o.fulfilment === "pickup" ? "Pickup" : (zoneName?.replace(/\s+\d{4}$/, "") ?? "Delivery");
   const st = SHORT_STATUS[o.status];
 
@@ -255,10 +275,11 @@ function OrderRow({
             <span className="shrink-0 text-xs text-muted">{shortId(o.id)}</span>
           </p>
           <p className="mt-0.5 truncate text-xs text-muted">
-            {when(o.created_at)} · {itemCount} item{itemCount === 1 ? "" : "s"} · {where}
+            {when(o.created_at)} · {items.length} dish{items.length === 1 ? "" : "es"} · {where}
           </p>
-          {(proof || (!closed && (o.notes || needsWhatsApp))) && (
+          {(proof || original || (!closed && (o.notes || needsWhatsApp))) && (
             <p className="mt-1.5 flex flex-wrap gap-1.5">
+              {original && <Badge tone="bg-white text-night/70">Adjusted</Badge>}
               {proof && <Badge tone="bg-turmeric/35 text-night">Receipt to check</Badge>}
               {o.notes && !closed && <Badge tone="bg-white text-night/70">Has notes</Badge>}
               {needsWhatsApp && !closed && <Badge tone="bg-white text-night/70">Add to WhatsApp</Badge>}
@@ -275,20 +296,46 @@ function OrderRow({
 
       {open && (
         <div className="space-y-4 border-t border-line px-4 pb-4 pt-4 text-sm">
-          <NextStep order={o} proof={proof} act={act} onError={onError} />
+          {o.status === "pending" ? (
+            <ReviewOrder order={o} pricing={pricing} menu={menu} act={act} />
+          ) : (
+            <NextStep order={o} proof={proof} act={act} onError={onError} />
+          )}
 
-          {/* What they ordered */}
+          {/* What they ordered (final invoice once confirmed) */}
           <div>
-            <ul className="space-y-1">
-              {items.map((i) => (
-                <li key={i.id} className="flex justify-between gap-3">
-                  <span>
-                    <span className="font-semibold">{i.qty}×</span> {i.name}
-                  </span>
-                  <span className="text-muted">{money(i.unit_cents * i.qty)}</span>
-                </li>
-              ))}
-            </ul>
+            {o.status !== "pending" && (
+              <ul className="space-y-1">
+                {items.map((i) => {
+                  const was = originalById.get(i.id);
+                  const edited = original && (!was || was.qty !== i.qty || was.unit_cents !== i.unit_cents);
+                  return (
+                    <li key={i.id} className="flex justify-between gap-3">
+                      <span>
+                        <span className="font-semibold">{qtyText(i.qty)}×</span> {i.name}
+                        {edited && (
+                          <span className="ml-1.5 text-[11px] text-night/60">
+                            {was ? `was ${qtyText(was.qty)} × ${money(was.unit_cents)}` : "added"}
+                          </span>
+                        )}
+                      </span>
+                      <span className="text-muted">{money(lineTotal(i))}</span>
+                    </li>
+                  );
+                })}
+                {original
+                  ?.filter((w) => !items.some((i) => i.id === w.id))
+                  .map((w) => (
+                    <li key={w.id} className="flex justify-between gap-3 text-night/50 line-through">
+                      <span>
+                        {qtyText(w.qty)}× {w.name}
+                      </span>
+                      <span>removed</span>
+                    </li>
+                  ))}
+              </ul>
+            )}
+            {o.adjustment_note && <p className="mt-2 rounded-2xl bg-brand-soft px-3 py-2">💬 To customer: {o.adjustment_note}</p>}
             {o.notes && <p className="mt-2 rounded-2xl bg-turmeric/20 px-3 py-2">📝 {o.notes}</p>}
             <p className="mt-2 text-xs text-muted">
               Food {money(o.subtotal_cents)}
@@ -425,7 +472,7 @@ function NextStep({
 
   switch (o.status) {
     case "pending":
-      return <Primary onClick={() => act(setOrderStatus(o.id, "confirmed"))}>Confirm order</Primary>;
+      return <Primary onClick={() => act(confirmOrder(o.id))}>Confirm order</Primary>;
     case "confirmed":
       return (
         <Waiting>

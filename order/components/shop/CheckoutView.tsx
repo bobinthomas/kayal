@@ -165,7 +165,9 @@ export default function CheckoutView({
             <div className="my-3 border-t border-dashed border-line" />
             <Row label="Total" value={money(totals.total)} strong />
           </div>
-          <p className="mt-3 text-xs text-muted">You&apos;ll pay by bank transfer — we&apos;ll show the details after you place the order.</p>
+          <p className="mt-3 text-xs text-muted">
+            This is an estimate. We&apos;ll confirm the final quantities and amount, then you pay by bank transfer.
+          </p>
         </Section>
 
         {error && <p className="mt-4 rounded-2xl bg-chilli/10 px-4 py-3 text-sm font-medium text-chilli">{error}</p>}

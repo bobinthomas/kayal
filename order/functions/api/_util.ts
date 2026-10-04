@@ -60,6 +60,11 @@ export interface OrderRow {
   whatsapp_member: number;
   whatsapp_added: number;
   status: OrderStatus;
+  /** Customer's order as placed, kept once the admin confirms an adjusted version. */
+  original_items_json: string | null;
+  original_total_cents: number | null;
+  adjustment_note: string | null;
+  confirmed_at: string | null;
 }
 
 export interface OrderItem {
@@ -112,6 +117,25 @@ export const HOME_DEFAULTS: HomeSettings = {
   buttonLabel: "Order Now",
   imageUrl: "/images/dishes/thalassery-biryani.webp",
 };
+
+// Quantities can be fractional after a freshness adjustment (2 -> 2.2 kg).
+export const lineTotal = (i: OrderItem) => Math.round(i.unit_cents * i.qty);
+
+/**
+ * Member discount (on food), GST and total for a given food subtotal and
+ * delivery fee. Shared by checkout (submit-order) and the admin's final
+ * invoice (confirm-order) so both price an order the same way.
+ */
+export async function priceOrder(db: D1Database, subtotal: number, fee: number, whatsappMember: boolean) {
+  const [wa, tax] = await Promise.all([
+    getSetting(db, "whatsapp", WHATSAPP_DEFAULTS),
+    getSetting(db, "tax", { rateBps: 0, inclusive: false }),
+  ]);
+  const discount = memberDiscount(wa, whatsappMember, subtotal);
+  const taxable = subtotal - discount + fee;
+  const taxCents = tax.inclusive ? 0 : Math.round((taxable * tax.rateBps) / 10000);
+  return { discount, tax: taxCents, total: taxable + taxCents };
+}
 
 export async function getSetting<T>(db: D1Database, key: string, fallback: T): Promise<T> {
   const row = await db
