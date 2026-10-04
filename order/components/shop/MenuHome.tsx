@@ -60,35 +60,33 @@ export default function MenuHome({
   return (
     <main className="min-h-dvh overflow-x-clip bg-white pb-44">
       <div className="mx-auto max-w-md px-5 pt-1 md:max-w-5xl">
-        {/* Location */}
-        <label className="block">
-          <span className="text-xs text-muted">{location.fulfilment === "pickup" ? "Collecting from" : "Deliver to"}</span>
-          <span className="mt-0.5 flex items-center gap-1.5 text-[15px] font-semibold text-night">
+        {/* Header: Logo + Location */}
+        <div className="flex items-center justify-between">
+          <span className="text-xl font-bold text-night">Kayal <span className="font-medium text-muted">Foods</span></span>
+          <label className="flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-sm font-semibold text-night">
             <span className="text-brand">{Icon.pin}</span>
-            <span className="relative inline-flex items-center">
-              <select
-                value={locValue}
-                onChange={(e) =>
-                  setLocation(
-                    e.target.value === "pickup"
-                      ? { fulfilment: "pickup", zoneId: location.zoneId }
-                      : { fulfilment: "delivery", zoneId: e.target.value },
-                  )
-                }
-                className="cursor-pointer appearance-none bg-transparent pr-6 focus:outline-none"
-              >
-                {menu.delivery.deliveryEnabled &&
-                  menu.zones.map((z) => (
-                    <option key={z.id} value={z.id}>
-                      {z.name}
-                    </option>
-                  ))}
-                {menu.delivery.pickupEnabled && <option value="pickup">Pickup from Kayal</option>}
-              </select>
-              <span className="pointer-events-none absolute right-0">{Icon.chevron}</span>
-            </span>
-          </span>
-        </label>
+            <select
+              value={locValue}
+              onChange={(e) =>
+                setLocation(
+                  e.target.value === "pickup"
+                    ? { fulfilment: "pickup", zoneId: location.zoneId }
+                    : { fulfilment: "delivery", zoneId: e.target.value },
+                )
+              }
+              className="cursor-pointer appearance-none bg-transparent focus:outline-none"
+            >
+              {menu.delivery.deliveryEnabled &&
+                menu.zones.map((z) => (
+                  <option key={z.id} value={z.id}>
+                    {z.name}
+                  </option>
+                ))}
+              {menu.delivery.pickupEnabled && <option value="pickup">Pickup from Kayal</option>}
+            </select>
+            <span className="pointer-events-none">{Icon.chevron}</span>
+          </label>
+        </div>
 
         {/* Search + veg filter */}
         <div className="mt-3 flex items-center gap-2">
