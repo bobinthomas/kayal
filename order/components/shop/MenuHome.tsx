@@ -63,7 +63,7 @@ export default function MenuHome({
         {/* Header: Logo + Location */}
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold text-night">Kayal <span className="font-medium text-muted">Foods</span></span>
-          <label className="flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-sm font-semibold text-night">
+          <label className="flex items-center gap-2 rounded-full bg-surface px-3 py-2 text-sm font-semibold text-night">
             <span className="text-brand">{Icon.pin}</span>
             <select
               value={locValue}
@@ -136,7 +136,7 @@ export default function MenuHome({
         {browsing && popular.length > 0 && (
           <section className="mt-7">
             <div className="flex items-baseline justify-between">
-              <h2 className="text-lg font-bold text-night">Popular Dishes</h2>
+              <h2 className="text-lg font-bold text-night">Popular today</h2>
               <button
                 type="button"
                 onClick={() => listRef.current?.scrollIntoView({ behavior: "smooth" })}
