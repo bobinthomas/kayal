@@ -17,6 +17,7 @@ interface Body {
   action?: string;
   id?: string;
   available?: boolean;
+  popular?: boolean;
   name?: string;
   description?: string;
   priceCents?: number;
@@ -120,6 +121,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         .bind(b.available ? 1 : 0, b.id)
         .run();
       return json({ ok: true });
+    case "popular": {
+      const row = await db.prepare(`SELECT tags_json FROM menu_items WHERE id = ?`).bind(b.id).first<{ tags_json: string }>();
+      const rest = (JSON.parse(row?.tags_json ?? "[]") as string[]).filter((t) => t !== "popular");
+      const tags = b.popular ? [...rest, "popular"] : rest;
+      await db.prepare(`UPDATE menu_items SET tags_json = ? WHERE id = ?`).bind(JSON.stringify(tags), b.id).run();
+      return json({ ok: true });
+    }
     case "update": {
       const name = (b.name ?? "").trim().slice(0, 120);
       const price = typeof b.priceCents === "number" ? Math.round(b.priceCents) : NaN;

@@ -264,9 +264,10 @@ export async function fetchAdminMenu(): Promise<
 }
 
 export const menuAction = (body: {
-  action: "list" | "unlist" | "availability" | "image" | "create" | "update" | "delete";
+  action: "list" | "unlist" | "availability" | "popular" | "image" | "create" | "update" | "delete";
   id?: string;
   available?: boolean;
+  popular?: boolean;
   name?: string;
   description?: string;
   priceCents?: number;

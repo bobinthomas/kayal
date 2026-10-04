@@ -45,10 +45,11 @@ export default function MenuHome({
     );
   }, [menu.items, query, category, vegOnly]);
 
-  // "Popular today" carousel: items tagged "popular", with photos first,
-  // topped up with other available dishes.
+  // "Popular today": only the dishes the admin marked popular; until any are
+  // marked, fall back to dishes with photos.
   const popular = useMemo(() => {
     const marked = menu.items.filter((i) => i.tags.includes("popular"));
+    if (marked.length > 0) return marked.slice(0, 8);
     const withPhoto = menu.items.filter((i) => i.image_url && !marked.includes(i));
     const rest = menu.items.filter((i) => !marked.includes(i) && !withPhoto.includes(i));
     return [...marked, ...withPhoto, ...rest].slice(0, 6);

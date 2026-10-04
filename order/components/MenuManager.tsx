@@ -174,12 +174,7 @@ function ItemRow({ item, catName, act }: { item: AdminMenuItem; catName: string;
           className={`rounded-full px-3 py-1 ${
             item.tags.includes("popular") ? "bg-leaf text-cream" : "border"
           }`}
-          onClick={() => {
-            const newTags = item.tags.includes("popular")
-              ? item.tags.filter((t) => t !== "popular")
-              : [...item.tags, "popular"];
-            act(menuAction({ action: "update", id: item.id, name: item.name, description: item.description ?? "", priceCents: item.price_cents, imageUrl: item.image_url ?? "", tags: newTags }));
-          }}
+          onClick={() => act(menuAction({ action: "popular", id: item.id, popular: !item.tags.includes("popular") }))}
         >
           {item.tags.includes("popular") ? "★ Popular" : "Mark popular"}
         </button>
