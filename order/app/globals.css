@@ -22,6 +22,23 @@
   --surface: #f4f4f4;
   --line: #ebebeb;
   --muted: #8b8b8b;
+
+  /* Ordering menu (Figma "Kayal Foods" — full menu) */
+  --k-green: #0f5132;
+  --k-deep: #003820;
+  --k-sea: #005136;
+  --k-seafoam: #35cc92;
+  --k-mint: #6ffbbe;
+  --k-orange: #fe932c;
+  --k-amber: #904d00;
+  --k-red: #ba1a1a;
+  --k-peach: #ffdcc3;
+  --k-peach-ink: #6e3900;
+  --k-tint: #e9edff;
+  --k-bg: #f9f9ff;
+  --k-ink: #141b2b;
+  --k-text: #404942;
+  --k-outline: #c0c9c0;
 }
 
 @theme inline {
@@ -42,7 +59,24 @@
   --color-line: var(--line);
   --color-muted: var(--muted);
 
+  --color-k-green: var(--k-green);
+  --color-k-deep: var(--k-deep);
+  --color-k-sea: var(--k-sea);
+  --color-k-seafoam: var(--k-seafoam);
+  --color-k-mint: var(--k-mint);
+  --color-k-orange: var(--k-orange);
+  --color-k-amber: var(--k-amber);
+  --color-k-red: var(--k-red);
+  --color-k-peach: var(--k-peach);
+  --color-k-peach-ink: var(--k-peach-ink);
+  --color-k-tint: var(--k-tint);
+  --color-k-bg: var(--k-bg);
+  --color-k-ink: var(--k-ink);
+  --color-k-text: var(--k-text);
+  --color-k-outline: var(--k-outline);
+
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-jakarta: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
@@ -57,6 +91,27 @@ body {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Single-colour design icon used as a mask so it takes the text colour. */
+.mask-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask: var(--icon) center / contain no-repeat;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+.animate-sheet {
+  animation: sheet-up 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @keyframes rise {
@@ -74,7 +129,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-rise {
+  .animate-rise,
+  .animate-sheet {
     animation: none;
   }
 }

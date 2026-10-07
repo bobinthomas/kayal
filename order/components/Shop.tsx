@@ -197,6 +197,7 @@ export default function Shop() {
           location={location}
           setLocation={setLocation}
           focusSearch={focusSearch}
+          basketVisible={count > 0}
         />
       )}
       <BottomNav
