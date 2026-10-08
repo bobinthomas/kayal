@@ -257,6 +257,7 @@ export default function MenuHome({
           <p className="mx-4 mt-3 rounded-xl bg-k-tint p-6 text-center text-k-text">No grocery items yet — check back soon.</p>
         )}
 
+        <EndOfMenu />
       </div>
 
       {/* Floating "Browse Menu" pill */}
@@ -591,6 +592,31 @@ function DishRow({ item, qty, change }: { item: MenuItem; qty: number; change: (
         </div>
       </div>
     </li>
+  );
+}
+
+/**
+ * Quiet backwater line drawing that closes the menu. With the page's bottom
+ * padding it keeps the last dish clear of the tab bar, basket and Browse pills.
+ */
+function EndOfMenu() {
+  return (
+    <div className="flex h-[100px] items-center justify-center pt-4 text-k-green/20" aria-hidden="true">
+      <svg width="240" height="72" viewBox="0 0 240 72" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {/* Coconut palms */}
+        <path d="M60 62Q64 42 58 22" />
+        <path d="M58 22Q46 15 37 22M58 22Q50 9 40 9M58 22Q63 9 74 11M58 22Q70 17 79 26M58 22Q55 13 60 5" />
+        <path d="M90 62Q85 46 91 33" />
+        <path d="M91 33Q81 28 74 34M91 33Q85 22 77 20M91 33Q97 22 105 25M91 33Q101 32 107 39" />
+        {/* Kettuvallam */}
+        <path d="M142 50Q150 60 170 60Q190 60 202 49" />
+        <path d="M156 57Q156 46 170 45Q184 46 186 57" />
+        <path d="M163 45.5V58M177 45.5V58" />
+        {/* Water */}
+        <path d="M8 66q8-4 16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0t16 0" />
+        <path d="M60 71q8-3 16 0t16 0t16 0t16 0t16 0t16 0t16 0" opacity="0.6" />
+      </svg>
+    </div>
   );
 }
 
