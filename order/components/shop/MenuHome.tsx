@@ -257,15 +257,6 @@ export default function MenuHome({
           <p className="mx-4 mt-3 rounded-xl bg-k-tint p-6 text-center text-k-text">No grocery items yet — check back soon.</p>
         )}
 
-        {/* Trust card */}
-        <div className="px-4 pb-4 pt-4">
-          <div className="flex items-center gap-3 rounded-xl border border-k-outline/30 bg-k-tint p-[15px]">
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-k-green">
-              <UiIcon name="verified" w={18.333} h={17.5} />
-            </span>
-            <h4 className="text-sm font-bold tracking-[0.14px] text-k-ink">Delivery Everyday 5 pm to 9 pm</h4>
-          </div>
-        </div>
       </div>
 
       {/* Floating "Browse Menu" pill */}
