@@ -320,7 +320,9 @@ function Header({
   const pickup = location.fulfilment === "pickup";
   const canDeliver = menu.delivery.deliveryEnabled && menu.zones.length > 0;
   const zone = menu.zones.find((z) => z.id === location.zoneId);
-  const place = pickup ? "Pickup at Kayal" : (zone?.name ?? "Choose area");
+  // All suburbs share one fee, so the menu names the region; the exact
+  // suburb is picked at checkout.
+  const place = pickup ? "Pickup at Kayal" : "North West region";
 
   const setMode = (m: "delivery" | "pickup") =>
     setLocation(
@@ -341,27 +343,10 @@ function Header({
         <div className="flex min-w-0 items-center gap-2">
           <KayalLogo />
           <span className="h-4 w-[0.42px] shrink-0 bg-k-outline/40" aria-hidden="true" />
-          <label className="relative flex min-w-0 items-center gap-1">
+          <span className="flex min-w-0 items-center gap-1">
             <UiIcon name="pin" w={11.333} h={14.167} />
             <span className="truncate text-xs font-bold tracking-[0.24px] text-k-ink">{place}</span>
-            {!pickup && canDeliver && (
-              <>
-                <UiIcon name="chevron-down" w={8} h={4.933} />
-                <select
-                  aria-label="Delivery area"
-                  value={location.zoneId}
-                  onChange={(e) => setLocation({ fulfilment: "delivery", zoneId: e.target.value })}
-                  className="absolute inset-0 cursor-pointer opacity-0"
-                >
-                  {menu.zones.map((z) => (
-                    <option key={z.id} value={z.id}>
-                      {z.name}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-          </label>
+          </span>
         </div>
         {modes.length > 1 && (
           <div className="flex shrink-0 items-center rounded-full bg-k-tint p-0.5" role="radiogroup" aria-label="Delivery or pickup">

@@ -103,6 +103,9 @@ export function bySection<T>(rows: T[], idOf: (r: T) => string): { foods: T[]; g
 }
 export const qtyText = (q: number) => String(Math.round(q * 1000) / 1000);
 
+/** Suburb name for customers, without the postcode ("Quakers Hill 2763" -> "Quakers Hill"). */
+export const zoneName = (z: { name: string }) => z.name.replace(/\s+\d{4}$/, "");
+
 export function money(cents: number): string {
   return `AU$${(cents / 100).toFixed(2)}`;
 }

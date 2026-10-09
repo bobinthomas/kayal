@@ -1,6 +1,6 @@
 "use client";
 
-import { bySection, money } from "@/lib/api";
+import { bySection, money, zoneName } from "@/lib/api";
 import type { CartLine, Location, Totals } from "@/lib/totals";
 import { CircleButton, Icon, PrimaryButton, Stepper, Thumb } from "./ui";
 
@@ -65,7 +65,7 @@ export default function CartView({
             <section className="mt-5 rounded-3xl border border-line p-5 text-sm">
               <BillRows totals={totals} />
               <Row
-                label={location.fulfilment === "pickup" ? "Pickup" : `Delivery · ${totals.zone?.name ?? ""}`}
+                label={location.fulfilment === "pickup" ? "Pickup" : `Delivery · ${totals.zone ? zoneName(totals.zone) : ""}`}
                 value={location.fulfilment === "pickup" || totals.fee === 0 ? "Free" : money(totals.fee)}
               />
               {totals.tax > 0 && <Row label="GST" value={money(totals.tax)} />}

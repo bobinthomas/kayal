@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { bySection, money, submitOrder, type MenuData } from "@/lib/api";
+import { bySection, money, submitOrder, zoneName, type MenuData } from "@/lib/api";
 import { computeTotals, type CartLine, type Location } from "@/lib/totals";
 import { BillRows, FreeDeliveryMeter, Row, ScreenHeader } from "./CartView";
 import { Icon, PrimaryButton } from "./ui";
@@ -99,7 +99,7 @@ export default function CheckoutView({
                 >
                   {menu.zones.map((z) => (
                     <option key={z.id} value={z.id}>
-                      {z.name}
+                      {zoneName(z)}
                     </option>
                   ))}
                 </select>
