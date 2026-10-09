@@ -129,14 +129,19 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (p.fulfilment === "delivery") {
     address = (p.address ?? "").trim().slice(0, 300);
     if (!address) return json({ ok: false, error: "Delivery address is required." }, 400);
-    const zone = await env.DB.prepare(
-      `SELECT id, fee_cents, free_over_cents FROM zones WHERE id = ? AND active = 1`,
-    )
+    type ZoneRow = { id: string; fee_cents: number; free_over_cents: number };
+    // The storefront matches the typed postcode to a suburb. Outside our
+    // suburbs there is no zone: charge the first zone's (standard) fee and
+    // leave zone_id empty so the kitchen checks the address when confirming.
+    const zone = await env.DB.prepare(`SELECT id, fee_cents, free_over_cents FROM zones WHERE id = ? AND active = 1`)
       .bind(p.zoneId ?? "")
-      .first<{ id: string; fee_cents: number; free_over_cents: number }>();
-    if (!zone) return json({ ok: false, error: "Choose a delivery area." }, 400);
-    zoneId = zone.id;
-    fee = deliveryFee(zone, subtotal);
+      .first<ZoneRow>();
+    const pricing =
+      zone ??
+      (await env.DB.prepare(`SELECT id, fee_cents, free_over_cents FROM zones WHERE active = 1 ORDER BY sort LIMIT 1`).first<ZoneRow>());
+    if (!pricing) return json({ ok: false, error: "Delivery isn't available right now — please choose pickup." }, 400);
+    zoneId = zone?.id ?? null;
+    fee = deliveryFee(pricing, subtotal);
   }
 
   // Self-declared WhatsApp group member (trust-based, like onam26). The

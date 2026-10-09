@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { bySection, money, submitOrder, zoneName, type MenuData } from "@/lib/api";
+import { bySection, matchZone, money, submitOrder, type MenuData } from "@/lib/api";
 import { computeTotals, type CartLine, type Location } from "@/lib/totals";
 import { BillRows, FreeDeliveryMeter, Row, ScreenHeader } from "./CartView";
-import { Icon, PrimaryButton } from "./ui";
+import { PrimaryButton } from "./ui";
 
 const field =
   "w-full rounded-2xl border border-transparent bg-surface px-4 py-3.5 text-sm text-night placeholder:text-muted focus:border-brand/40 focus:bg-white focus:outline-none";
@@ -30,6 +30,7 @@ export default function CheckoutView({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [postcode, setPostcode] = useState("");
   const [notes, setNotes] = useState("");
   const [whatsappMember, setWhatsappMember] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
@@ -37,8 +38,17 @@ export default function CheckoutView({
   const [error, setError] = useState<string | null>(null);
   const [idemKey] = useState(() => crypto.randomUUID());
 
-  const totals = computeTotals(menu, lines, location, whatsappMember);
   const delivery = location.fulfilment === "delivery";
+  // The customer types their own address; the suburb (for the fee and the
+  // kitchen's order list) is worked out from the postcode.
+  const postcodeDone = /^\d{4}$/.test(postcode);
+  const zone = postcodeDone ? matchZone(menu.zones, address, postcode) : undefined;
+  const totals = computeTotals(
+    menu,
+    lines,
+    delivery ? { fulfilment: "delivery", zoneId: zone?.id ?? menu.zones[0]?.id ?? "" } : location,
+    whatsappMember,
+  );
   const sections = bySection(lines, (l) => l.item.id);
 
   async function onSubmit(e: FormEvent) {
@@ -52,8 +62,8 @@ export default function CheckoutView({
       phone,
       email,
       fulfilment: location.fulfilment,
-      address,
-      zoneId: location.zoneId,
+      address: address.includes(postcode) ? address.trim() : `${address.trim()} ${postcode}`,
+      zoneId: zone?.id,
       notes,
       whatsappMember,
       items: lines.map((l) => ({ id: l.item.id, qty: l.qty })),
@@ -90,30 +100,31 @@ export default function CheckoutView({
           </div>
           {delivery && (
             <div className="mt-3 space-y-3">
-              <label className="relative block">
-                <span className="sr-only">Suburb</span>
-                <select
-                  value={location.zoneId}
-                  onChange={(e) => setLocation({ fulfilment: "delivery", zoneId: e.target.value })}
-                  className={`${field} appearance-none pr-10`}
-                >
-                  {menu.zones.map((z) => (
-                    <option key={z.id} value={z.id}>
-                      {zoneName(z)}
-                    </option>
-                  ))}
-                </select>
-                <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted">{Icon.chevron}</span>
-              </label>
               <textarea
                 required
                 rows={2}
-                placeholder="Street address"
+                placeholder="Full address — unit, street, suburb"
                 autoComplete="street-address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className={field}
               />
+              <input
+                required
+                inputMode="numeric"
+                pattern="\d{4}"
+                maxLength={4}
+                placeholder="Postcode"
+                autoComplete="postal-code"
+                value={postcode}
+                onChange={(e) => setPostcode(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                className={field}
+              />
+              {postcodeDone && !zone && (
+                <p className="text-xs text-muted">
+                  This postcode is outside our usual delivery suburbs — we&apos;ll confirm delivery with you before you pay.
+                </p>
+              )}
             </div>
           )}
         </Section>

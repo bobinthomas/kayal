@@ -106,6 +106,18 @@ export const qtyText = (q: number) => String(Math.round(q * 1000) / 1000);
 /** Suburb name for customers, without the postcode ("Quakers Hill 2763" -> "Quakers Hill"). */
 export const zoneName = (z: { name: string }) => z.name.replace(/\s+\d{4}$/, "");
 
+/**
+ * The delivery suburb for a typed address: zones are named "Suburb 2763", so
+ * match on postcode, and on the suburb name where suburbs share a postcode.
+ * Undefined when the postcode isn't one we list (the server then charges the
+ * standard fee and the kitchen confirms the address).
+ */
+export function matchZone(zones: Zone[], address: string, postcode: string): Zone | undefined {
+  const byPostcode = zones.filter((z) => z.name.endsWith(` ${postcode}`));
+  const text = address.toLowerCase();
+  return byPostcode.find((z) => text.includes(zoneName(z).toLowerCase())) ?? byPostcode[0];
+}
+
 export function money(cents: number): string {
   return `AU$${(cents / 100).toFixed(2)}`;
 }
